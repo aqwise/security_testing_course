@@ -1,0 +1,28 @@
+import type { LucideIcon } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText } from 'lucide-react';
+
+export interface NavLink {
+  href: string;
+  label: string;
+  icon?: LucideIcon;
+  children?: NavLink[];
+}
+
+export const navigationLinks: NavLink[] = [
+  { href: '/', label: 'Главная', icon: Home },
+  { href: '/concepts', label: 'Концепции', icon: Info },
+  { href: '/audience', label: 'Аудитория', icon: Users },
+  { href: '/prerequisites', label: 'Требования', icon: ListChecks },
+  {
+    href: '/guidelines', // This path might not be directly navigable or could be an overview
+    label: 'Руководство',
+    icon: BookOpen,
+    children: [
+      { href: '/guidelines/module-1', label: 'Модуль I: Основы', icon: Shield },
+      { href: '/guidelines/module-2', label: 'Модуль II: Разведка', icon: Microscope },
+      { href: '/guidelines/module-3', label: 'Модуль III: Аутентификация', icon: KeyRound },
+      { href: '/guidelines/module-4', label: 'Модуль IV: Серверные Уязвимости', icon: ServerIcon },
+    ],
+  },
+  // Source link is handled in AppLayout footer
+];
