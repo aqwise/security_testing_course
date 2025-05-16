@@ -1,7 +1,10 @@
 import type {NextConfig} from 'next';
 
+const isProd = process.env.NODE_ENV === 'production';
+const repoName = 'security_testing_course'; // Название вашего репозитория
+const githubUserName = 'aqwise'; // Ваш никнейм GitHub
+
 const nextConfig: NextConfig = {
-  /* config options here */
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -9,17 +12,12 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    unoptimized: true, // Added this line to disable image optimization
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
-      },
-    ],
+    unoptimized: true, 
   },
-  output: 'export', // Configure for static export for GitHub Pages
+  output: 'export',
+  
+  basePath: isProd ? `/${repoName}` : undefined,
+  assetPrefix: isProd ? `https://${githubUserName}.github.io/${repoName}/` : undefined,
 };
 
 export default nextConfig;
