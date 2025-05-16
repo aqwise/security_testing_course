@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import Image from "next/image";
-import { ArrowRightCircle, CheckCircle2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CheckCircle2 } from "lucide-react";
+import { P } from "@/components/content/ContentPageLayout";
+import Link from "next/link";
 
 export default function IntroPage() {
   return (
@@ -24,31 +25,21 @@ export default function IntroPage() {
               <CardTitle className="text-3xl font-semibold text-foreground">I. Введение</CardTitle>
             </CardHeader>
             <CardContent className="px-0 text-base md:text-lg text-foreground/90 space-y-6">
-              <p>
-                Добро пожаловать в обновленное руководство по практическому тестированию безопасности веб-приложений. В современном цифровом мире веб-приложения являются неотъемлемой частью бизнеса, государственных услуг и повседневной жизни. Однако они также представляют собой значительную поверхность атаки, и уязвимости могут привести к серьезным последствиям, включая утечки данных, финансовые потери и компрометацию систем. Понимание и умение выявлять и эксплуатировать эти уязвимости – критически важные навыки для любого специалиста по кибербезопасности.
-              </p>
-              <p>
-                Данное руководство придерживается практического подхода, сочетая теоретические основы с интенсивными практическими упражнениями. Мы будем использовать стандартные отраслевые инструменты и специально созданные уязвимые веб-приложения, чтобы вы могли отточить свои навыки в безопасной и контролируемой среде.
-              </p>
-              <div className="space-y-3 text-foreground/80">
-                <h3 className="text-xl font-medium text-accent-foreground mb-3">Ключевые ресурсы:</h3>
-                {[
-                  "PortSwigger Web Security Academy",
-                  "OWASP Juice Shop",
-                  "Damn Vulnerable Web Application (DVWA)"
-                ].map(item => (
-                  <div key={item} className="flex items-start">
-                    <CheckCircle2 className="h-6 w-6 text-accent mr-3 mt-1 flex-shrink-0" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-              <p>
-                Основополагающим текстом является "The Web Application Hacker's Handbook, 2nd Edition" (WAHH2). Несмотря на публикацию в 2011 году, фундаментальные принципы остаются актуальными. Однако ландшафт веб-безопасности постоянно меняется, появляются новые технологии и векторы атак. Современные ресурсы, такие как PortSwigger Web Security Academy, постоянно обновляются.
-              </p>
-              <p>
+              <P>
+                Добро пожаловать в обновленное руководство по практическому тестированию безопасности веб-приложений. В современном цифровом мире веб-приложения являются неотъемлемой частью бизнеса, государственных услуг и повседневной жизни. Однако они также представляют собой значительную поверхность атаки, и уязвимости могут привести к серьезным последствиям, включая утечки данных, финансовые потери и компрометацию систем.1 Понимание и умение выявлять и эксплуатировать эти уязвимости – критически важные навыки для любого специалиста по кибербезопасности.
+              </P>
+              <P>
+                Данное руководство придерживается практического подхода, сочетая теоретические основы с интенсивными практическими упражнениями. Мы будем использовать стандартные отраслевые инструменты и специально созданные уязвимые веб-приложения, чтобы вы могли отточить свои навыки в безопасной и контролируемой среде. Среди ключевых ресурсов, на которые мы будем опираться, – <Link href="https://portswigger.net/web-security" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">PortSwigger Web Security Academy</Link> 8, постоянно обновляемый центр онлайн-обучения, и такие приложения, как <Link href="https://owasp-juice.shop" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OWASP Juice Shop</Link> 10 и <Link href="https://www.example.com/dvwa" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Damn Vulnerable Web Application (DVWA)</Link> 12 (здесь предполагается, что для DVWA должна быть ссылка, если нет, текст "Damn Vulnerable Web Application (DVWA) 12" останется без ссылки), которые предоставляют реалистичные сценарии для отработки атак.
+              </P>
+              <P>
+                Основополагающим текстом в области тестирования веб-приложений является книга "The Web Application Hacker's Handbook, 2nd Edition" (WAHH2) (ISBN: 978-1118026472) 6, написанная Дафиддом Статтардом (Dafydd Stuttard) и Маркусом Пинто (Marcus Pinto). Дафидд Статтард также является создателем Burp Suite и основателем PortSwigger.6 Несмотря на то, что книга была опубликована в 2011 году 6, изложенные в ней фундаментальные принципы и методологии тестирования остаются актуальными и крайне ценными для понимания основ веб-безопасности. <Link href="https://archive.org/details/TheWebApplicationHackerSHandbookFindingAndExploitingSecurityFlaws_201805/mode/2up" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">WAHH2</Link> 6 заложила основу для многих современных подходов к пентестингу веб-приложений.
+              </P>
+              <P>
+                Однако ландшафт веб-безопасности постоянно меняется. Появляются новые технологии (HTML5, REST API, WebSocket, облачные сервисы, LLM), фреймворки и, соответственно, новые векторы атак и классы уязвимостей.7 Такие ресурсы, как <Link href="https://portswigger.net/web-security" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">PortSwigger Web Security Academy</Link> 8, постоянно обновляются, добавляя материалы по новейшим угрозам, таким как атаки на API 15, небезопасная десериализация 15, атаки на JWT 15 и уязвимости в облачных и контейнеризированных средах.20 Современные уязвимые приложения, такие как <Link href="https://github.com/juice-shop/juice-shop" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OWASP Juice Shop</Link> 22, построенные на JavaScript-стеке (Node.js, Angular) 24, отражают эти изменения и предоставляют платформу для изучения уязвимостей, характерных для современных архитектур.
+              </P>
+              <P>
                 Это руководство призвано стать вашим надежным спутником в освоении практических навыков, необходимых для навигации в этой динамичной области. Мы начнем с основ и постепенно перейдем к более сложным техникам, всегда подкрепляя теорию практикой.
-              </p>
+              </P>
             </CardContent>
           </div>
         </div>
