@@ -1,5 +1,5 @@
 import { ContentPageLayout, P, Ul, H2, H3 } from '@/components/content/ContentPageLayout';
-import { CheckSquare, Computer, Server, HardDrive, Book, Code2, Wrench } from 'lucide-react';
+import { CheckSquare, Computer, Server, HardDrive, Book, Code2, Wrench, Shield, AlertTriangle } from 'lucide-react';
 
 export default function PrerequisitesPage() {
   return (
