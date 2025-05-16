@@ -11,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'Materialize Static: Безопасность Веб-Приложений',
+  title: 'Security Testing Course: Безопасность Веб-Приложений',
   description: 'Курс по практическому тестированию безопасности веб-приложений на основе WAHH2',
 };
 

@@ -23,7 +23,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
         <SidebarHeader className="p-4">
           <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-sidebar-primary hover:text-sidebar-primary/90 transition-colors">
             <ShieldCheck className="h-7 w-7" />
-            <span className="group-data-[collapsible=icon]:hidden">Materialize</span>
+            <span className="group-data-[collapsible=icon]:hidden">Security Testing Course</span>
           </Link>
         </SidebarHeader>
         <ScrollArea className="flex-1">
