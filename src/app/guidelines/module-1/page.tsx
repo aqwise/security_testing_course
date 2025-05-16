@@ -5,9 +5,6 @@ export default function ModuleOnePage() {
   return (
     <ContentPageLayout
       title="Модуль I: Основы Безопасности Веб-Приложений и Методология WAHH2"
-      imageUrl="https://placehold.co/600x400.png"
-      imageAlt="Cybersecurity foundation"
-      imageAiHint="security foundation"
     >
       <H2><Compass className="inline-block mr-2 h-6 w-6 text-primary" />A. Введение в Безопасность Веб-Приложений</H2>
       <P>

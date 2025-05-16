@@ -1,13 +1,10 @@
 import { ContentPageLayout, P, Ul, H2, H3 } from '@/components/content/ContentPageLayout';
-import { Search, Map, Network, Eye } from 'lucide-react';
+import { Search, Map, Network, Eye, ListChecks } from 'lucide-react'; // Added ListChecks
 
 export default function ModuleTwoPage() {
   return (
     <ContentPageLayout
       title="Модуль II: Разведка и Картирование Приложения"
-      imageUrl="https://placehold.co/600x400.png"
-      imageAlt="Digital reconnaissance map"
-      imageAiHint="digital map"
     >
       <H2><Eye className="inline-block mr-2 h-6 w-6 text-primary" />A. Пассивная и Активная Разведка (Reconnaissance)</H2>
       <P>

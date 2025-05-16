@@ -1,13 +1,10 @@
 import { ContentPageLayout, P, Ul, H2, H3 } from '@/components/content/ContentPageLayout';
-import { KeyRound, UserCheck, Lock, Users } from 'lucide-react';
+import { KeyRound, UserCheck, Lock, Users, ListChecks } from 'lucide-react'; // Added ListChecks
 
 export default function ModuleThreePage() {
   return (
     <ContentPageLayout
       title="Модуль III: Атака на Механизмы Аутентификации и Управления Сессиями"
-      imageUrl="https://placehold.co/600x400.png"
-      imageAlt="Authentication and session security"
-      imageAiHint="authentication security"
     >
       <H2><UserCheck className="inline-block mr-2 h-6 w-6 text-primary" />A. Атака на Механизмы Аутентификации</H2>
       <P>Этот раздел углубляется в уязвимости, связанные с проверкой личности пользователя.</P>

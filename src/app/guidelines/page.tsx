@@ -8,9 +8,6 @@ export default function GuidelinesOverviewPage() {
     <ContentPageLayout
       title="Руководство по Практическому Тестированию Безопасности Веб-Приложений"
       subtitle="Обновленное Издание"
-      imageUrl="https://placehold.co/600x400.png"
-      imageAlt="Cybersecurity learning path"
-      imageAiHint="learning path"
     >
       <P>
         Это руководство проведет вас через ключевые аспекты тестирования безопасности веб-приложений,

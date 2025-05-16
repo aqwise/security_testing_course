@@ -5,9 +5,6 @@ export default function AudiencePage() {
   return (
     <ContentPageLayout
       title="III. Пересмотренная Целевая Аудитория"
-      imageUrl="https://placehold.co/600x400.png"
-      imageAlt="Diverse group of people learning"
-      imageAiHint="diverse learning"
     >
       <P>
         Данное руководство предназначено для широкого круга лиц, заинтересованных в изучении и совершенствовании практических навыков тестирования безопасности веб-приложений. Основная аудитория включает:

@@ -22,8 +22,8 @@ export function ContentPageLayout({
   return (
     <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
       <Card className="overflow-hidden shadow-lg rounded-lg">
-        <div className="md:flex">
-          <div className="md:w-3/5 p-6 md:p-10">
+        <div className={imageUrl ? "md:flex" : ""}> {/* Apply md:flex only if imageUrl exists */}
+          <div className={imageUrl ? "md:w-3/5 p-6 md:p-10" : "w-full p-6 md:p-10"}> {/* Adjust width */}
             <CardHeader className="px-0 pt-0 pb-4">
               <CardTitle className="text-3xl lg:text-4xl font-bold text-primary mb-2">{title}</CardTitle>
               {subtitle && <CardDescription className="text-lg text-muted-foreground">{subtitle}</CardDescription>}
@@ -33,7 +33,7 @@ export function ContentPageLayout({
               {children}
             </CardContent>
           </div>
-          {imageUrl && (
+          {imageUrl && ( // This block will not render if imageUrl is undefined
             <div className="md:w-2/5 p-6 md:p-10 bg-secondary/50 flex items-center justify-center">
               <Image
                 src={imageUrl}

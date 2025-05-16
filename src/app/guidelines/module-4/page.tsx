@@ -44,9 +44,6 @@ export default function ModuleFourPage() {
   return (
     <ContentPageLayout
       title="Модуль IV: Атака на Серверные Уязвимости"
-      imageUrl="https://placehold.co/600x400.png"
-      imageAlt="Server security and vulnerabilities"
-      imageAiHint="server security"
     >
       <H2><Database className="inline-block mr-2 h-6 w-6 text-primary" />A. SQL-инъекции (SQLi)</H2>
       <P>SQL-инъекции позволяют атакующему вмешиваться в запросы, которые приложение отправляет своей базе данных.</P>

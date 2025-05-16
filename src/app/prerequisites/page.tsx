@@ -5,9 +5,6 @@ export default function PrerequisitesPage() {
   return (
     <ContentPageLayout
       title="IV. Предварительные Требования"
-      imageUrl="https://placehold.co/600x400.png"
-      imageAlt="Tech setup for learning"
-      imageAiHint="tech learning"
     >
       <P>
         Для эффективного освоения материала, изложенного в данном руководстве, и выполнения практических заданий рекомендуется иметь следующие знания, оборудование и программное обеспечение.
