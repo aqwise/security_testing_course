@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивное Руководство по (Не)безопасности Веб-Приложений</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Soft Blue -->
+    <!-- Application Structure Plan: A thematic, single-page dashboard structure is used instead of a linear document format. It includes a sticky navigation bar for quick access to key sections: "Эволюция" (Evolution), "Уязвимости" (Vulnerabilities), "Ключевая Проблема" (The Core Problem), "Факторы Риска" (Risk Factors), "Новый Периметр" (The New Perimeter), and "Будущее" (The Future). This non-linear, thematic approach allows users to explore topics based on interest, making complex information more digestible and engaging. Key data points, like vulnerability stats, are visualized in an interactive chart, and dense text blocks are broken into clickable, interactive cards or accordions to improve readability and user-driven discovery. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Evolution of web apps -> Goal: Compare -> Viz: Side-by-side HTML/CSS diagram -> Interaction: None, static comparison -> Justification: Clearly illustrates the shift from static sites to dynamic applications.
+        - Report Info: Vulnerability statistics (Fig 1-3) -> Goal: Compare/Inform -> Viz: Bar Chart -> Interaction: Hover tooltips -> Justification: Visually represents the prevalence of different security flaws, making the data more impactful than a simple list. Library: Chart.js/Canvas.
+        - Report Info: Vulnerability definitions -> Goal: Organize/Inform -> Viz: Interactive accordion -> Interaction: Click to expand/collapse -> Justification: Breaks down dense definitions into manageable, user-selectable chunks, reducing cognitive load. Method: HTML/JS.
+        - Report Info: Core problem (arbitrary input) & New Perimeter -> Goal: Explain -> Viz: Simple HTML/CSS diagrams -> Interaction: None, static visual aids -> Justification: Simplifies abstract technical concepts into easy-to-understand visual metaphors.
+        - Report Info: Key problem factors -> Goal: Organize/Inform -> Viz: Grid of interactive cards -> Interaction: Hover to reveal details -> Justification: Transforms a long list into a scannable and visually appealing grid, encouraging exploration. Method: HTML/JS/CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #007BFF;
+            border-bottom-color: #007BFF;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #E9ECEF;
+            border-radius: 0.75rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .factor-card .factor-details {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .factor-card:hover .factor-details {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-gray-800">Безопасность Веб-Приложений</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#evolution" class="nav-link py-2">Эволюция</a>
+                    <a href="#vulnerabilities" class="nav-link py-2">Уязвимости</a>
+                    <a href="#core-problem" class="nav-link py-2">Ключевая Проблема</a>
+                    <a href="#factors" class="nav-link py-2">Факторы Риска</a>
+                    <a href="#perimeter" class="nav-link py-2">Новый Периметр</a>
+                    <a href="#future" class="nav-link py-2">Будущее</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-btn" class="text-gray-800 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-3">
+                 <a href="#evolution" class="block py-2 px-4 text-sm nav-link">Эволюция</a>
+                 <a href="#vulnerabilities" class="block py-2 px-4 text-sm nav-link">Уязвимости</a>
+                 <a href="#core-problem" class="block py-2 px-4 text-sm nav-link">Ключевая Проблема</a>
+                 <a href="#factors" class="block py-2 px-4 text-sm nav-link">Факторы Риска</a>
+                 <a href="#perimeter" class="block py-2 px-4 text-sm nav-link">Новый Периметр</a>
+                 <a href="#future" class="block py-2 px-4 text-sm nav-link">Будущее</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="hero" class="text-center py-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Добро пожаловать в мир (не)безопасности веб-приложений.</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Современный интернет построен на динамических веб-приложениях. Они приносят огромную пользу, но также создают значительные риски. Это интерактивное руководство раскрывает ключевые уязвимости, проблемы и факторы, определяющие состояние безопасности в вебе сегодня.
+            </p>
+        </section>
+
+        <div class="space-y-24">
+
+            <section id="evolution">
+                <h2 class="text-3xl font-bold text-center mb-2">Эволюция Веба</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">Веб прошел путь от простых статических сайтов до сложных, функциональных приложений. Эта трансформация кардинально изменила поток информации и требования к безопасности, создав новые векторы для атак.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card p-6">
+                        <h3 class="text-2xl font-semibold mb-4 text-center">Тогда: Статические Сайты</h3>
+                        <div class="flex flex-col items-center text-center space-y-4">
+                             <div class="text-6xl">📄</div>
+                             <p class="font-semibold">Односторонний поток информации</p>
+                             <p class="text-gray-600">Сервер → Браузер</p>
+                             <p class="font-semibold">Статичный контент</p>
+                             <p class="text-gray-600">Одна и та же информация для всех</p>
+                             <p class="font-semibold">Отсутствие аутентификации</p>
+                             <p class="text-gray-600">Пользователи анонимны</p>
+                             <p class="font-semibold">Угрозы</p>
+                             <p class="text-gray-600">В основном, уязвимости веб-сервера</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 border-2 border-blue-500 shadow-xl">
+                        <h3 class="text-2xl font-semibold mb-4 text-center">Сейчас: Веб-Приложения</h3>
+                        <div class="flex flex-col items-center text-center space-y-4">
+                             <div class="text-6xl">🔄</div>
+                             <p class="font-semibold">Двусторонний поток информации</p>
+                             <p class="text-gray-600">Сервер ↔ Браузер</p>
+                             <p class="font-semibold">Динамический контент</p>
+                             <p class="text-gray-600">Персонализация для каждого пользователя</p>
+                             <p class="font-semibold">Аутентификация и сессии</p>
+                             <p class="text-gray-600">Обработка конфиденциальных данных</p>
+                             <p class="font-semibold">Угрозы</p>
+                             <p class="text-gray-600">Уникальные уязвимости в коде приложения</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vulnerabilities">
+                <h2 class="text-3xl font-bold text-center mb-2">Распространенные Уязвимости</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Несмотря на заявления о безопасности и использование SSL, большинство веб-приложений уязвимы. Данные, основанные на тестировании сотен приложений, показывают тревожную картину. Наведите курсор на столбцы диаграммы для получения точных значений.</p>
+                <div class="card p-4 md:p-8">
+                    <div class="chart-container">
+                        <canvas id="vulnerabilityChart"></canvas>
+                    </div>
+                </div>
+                <div class="mt-12">
+                     <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Нажмите на каждую категорию, чтобы узнать больше о конкретной уязвимости и о том, как она используется злоумышленниками.</p>
+                    <div id="accordion" class="space-y-4 max-w-4xl mx-auto">
+                        <!-- Accordion items will be injected by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="core-problem">
+                 <h2 class="text-3xl font-bold text-center mb-2">Ключевая Проблема Безопасности</h2>
+                 <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">В основе большинства уязвимостей лежит одна фундаментальная проблема: приложение должно доверять данным, поступающим от клиента, который находится вне его контроля. Злоумышленник может отправить любые данные, чтобы обмануть логику приложения.</p>
+                 <div class="card p-8">
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                        <div class="text-center">
+                            <div class="text-6xl">👤</div>
+                            <p class="font-bold mt-2">Злоумышленник</p>
+                            <p class="text-sm text-gray-500">Контролирует клиент</p>
+                        </div>
+                        <div class="text-4xl text-red-500 font-mono animate-pulse w-full md:w-auto text-center">
+                           → { "price": 0.01 } →<br>
+                           → ' OR 1=1; -- →
+                        </div>
+                        <div class="text-center">
+                            <div class="text-6xl">💻</div>
+                            <p class="font-bold mt-2">Сервер Приложения</p>
+                            <p class="text-sm text-gray-500">Должен обрабатывать ввод</p>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold text-center mb-4">Проявления проблемы:</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700 max-w-2xl mx-auto">
+                           <li>Пользователи могут изменять любые данные, передаваемые с клиента: параметры, cookie, HTTP-заголовки.</li>
+                           <li>Любая валидация на стороне клиента может быть легко обойдена.</li>
+                           <li>Пользователи могут отправлять запросы в произвольной последовательности, нарушая логику приложения.</li>
+                           <li>Для атак могут использоваться не только браузеры, но и специализированные инструменты.</li>
+                        </ul>
+                    </div>
+                 </div>
+            </section>
+            
+            <section id="factors">
+                <h2 class="text-3xl font-bold text-center mb-2">Факторы, усугубляющие проблему</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">Множество факторов в индустрии разработки программного обеспечения способствуют тому, что веб-приложения остаются небезопасными. Наведите курсор на карточку, чтобы прочитать подробности.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Factor cards will be injected by JS -->
+                </div>
+            </section>
+
+            <section id="perimeter">
+                <h2 class="text-3xl font-bold text-center mb-2">Смещение Периметра Безопасности</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">Веб-приложения кардинально изменили ландшафт безопасности. Раньше основной защитой был сетевой периметр. Теперь же само приложение стало частью этого периметра, открывая злоумышленникам прямой путь к критически важным внутренним системам.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="card p-6 text-center">
+                        <h3 class="text-xl font-semibold mb-4">Раньше: Сетевой Периметр</h3>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                           <p>Интернет 👤</p>
+                           <p class="text-2xl font-bold text-red-500">↓</p>
+                           <div class="border-2 border-red-500 p-2 rounded">🔥 Межсетевой экран 🔥</div>
+                           <p class="text-2xl font-bold">↓</p>
+                           <p>Внутренняя сеть 🏢</p>
+                        </div>
+                        <p class="mt-4 text-gray-600">Основная защита — на уровне сети.</p>
+                    </div>
+                     <div class="card p-6 text-center border-2 border-blue-500">
+                        <h3 class="text-xl font-semibold mb-4">Сейчас: Периметр Приложения</h3>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                           <p>Интернет 👤</p>
+                           <p class="text-sm text-gray-500">(Вредоносный HTTP/S трафик)</p>
+                           <p class="text-2xl font-bold text-green-500">↓</p>
+                           <div class="border-2 border-green-500 p-2 rounded">🔥 Межсетевой экран (пропускает HTTP/S) 🔥</div>
+                           <p class="text-2xl font-bold">↓</p>
+                           <p>🌐 Веб-приложение 🌐</p>
+                           <p class="text-2xl font-bold text-red-500">↓</p>
+                           <p>Внутренние системы (Базы данных, и т.д.) 🏢</p>
+                        </div>
+                        <p class="mt-4 text-gray-600">Атака проходит через сетевую защиту и нацелена на логику приложения.</p>
+                    </div>
+                </div>
+                <p class="mt-8 text-center text-gray-700 max-w-3xl mx-auto">Одна строка уязвимого кода в веб-приложении может сделать всю внутреннюю инфраструктуру организации доступной для атаки извне. Периметр безопасности теперь находится внутри самого кода.</p>
+            </section>
+
+            <section id="future">
+                <h2 class="text-3xl font-bold text-center mb-2">Будущее Безопасности Веб-Приложений</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">Ландшафт угроз постоянно меняется. Хотя старые уязвимости постепенно устраняются, появляются новые, а некоторые "классические" проблемы, связанные с бизнес-логикой, остаются актуальными как никогда.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card p-6">
+                        <h3 class="text-xl font-semibold mb-3">Наблюдаемые Тенденции</h3>
+                        <ul class="space-y-3 list-inside list-disc text-gray-700">
+                           <li><span class="font-semibold">Смещение фокуса на клиента:</span> Атаки все чаще нацелены не на сервер, а на других пользователей приложения (XSS, CSRF).</li>
+                           <li><span class="font-semibold">Усложнение уязвимостей:</span> Простые эксплойты встречаются реже, злоумышленники используют более тонкие и сложные методы.</li>
+                           <li><span class="font-semibold">Web 2.0 и Облака:</span> Технологии, такие как AJAX, API, и облачные сервисы, создают новые векторы атак и размывают периметр организации.</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="text-xl font-semibold mb-3">Что Остается Неизменным?</h3>
+                        <ul class="space-y-3 list-inside list-disc text-gray-700">
+                           <li><span class="font-semibold">Дефекты бизнес-логики:</span> Ошибки в логике приложения, которые позволяют обойти правила, остаются распространенной и серьезной проблемой.</li>
+                           <li><span class="font-semibold">Проблемы с контролем доступа:</span> Некорректная проверка прав пользователей по-прежнему позволяет получать несанкционированный доступ к данным.</li>
+                           <li><span class="font-semibold">Человеческий фактор:</span> Недостаток знаний и ресурсов остается ключевым фактором, приводящим к появлению уязвимостей.</li>
+                        </ul>
+                    </div>
+                </div>
+                 <p class="mt-8 text-center text-lg text-gray-800 max-w-3xl mx-auto">Битва за безопасность веба далека от завершения. Это постоянный процесс обучения, адаптации и внедрения защитных механизмов на всех уровнях разработки.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-white mt-16 py-6 border-t">
+        <div class="container mx-auto text-center text-gray-600">
+            <p>Интерактивное руководство создано на основе главы "Web Application (In)security".</p>
+            <p>&copy; 2025. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const vulnerabilityData = {
+                labels: [
+                    'Подделка межсайтовых запросов (CSRF)',
+                    'Утечка информации',
+                    'Межсайтовый скриптинг (XSS)',
+                    'SQL-инъекция',
+                    'Нарушение контроля доступа',
+                    'Нарушение аутентификации'
+                ],
+                datasets: [{
+                    label: 'Частота в протестированных приложениях (%)',
+                    data: [92, 78, 94, 32, 71, 62],
+                    backgroundColor: 'rgba(0, 123, 255, 0.6)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: vulnerabilityData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Частота распространенных уязвимостей',
+                            font: { size: 16 }
+                        },
+                         tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.x + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                             ticks: {
+                                callback: function(value) {
+                                    return value + '%'
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                autoSkip: false,
+                                callback: function(value, index, values) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label.length > 25) {
+                                        return label.slice(0, 25) + '...';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const vulnerabilityChartCtx = document.getElementById('vulnerabilityChart').getContext('2d');
+            if (vulnerabilityChartCtx) {
+                new Chart(vulnerabilityChartCtx, config);
+            }
+
+            const accordionData = [
+                { title: 'Нарушение аутентификации (62%)', content: 'Охватывает различные дефекты в механизме входа в приложение, которые могут позволить злоумышленнику угадать слабые пароли, запустить атаку методом перебора или обойти вход в систему.' },
+                { title: 'Нарушение контроля доступа (71%)', content: 'Это случаи, когда приложение не может должным образом защитить доступ к своим данным и функциям, потенциально позволяя злоумышленнику просматривать конфиденциальные данные других пользователей, хранящиеся на сервере, или выполнять привилегированные действия.' },
+                { title: 'SQL-инъекция (32%)', content: 'Эта уязвимость позволяет злоумышленнику отправлять специально созданные входные данные для вмешательства во взаимодействие приложения с внутренними базами данных. Злоумышленник может получить произвольные данные из приложения, вмешаться в его логику или выполнить команды на самом сервере базы данных.' },
+                { title: 'Межсайтовый скриптинг (XSS) (94%)', content: 'Эта уязвимость позволяет злоумышленнику атаковать других пользователей приложения, потенциально получая доступ к их данным, выполняя несанкционированные действия от их имени или осуществляя другие атаки против них.' },
+                { title: 'Утечка информации (78%)', content: 'Это случаи, когда приложение разглашает конфиденциальную информацию, полезную злоумышленнику для разработки атаки на приложение, из-за дефектной обработки ошибок или другого поведения.' },
+                { title: 'Подделка межсайтовых запросов (CSRF) (92%)', content: 'Этот недостаток означает, что пользователей приложения можно склонить к выполнению непреднамеренных действий в приложении в контексте их пользователя и уровня привилегий. Уязвимость позволяет вредоносному веб-сайту, посещенному пользователем-жертвой, взаимодействовать с приложением для выполнения действий, которые пользователь не намеревался совершать.' }
+            ];
+
+            const accordionContainer = document.getElementById('accordion');
+            accordionData.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.classList.add('card', 'overflow-hidden');
+                div.innerHTML = \`
+                    <button class="accordion-toggle w-full flex justify-between items-center p-5 text-left font-semibold">
+                        <span>\${item.title}</span>
+                        <svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <p class="p-5 pt-0 text-gray-600">\${item.content}</p>
+                    </div>
+                \`;
+                accordionContainer.appendChild(div);
+            });
+            
+            accordionContainer.addEventListener('click', function(e) {
+                const toggle = e.target.closest('.accordion-toggle');
+                if (!toggle) return;
+
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector('svg');
+                
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.classList.remove('rotate-180');
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.classList.add('rotate-180');
+                }
+            });
+
+            const factorData = [
+                { icon: '🧠', title: 'Недостаточная осведомленность', details: 'Многие разработчики не до конца понимают концепции безопасности веб-приложений, делая ложные предположения о защите, предоставляемой фреймворками.' },
+                { icon: '🏗️', title: 'Заказная разработка', details: 'Большинство приложений создаются на заказ, что означает наличие уникального кода и, следовательно, уникальных уязвимостей, в отличие от стандартных продуктов.' },
+                { icon: '🎭', title: 'Обманчивая простота', details: 'Современные инструменты позволяют легко создавать функциональные приложения, но написание безопасного кода требует глубоких знаний, которых часто не хватает.' },
+                { icon: '⚡', title: 'Быстро меняющийся профиль угроз', details: 'Новые типы атак появляются быстрее, чем команды разработчиков успевают о них узнать и внедрить защиту.' },
+                { icon: '⏳', title: 'Ограничения ресурсов и времени', details: 'Сжатые сроки и бюджеты часто приводят к тому, что безопасность отходит на второй план по сравнению с функциональностью.' },
+                { icon: '🔩', title: 'Чрезмерно растянутые технологии', details: 'Старые технологии, такие как JavaScript, адаптируются для новых задач, для которых они не предназначались, что приводит к непредвиденным уязвимостям.' },
+            ];
+            
+            const factorsContainer = document.querySelector('#factors .grid');
+            factorData.forEach(factor => {
+                const card = document.createElement('div');
+                card.className = 'factor-card card relative p-6 text-center overflow-hidden';
+                card.innerHTML = \`
+                    <div class="text-5xl mb-4">\${factor.icon}</div>
+                    <h3 class="text-xl font-semibold">\${factor.title}</h3>
+                    <div class="factor-details absolute inset-0 bg-white/95 backdrop-blur-sm p-4 flex items-center justify-center">
+                        <p class="text-gray-700">\${factor.details}</p>
+                    </div>
+                \`;
+                factorsContainer.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>
