@@ -2,10 +2,11 @@
 import { ContentPageLayout } from '@/components/content/ContentPageLayout';
 
 export default function InteractiveChapterOnePage() {
-  // Next.js automatically handles basePath for assets in the public folder.
-  // So, '/interactive-chapters/chapter-01.html' should resolve correctly
-  // both in development and in production (e.g., /security_testing_course/interactive-chapters/chapter-01.html).
-  const iframeSrc = "/interactive-chapters/chapter-01.html";
+  // Use a relative path from the current page to the HTML file in the public directory.
+  // Current page path (exported): /security_testing_course/interactive/chapter-1.html (or similar)
+  // Target HTML file path (exported): /security_testing_course/interactive-chapters/chapter-01.html
+  // Relative path from '.../interactive/' to '.../interactive-chapters/' is '../interactive-chapters/'
+  const iframeSrc = "../interactive-chapters/chapter-01.html";
 
   return (
     <ContentPageLayout
