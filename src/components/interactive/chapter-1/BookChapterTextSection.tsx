@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -87,6 +86,18 @@ export function BookChapterTextSection() {
   // Stores references to all TextWrapper elements
   const textWrapperRefs = React.useRef<Map<number, HTMLElement | null>>(new Map());
 
+  // Check Web Speech API availability on component mount
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (!window.speechSynthesis) {
+        console.error("BookChapterTextSection: Web Speech API not supported in this browser");
+      } else {
+        console.log("BookChapterTextSection: Web Speech API is available");
+        console.log("BookChapterTextSection: speechSynthesis object:", window.speechSynthesis);
+      }
+    }
+  }, []);
+
   // Function to ensure a ref is available for a given index
   const getTextWrapperRef = (index: number) => {
     if (!textWrapperRefs.current.has(index)) {
@@ -137,6 +148,10 @@ export function BookChapterTextSection() {
 
 
   const handleParagraphPlay = (clickedWrapperElement: HTMLElement) => {
+    console.log("BookChapterTextSection (handleParagraphPlay): Called with element:", clickedWrapperElement);
+    console.log("BookChapterTextSection: Article ref available:", !!articleRef.current);
+    console.log("BookChapterTextSection: TTS player ref available:", !!ttsPlayerRef.current);
+    
     if (!articleRef.current || !ttsPlayerRef.current) {
       console.error("BookChapterTextSection (handleParagraphPlay): Article ref or TTS player ref not available.");
       return;
@@ -157,42 +172,59 @@ export function BookChapterTextSection() {
       setTimeout(() => startPlayingFrom(clickedWrapperElement), 150);
       return;
     }
-  
+
     // If player is not speaking, start playing from the clicked element.
     startPlayingFrom(clickedWrapperElement);
   };
 
   const startPlayingFrom = (startElement: HTMLElement) => {
-    if (!articleRef.current || !ttsPlayerRef.current) return;
+    console.log("BookChapterTextSection (startPlayingFrom): Starting from element:", startElement);
+    if (!articleRef.current || !ttsPlayerRef.current) {
+      console.error("BookChapterTextSection (startPlayingFrom): Missing refs");
+      return;
+    }
 
     currentlyPlayingSegmentRef.current = startElement;
     let textToPlay = "";
     let startReading = false;
     const allTextWrappers = Array.from(articleRef.current.children) as HTMLElement[];
+    console.log("BookChapterTextSection: Found", allTextWrappers.length, "text wrappers");
 
     for (const wrapper of allTextWrappers) {
       if (wrapper === startElement) {
         startReading = true;
+        console.log("BookChapterTextSection: Found start element, beginning text extraction");
       }
       if (startReading) {
         const contentChildNodes = Array.from(wrapper.childNodes).filter(
           (n) => !(n.nodeName === 'BUTTON' || (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).classList.contains('absolute')))
         );
+        
+        console.log("BookChapterTextSection: Processing wrapper with", contentChildNodes.length, "content nodes");
+        
         contentChildNodes.forEach(contentNode => {
           if (contentNode.nodeName === "UL" || contentNode.nodeName === "OL") {
+            console.log("BookChapterTextSection: Processing list");
             Array.from(contentNode.childNodes).forEach(li => {
               if (li.nodeName === "LI") {
-                textToPlay += getCleanTextFromDomNode(li);
+                const liText = getCleanTextFromDomNode(li);
+                console.log("BookChapterTextSection: List item text:", liText.substring(0, 50) + "...");
+                textToPlay += liText;
               }
             });
           } else if (contentNode.nodeName !== 'FIGURE' && contentNode.nodeName !== 'BLOCKQUOTE') { 
-            textToPlay += getCleanTextFromDomNode(contentNode);
+            const nodeText = getCleanTextFromDomNode(contentNode);
+            console.log("BookChapterTextSection: Node text from", contentNode.nodeName, ":", nodeText.substring(0, 50) + "...");
+            textToPlay += nodeText;
           }
         });
       }
     }
     
     const finalTextToPlay = textToPlay.replace(/\s+/g, ' ').trim();
+    console.log("BookChapterTextSection (startPlayingFrom): Final text length:", finalTextToPlay.length);
+    console.log("BookChapterTextSection (startPlayingFrom): Final text preview:", finalTextToPlay.substring(0, 200) + "...");
+    
     if (finalTextToPlay) {
       console.log("BookChapterTextSection (startPlayingFrom): Playing text from element:", startElement, "Full text to play:", finalTextToPlay.substring(0,100)+"...");
       ttsPlayerRef.current.play(finalTextToPlay);
@@ -491,7 +523,7 @@ export function BookChapterTextSection() {
           Тем не менее, детали ландшафта безопасности веб-приложений не статичны. Несмотря на то, что старые и хорошо изученные уязвимости, такие как SQL-инъекции, продолжают появляться, их распространенность постепенно уменьшается. Кроме того, оставшиеся экземпляры становится все труднее найти и использовать. Новые исследования в этих областях, как правило, сосредоточены на разработке передовых методов атаки на более тонкие проявления уязвимостей, которые несколько лет назад можно было легко обнаружить и использовать, используя только браузер.
         </WrappedP>
         <WrappedP>
-          Второй заметной тенденцией стал постепенный сдвиг внимания от атак на серверную часть приложения к атакам, нацеленным на пользователей приложения. Последний вид атаки по-прежнему использует дефекты в самом приложении, но обычно включает какое-либо взаимодействие с другим пользователем для компрометации операций этого пользователя с уязвимым приложением. Эта тенденция воспроизводится и в других областях безопасности программного обеспечения. По мере созревания осведомленности об угрозах безопасности недостатки на стороне сервера первыми хорошо понимаются и устраняются, оставляя клиентскую сторону ключевым полем битвы по мере продолжения процесса обучения. Из всех атак, описанных в этой книге, атаки на других пользователей развиваются быстрее всего, и в последние годы они были в центре большинства исследований.
+          Второй заметной тенденцией стал постепенный сдвиг внимания от атак на серверную часть приложения к атакам, нацеленным на пользователей приложения. Последний вид атаки по-прежнему использует дефекты в самом приложении, но обычно включает какое-то взаимодействие с другим пользователем для компрометации операций этого пользователя с уязвимым приложением. Эта тенденция воспроизводится и в других областях безопасности программного обеспечения. По мере созревания осведомленности об угрозах безопасности недостатки на стороне сервера первыми хорошо понимаются и устраняются, оставляя клиентскую сторону ключевым полем битвы по мере продолжения процесса обучения. Из всех атак, описанных в этой книге, атаки на других пользователей развиваются быстрее всего, и в последние годы они были в центре большинства исследований.
         </WrappedP>
         <WrappedP>
           Различные недавние тенденции в технологиях несколько изменили ландшафт веб-приложений. Популярное сознание этих тенденций существует посредством различных довольно вводящих в заблуждение модных словечек, наиболее заметными из которых являются следующие:
@@ -523,4 +555,3 @@ export function BookChapterTextSection() {
 }
 
 
-    
