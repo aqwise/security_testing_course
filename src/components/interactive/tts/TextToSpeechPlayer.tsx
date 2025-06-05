@@ -110,14 +110,14 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
         setIsSpeaking(true);
       };
       newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => {
-        console.error('Ошибка синтеза речи:', { 
-          errorCode: event.error, 
-          message: event.error, 
-          text: event.utterance?.text?.substring(0, 100) + (event.utterance?.text?.length > 100 ? '...' : ''),
+        console.error(`Ошибка синтеза речи. Код ошибки: ${event.error}`);
+        console.error('Дополнительные детали ошибки:', {
+          charIndex: event.charIndex,
+          elapsedTime: event.elapsedTime,
+          textSample: event.utterance?.text?.substring(event.charIndex > 10 ? event.charIndex - 10 : 0, event.charIndex + 40),
           voiceName: event.utterance?.voice?.name,
           voiceLang: event.utterance?.voice?.lang,
           selectedVoiceURI: selectedVoiceURI,
-          eventObject: event 
         });
         setIsSpeaking(false);
         setIsPaused(false);
@@ -171,12 +171,13 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
         setIsSpeaking(true);
       };
       newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => {
-        console.error('Ошибка синтеза речи при смене скорости:', { 
-          errorCode: event.error, 
-          message: event.error,
-          text: event.utterance?.text?.substring(0, 100) + (event.utterance?.text?.length > 100 ? '...' : ''),
-          voiceName: event.utterance?.voice?.name,
-          eventObject: event 
+        console.error(`Ошибка синтеза речи при смене скорости. Код ошибки: ${event.error}`);
+        console.error('Дополнительные детали ошибки (смена скорости):', {
+            charIndex: event.charIndex,
+            elapsedTime: event.elapsedTime,
+            textSample: event.utterance?.text?.substring(event.charIndex > 10 ? event.charIndex - 10 : 0, event.charIndex + 40),
+            voiceName: event.utterance?.voice?.name,
+            voiceLang: event.utterance?.voice?.lang,
         });
         setIsSpeaking(false);
         setIsPaused(false);
