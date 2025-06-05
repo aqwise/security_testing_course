@@ -59,6 +59,28 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
     }
   }, []);
 
+  const commonOnErrorHandler = (event: SpeechSynthesisErrorEvent, context: string = "general") => {
+    if (event.error === 'interrupted') {
+      console.warn(`Синтез речи прерван (контекст: ${context}): ${event.error}`);
+      setIsSpeaking(false);
+      setIsPaused(false);
+      return; 
+    }
+
+    console.error(`Ошибка синтеза речи (контекст: ${context}). Код ошибки: ${event.error}`);
+    console.error('Дополнительные детали ошибки:', {
+      charIndex: event.charIndex,
+      elapsedTime: event.elapsedTime,
+      textSample: event.utterance?.text?.substring(event.charIndex > 10 ? event.charIndex - 10 : 0, event.charIndex + 40),
+      voiceName: event.utterance?.voice?.name,
+      voiceLang: event.utterance?.voice?.lang,
+      selectedVoiceURI: selectedVoiceURI,
+    });
+    setIsSpeaking(false);
+    setIsPaused(false);
+    alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
+  };
+
   const handlePlayPause = () => {
     if (!textToSpeak?.trim()) {
       alert('Нет текста для озвучки.');
@@ -109,20 +131,7 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
         setIsPaused(false);
         setIsSpeaking(true);
       };
-      newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => {
-        console.error(`Ошибка синтеза речи. Код ошибки: ${event.error}`);
-        console.error('Дополнительные детали ошибки:', {
-          charIndex: event.charIndex,
-          elapsedTime: event.elapsedTime,
-          textSample: event.utterance?.text?.substring(event.charIndex > 10 ? event.charIndex - 10 : 0, event.charIndex + 40),
-          voiceName: event.utterance?.voice?.name,
-          voiceLang: event.utterance?.voice?.lang,
-          selectedVoiceURI: selectedVoiceURI,
-        });
-        setIsSpeaking(false);
-        setIsPaused(false);
-        alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
-      };
+      newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => commonOnErrorHandler(event, "play/pause");
       
       synthRef.current.speak(newUtterance);
     }
@@ -130,7 +139,7 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
 
   const handleStop = () => {
     if (synthRef.current) {
-      synthRef.current.cancel();
+      synthRef.current.cancel(); // This will trigger onerror with 'interrupted'
       setIsSpeaking(false);
       setIsPaused(false);
     }
@@ -140,7 +149,7 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
     const rate = parseFloat(value);
     setPlaybackRate(rate);
     if (utteranceRef.current && synthRef.current && synthRef.current.speaking && !synthRef.current.paused) {
-      synthRef.current.cancel(); 
+      synthRef.current.cancel(); // This will trigger onerror with 'interrupted' on the old utterance
       
       const newUtterance = new SpeechSynthesisUtterance(textToSpeak);
       utteranceRef.current = newUtterance;
@@ -170,20 +179,10 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
         setIsPaused(false);
         setIsSpeaking(true);
       };
-      newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => {
-        console.error(`Ошибка синтеза речи при смене скорости. Код ошибки: ${event.error}`);
-        console.error('Дополнительные детали ошибки (смена скорости):', {
-            charIndex: event.charIndex,
-            elapsedTime: event.elapsedTime,
-            textSample: event.utterance?.text?.substring(event.charIndex > 10 ? event.charIndex - 10 : 0, event.charIndex + 40),
-            voiceName: event.utterance?.voice?.name,
-            voiceLang: event.utterance?.voice?.lang,
-        });
-        setIsSpeaking(false);
-        setIsPaused(false);
-        alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
-      };
+      newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => commonOnErrorHandler(event, "rate change");
       synthRef.current.speak(newUtterance);
+    } else if (utteranceRef.current) { // If paused or not speaking, just update rate for next time
+        utteranceRef.current.rate = rate;
     }
   };
   
@@ -256,5 +255,3 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
     </div>
   );
 }
-
-  
