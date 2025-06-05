@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 
 export default function TextChapterOnePage() {
   return (
-    <div className="container mx-auto p-0 md:p-4">
+    <div className="container mx-auto p-0 md:p-4"> {/* Adjusted padding for better readability */}
       <BookChapterTextSection />
       <Separator className="my-12 md:my-16" />
       <ChapterFooter />
