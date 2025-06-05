@@ -182,18 +182,6 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
       }
     };
     
-    const handlePlayStopToggleClick = () => {
-      console.log("TTS Player: Play/Stop toggle button clicked. isSpeaking:", isSpeaking);
-      if (!synthRef.current) return;
-
-      if (isSpeaking) { 
-        handleStopExplicitly();
-      } else { 
-        console.log("TTS Player: Starting speech from main button with current ref text:", currentTextToSpeakRef.current?.substring(0,50)+"...");
-        _speakText(currentTextToSpeakRef.current);
-      }
-    };
-    
     React.useImperativeHandle(ref, () => ({
       play: (text: string) => {
         console.log("TTS Player: Imperative play called for text:", text.substring(0,50)+"...");
@@ -229,20 +217,6 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
 
     return (
       <div className={cn("p-4 sm:p-6 space-y-4 bg-card text-card-foreground rounded-lg shadow-md border", className)}>
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <Button 
-            onClick={handlePlayStopToggleClick} 
-            disabled={!currentTextToSpeakRef.current?.trim()} 
-            className="w-full" 
-            size="lg" // Made the main button larger
-            aria-label={isSpeaking ? "Стоп" : "Озвучить"}
-          >
-            {isSpeaking ? <StopCircle className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
-            {isSpeaking ? 'Стоп' : 'Озвучить'}
-          </Button>
-          {/* Secondary stop button is removed based on user request */}
-        </div>
-        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {availableVoices.length > 0 && (
             <div className="space-y-1">
@@ -293,4 +267,6 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
 );
 
 TextToSpeechPlayer.displayName = 'TextToSpeechPlayer';
+    
+
     
