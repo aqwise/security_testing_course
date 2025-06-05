@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, Volume2 } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -24,9 +24,7 @@ export const navigationLinks: NavLink[] = [
       { href: '/guidelines/module-3', label: 'Модуль III: Аутентификация', icon: KeyRound },
       { href: '/guidelines/module-4', label: 'Модуль IV: Серверные Уязвимости', icon: ServerIcon },
     ],
-  },
-  { href: '/interactive/chapter-1', label: 'Интерактивная Глава 1', icon: PlayCircle },
+  },  { href: '/interactive/chapter-1', label: 'Интерактивная Глава 1', icon: PlayCircle },
   { href: '/text-chapter/chapter-1', label: 'Текстовая Глава 1', icon: FileText },
-  { href: '/tts-demo', label: 'Озвучка Текста', icon: Volume2 },
   // Source link is handled in AppLayout footer
 ];
