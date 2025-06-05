@@ -6,7 +6,7 @@ import { P, H2, H3, Ul } from '@/components/content/ContentPageLayout';
 import Image from 'next/image';
 import { TextToSpeechPlayer } from '@/components/interactive/tts/TextToSpeechPlayer'; 
 import { PlayCircle } from 'lucide-react';
-import { cn } from '@/lib/utils'; // Added missing import
+import { cn } from '@/lib/utils';
 
 interface TextToSpeechPlayerRef {
   play: (text: string) => void;
@@ -151,7 +151,9 @@ export function BookChapterTextSection() {
       handleParagraphPlay(listText);
     }} className={className}>
       <Ul items={items.map((item, index) => (
-        <TextWrapper key={index} tag="li" onPlayClick={handleParagraphPlay}>
+        // Changed tag from "li" to "div" to prevent <li> inside <li>, which causes hydration errors.
+        // The actual <li> is rendered by the Ul component. This TextWrapper now wraps the content within that <li>.
+        <TextWrapper key={index} tag="div" onPlayClick={handleParagraphPlay}>
           {item}
         </TextWrapper>
       ))} />
@@ -441,7 +443,3 @@ export function BookChapterTextSection() {
     </>
   );
 }
-
-    
-
-    
