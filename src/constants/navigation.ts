@@ -1,5 +1,6 @@
+
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -14,7 +15,7 @@ export const navigationLinks: NavLink[] = [
   { href: '/audience', label: 'Аудитория', icon: Users },
   { href: '/prerequisites', label: 'Требования', icon: ListChecks },
   {
-    href: '/guidelines', 
+    href: '/guidelines',
     label: 'Руководство',
     icon: BookOpen,
     children: [
@@ -25,6 +26,7 @@ export const navigationLinks: NavLink[] = [
     ],
   },
   { href: '/interactive/chapter-1', label: 'Интерактивная Глава 1', icon: PlayCircle },
+  { href: '/interactive/module-1', label: 'Интерактивный Модуль 1', icon: Package },
   { href: '/text-chapter/chapter-1', label: 'Текстовая Глава 1', icon: FileText },
   // Source link is handled in AppLayout footer
 ];
