@@ -76,7 +76,9 @@ export function TextToSpeechDemo() {
       newUtterance.onerror = (event) => {
         console.error('Ошибка синтеза речи:', event.error, event);
         setIsSpeaking(false);
-        alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
+        if (event.error !== 'interrupted' && event.error !== 'canceled') {
+          alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
+        }
       };
       
       synth.speak(newUtterance);
