@@ -11,32 +11,38 @@ import { cn } from '@/lib/utils';
 interface TextToSpeechPlayerRef {
   play: (text: string) => void;
   stop: () => void;
+  currentTextToSpeakRef?: React.MutableRefObject<string>; // Optional, for advanced state sync
 }
 
-// Helper function to extract text from ReactNode
-const extractReactNodeToString = (node: React.ReactNode): string => {
-  if (typeof node === 'string') {
-    return node;
+// Helper function to get clean text from a DOM node, adding punctuation for better TTS.
+const getCleanTextFromDomNode = (node: Node): string => {
+  if (!node) return '';
+  let text = (node.textContent || '').replace(/\s+/g, ' ').trim();
+  if (text) {
+      // Add a period for typical block elements for better sentence separation by TTS
+      if (node.nodeName === 'P' || node.nodeName === 'LI' || /^H[1-6]$/.test(node.nodeName) || node.nodeName === 'FIGCAPTION') {
+          if (!text.endsWith('.') && !text.endsWith('?') && !text.endsWith('!')) {
+               text += ". ";
+          } else {
+              text += " "; // Add space even if punctuation exists for better flow
+          }
+      } else if (node.nodeName === "UL" || node.nodeName === "OL") {
+        // For lists, we want to ensure a space after list content if processed directly
+        // This branch might be less used if we process LIs individually
+        text += " ";
+      }
+      else {
+          text += " "; // Add space for other elements too
+      }
   }
-  if (typeof node === 'number') {
-    return String(node);
-  }
-  if (Array.isArray(node)) {
-    return node.map(extractReactNodeToString).join('');
-  }
-  if (React.isValidElement(node) && node.props.children) {
-    if (Array.isArray(node.props.children)) {
-      return node.props.children.map(extractReactNodeToString).join('');
-    }
-    return extractReactNodeToString(node.props.children);
-  }
-  return '';
+  return text;
 };
+
 
 interface TextWrapperProps {
   children: React.ReactNode;
   tag: keyof JSX.IntrinsicElements;
-  onPlayClick: (element: HTMLElement) => void; // Pass the DOM element for context
+  onPlayClick: (element: HTMLElement) => void; 
   className?: string;
 }
 
@@ -46,14 +52,13 @@ const TextWrapper: React.FC<TextWrapperProps> = ({ children, tag: Tag, onPlayCli
   const handlePlay = (event: React.MouseEvent) => {
     event.stopPropagation(); 
     if (domElementRef.current) {
-      // Pass the wrapper DOM element itself, not its extracted text directly
       onPlayClick(domElementRef.current);
     } else {
       console.warn("TextWrapper: DOM element ref not available.");
     }
   };
 
-  // @ts-ignore Type for Tag with ref is tricky with generics
+  // @ts-ignore 
   return React.createElement(Tag, {
     ref: domElementRef,
     className: cn("group relative", className)
@@ -77,65 +82,48 @@ export function BookChapterTextSection() {
   const ttsPlayerRef = React.useRef<TextToSpeechPlayerRef>(null);
   const [fullArticleText, setFullArticleText] = React.useState('');
 
-  // Function to get clean text from a DOM node, adding punctuation for better TTS.
-  const getCleanTextFromDomNode = (node: Node): string => {
-    if (!node) return '';
-    let text = (node.textContent || '').replace(/\s+/g, ' ').trim();
-    if (text) {
-        // Add a period for typical block elements for better sentence separation by TTS
-        if (node.nodeName === 'P' || node.nodeName === 'LI' || /^H[1-6]$/.test(node.nodeName) || node.nodeName === 'FIGCAPTION') {
-            if (!text.endsWith('.') && !text.endsWith('?') && !text.endsWith('!')) {
-                 text += ". ";
-            } else {
-                text += " ";
-            }
-        } else {
-            text += " ";
-        }
-    }
-    return text;
-  };
-  
-  // Extracts text from all relevant children of a given root DOM element.
-  const extractTextFromDOMArticle = (rootElement: HTMLElement): string => {
-    let content = "";
-    const childNodes = rootElement.childNodes;
+  const extractTextFromDOMArticle = (rootElement: HTMLElement | null): string => {
+    if (!rootElement) return "";
+    let fullText = "";
+    // Direct children of rootElement (articleRef.current) are the TextWrapper divs
+    const textWrapperDivs = Array.from(rootElement.children); 
 
-    function processNodes(nodes: NodeListOf<ChildNode> | Node[]): void {
-      nodes.forEach(node => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const element = node as HTMLElement;
-          // Skip elements that are part of the UI (buttons, figures, blockquotes for now)
-          if (element.tagName.toLowerCase() === 'figure' || 
-              element.tagName.toLowerCase() === 'blockquote' ||
-              element.classList.contains('absolute') || // Exclude our play buttons
-              element.closest('.absolute') || // Exclude elements within our play buttons
-              element.tagName.toLowerCase() === 'button' || // Explicitly skip buttons
-              element.tagName.toLowerCase() === 'svg' // Explicitly skip SVGs
-              ) { 
-            return; 
-          }
+    console.log("BookChapterTextSection (extractTextFromDOMArticle): Found", textWrapperDivs.length, "TextWrapper divs.");
 
-          if (element.childNodes.length > 0) {
-             processNodes(element.childNodes); // Recursively process children
-          } else {
-             content += getCleanTextFromDomNode(element);
+    textWrapperDivs.forEach((wrapperDiv, wrapperIndex) => {
+      if (wrapperDiv.nodeType === Node.ELEMENT_NODE) {
+        // Content (P, H2, UL etc.) is a child of the wrapperDiv.
+        // Filter out the play button.
+        const contentChildNodes = Array.from(wrapperDiv.childNodes).filter(
+          (n) => !(n.nodeName === 'BUTTON' || (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).classList.contains('absolute')))
+        );
+        
+        // console.log(`BookChapterTextSection (extractTextFromDOMArticle): Wrapper ${wrapperIndex}, Content children:`, contentChildNodes);
+
+        contentChildNodes.forEach(contentNode => {
+          if (contentNode.nodeName === "UL" || contentNode.nodeName === "OL") {
+            // For lists, iterate through LIs
+            Array.from(contentNode.childNodes).forEach(li => {
+              if (li.nodeName === "LI") {
+                fullText += getCleanTextFromDomNode(li);
+              }
+            });
+          } else if (contentNode.nodeName !== 'FIGURE' && contentNode.nodeName !== 'BLOCKQUOTE') { 
+            // Skip figures and blockquotes for full article narration for now
+            fullText += getCleanTextFromDomNode(contentNode);
           }
-        } else if (node.nodeType === Node.TEXT_NODE && node.textContent) {
-           content += getCleanTextFromDomNode(node);
-        }
-      });
-    }
-    
-    processNodes(childNodes);
-    return content.replace(/\s+/g, ' ').trim();
+        });
+      }
+    });
+    const processedFullText = fullText.replace(/\s+/g, ' ').trim();
+    console.log("BookChapterTextSection (extractTextFromDOMArticle): Final extracted full text (first 100 chars):", processedFullText.substring(0,100));
+    return processedFullText;
   };
 
 
   React.useEffect(() => {
     if (articleRef.current) {
       const extracted = extractTextFromDOMArticle(articleRef.current);
-      console.log("BookChapterTextSection: Extracted full article text for TTS Player:", extracted.substring(0,100)+"...");
       setFullArticleText(extracted);
     }
   }, []);
@@ -147,50 +135,46 @@ export function BookChapterTextSection() {
       return;
     }
   
-    let collect = false;
-    let concatenatedText = "";
-    // Iterate over the direct children of articleRef, which are the TextWrapper divs
-    const articleChildren = Array.from(articleRef.current.children); 
-  
-    for (const wrapperDiv of articleChildren) {
-      if (wrapperDiv === clickedWrapperElement) {
-        collect = true;
-      }
-  
-      if (collect && wrapperDiv.nodeType === Node.ELEMENT_NODE) {
-        // The content (P, H2, UL etc.) is a child of the wrapperDiv.
-        // We need to find the actual content node(s) within this wrapperDiv, avoiding the play button.
-        const contentChildNodes = Array.from(wrapperDiv.childNodes).filter(
-            (n) => !(n.nodeName === 'BUTTON' || (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).classList.contains('absolute')))
-        );
-        
-        contentChildNodes.forEach(contentNode => {
-            if (contentNode.nodeName === "UL" || contentNode.nodeName === "OL") {
-                // For lists, iterate through LIs
-                Array.from(contentNode.childNodes).forEach(li => {
-                    if (li.nodeName === "LI") {
-                        concatenatedText += getCleanTextFromDomNode(li);
-                    }
-                });
-            } else {
-                // For P, H2, H3, etc.
-                concatenatedText += getCleanTextFromDomNode(contentNode);
-            }
-        });
-      }
-    }
+    let elementText = "";
+    // The content (P, H2, UL etc.) is a child of the wrapperDiv (which IS the clickedWrapperElement).
+    // We need to find the actual content node(s) within this wrapperDiv, avoiding the play button.
+    const contentChildNodes = Array.from(clickedWrapperElement.childNodes).filter(
+        (n) => !(n.nodeName === 'BUTTON' || (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).classList.contains('absolute')))
+    );
     
-    const finalTextToPlay = concatenatedText.replace(/\s+/g, ' ').trim();
+    console.log("BookChapterTextSection (handleParagraphPlay): Clicked Wrapper Element:", clickedWrapperElement);
+    console.log("BookChapterTextSection (handleParagraphPlay): Content child nodes to process for single play:", contentChildNodes);
+
+    contentChildNodes.forEach(contentNode => {
+        if (contentNode.nodeName === "UL" || contentNode.nodeName === "OL") {
+            // For lists, iterate through LIs
+            console.log("BookChapterTextSection (handleParagraphPlay): Processing UL/OL element:", contentNode);
+            Array.from(contentNode.childNodes).forEach(li => {
+                if (li.nodeName === "LI") {
+                    const liText = getCleanTextFromDomNode(li);
+                    console.log("BookChapterTextSection (handleParagraphPlay): Processing LI element:", li, "Text:", liText);
+                    elementText += liText;
+                }
+            });
+        } else {
+            const nodeText = getCleanTextFromDomNode(contentNode);
+            console.log("BookChapterTextSection (handleParagraphPlay): Processing other contentNode:", contentNode, "Text:", nodeText);
+            elementText += nodeText;
+        }
+    });
+    
+    const finalTextToPlay = elementText.replace(/\s+/g, ' ').trim();
   
     if (finalTextToPlay) {
-      console.log("BookChapterTextSection: Playing continuous text from element:", finalTextToPlay.substring(0, 100) + "...");
+      console.log("BookChapterTextSection (handleParagraphPlay): Playing ONLY current element's text:", finalTextToPlay.substring(0, 100) + "...");
       ttsPlayerRef.current.play(finalTextToPlay);
       // Update the main player's current text ref so if user clicks main stop/play, it knows what was last playing.
-      if(ttsPlayerRef.current && (ttsPlayerRef.current as any).currentTextToSpeakRef) { // Unsafe access, ideally expose method
-        (ttsPlayerRef.current as any).currentTextToSpeakRef.current = finalTextToPlay;
+      if(ttsPlayerRef.current && ttsPlayerRef.current.currentTextToSpeakRef) { 
+        ttsPlayerRef.current.currentTextToSpeakRef.current = finalTextToPlay;
       }
     } else {
-      console.warn("BookChapterTextSection: No text extracted for continuous play from wrapper:", clickedWrapperElement);
+      console.warn("BookChapterTextSection (handleParagraphPlay): No text extracted for single element play from wrapper:", clickedWrapperElement);
+      ttsPlayerRef.current.stop(); // Stop any ongoing speech if no text is found
     }
   };
   
@@ -198,12 +182,18 @@ export function BookChapterTextSection() {
   const WrappedH2: React.FC<{children: React.ReactNode, className?: string}> = ({ children, className }) => <TextWrapper tag="div" onPlayClick={handleParagraphPlay} className={className}><H2>{children}</H2></TextWrapper>;
   const WrappedH3: React.FC<{children: React.ReactNode, className?: string}> = ({ children, className }) => <TextWrapper tag="div" onPlayClick={handleParagraphPlay} className={className}><H3>{children}</H3></TextWrapper>;
   
-  // For UL, the TextWrapper will wrap the entire UL. Clicking its icon plays the whole list and subsequent content.
-  // Individual LIs don't get their own play icons in this setup to keep it simpler.
-  // If per-LI play is needed, UL's items prop would need to map to WrappedLI which uses TextWrapper.
   const WrappedUl: React.FC<{items: React.ReactNode[], className?: string}> = ({ items, className }) => (
     <TextWrapper tag="div" onPlayClick={handleParagraphPlay} className={className}>
-      <Ul items={items} />
+      <Ul items={
+        items.map((item, index) => (
+          // For UL, the TextWrapper (with onPlayClick for the whole list) is applied above.
+          // Individual LIs don't need their own TextWrapper or play icon here if we play the whole list at once.
+          // If we want per-LI play, then each item here should be wrapped in a TextWrapper<tag="div">
+          // and the UL's TextWrapper onPlayClick should be different or removed.
+          // For now, clicking the UL's icon will attempt to play the text of all its LIs.
+          <React.Fragment key={index}>{item}</React.Fragment> 
+        ))
+      } />
     </TextWrapper>
   );
 
