@@ -19,14 +19,14 @@ export const navigationLinks: NavLink[] = [
     label: 'Руководство',
     icon: BookOpen,
     children: [
-      { href: '/guidelines/module-1', label: 'Модуль I: Основы', icon: Shield },
+      { href: '/guidelines/module-1', label: 'Модуль I: Основы', icon: Shield }, // This now shows interactive content
       { href: '/guidelines/module-2', label: 'Модуль II: Разведка', icon: Microscope },
       { href: '/guidelines/module-3', label: 'Модуль III: Аутентификация', icon: KeyRound },
       { href: '/guidelines/module-4', label: 'Модуль IV: Серверные Уязвимости', icon: ServerIcon },
     ],
   },
   { href: '/interactive/chapter-1', label: 'Интерактивная Глава 1', icon: PlayCircle },
-  { href: '/interactive/module-1', label: 'Интерактивный Модуль 1', icon: Package },
+  // The route /interactive/module-1 is now effectively replaced by /guidelines/module-1
   { href: '/text-chapter/chapter-1', label: 'Текстовая Глава 1', icon: FileText },
   // Source link is handled in AppLayout footer
 ];
