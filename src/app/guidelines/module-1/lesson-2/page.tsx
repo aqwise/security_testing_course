@@ -1,5 +1,6 @@
 
-import { ContentPageLayout, P, H2, H3, Ul, CodeBlock } from '@/components/content/ContentPageLayout';
+import { ContentPageLayout, P, H2, H3, Ul } from '@/components/content/ContentPageLayout';
+import { CodeBlock } from '@/components/content/CodeBlock';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
@@ -287,5 +288,3 @@ export default function Module1Lesson2Page() {
     </ContentPageLayout>
   );
 }
-
-    
