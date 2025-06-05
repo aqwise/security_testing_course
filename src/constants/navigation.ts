@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -32,7 +32,12 @@ export const navigationLinks: NavLink[] = [
           {
             href: '/guidelines/module-1/lesson-2',
             label: 'Урок 2: DVWA',
-            icon: Package // Added icon Package
+            icon: Package
+          },
+          {
+            href: '/guidelines/module-1/lesson-3',
+            label: 'Урок 3: Juice Shop',
+            icon: ShoppingBasket
           }
         ]
       },
