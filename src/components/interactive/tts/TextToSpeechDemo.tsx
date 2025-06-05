@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -73,7 +74,7 @@ export function TextToSpeechDemo() {
       newUtterance.onstart = () => setIsSpeaking(true);
       newUtterance.onend = () => setIsSpeaking(false);
       newUtterance.onerror = (event) => {
-        console.error('Ошибка синтеза речи:', event);
+        console.error('Ошибка синтеза речи:', event.error, event);
         setIsSpeaking(false);
         alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
       };
