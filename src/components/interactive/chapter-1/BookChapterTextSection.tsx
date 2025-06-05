@@ -6,6 +6,7 @@ import { P, H2, H3, Ul } from '@/components/content/ContentPageLayout';
 import Image from 'next/image';
 import { TextToSpeechPlayer } from '@/components/interactive/tts/TextToSpeechPlayer'; 
 import { PlayCircle } from 'lucide-react';
+import { cn } from '@/lib/utils'; // Added missing import
 
 interface TextToSpeechPlayerRef {
   play: (text: string) => void;
@@ -24,6 +25,10 @@ const extractReactNodeToString = (node: React.ReactNode): string => {
     return node.map(extractReactNodeToString).join('');
   }
   if (React.isValidElement(node) && node.props.children) {
+    // Check if children is an array and join, otherwise recursively call
+    if (Array.isArray(node.props.children)) {
+      return node.props.children.map(extractReactNodeToString).join('');
+    }
     return extractReactNodeToString(node.props.children);
   }
   return '';
@@ -38,10 +43,10 @@ interface TextWrapperProps {
 
 const TextWrapper: React.FC<TextWrapperProps> = ({ children, tag: Tag, onPlayClick, className }) => {
   const handlePlay = (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent triggering play for parent elements if nested
+    event.stopPropagation(); 
     const textToPlay = extractReactNodeToString(children);
     if (textToPlay.trim()) {
-      console.log("BookChapterTextSection: Playing paragraph:", textToPlay.substring(0,50)+"...");
+      console.log("BookChapterTextSection: Playing paragraph from wrapper:", textToPlay.substring(0,50)+"...");
       onPlayClick(textToPlay);
     } else {
       console.warn("BookChapterTextSection: Attempted to play empty text from wrapper.");
@@ -73,49 +78,42 @@ export function BookChapterTextSection() {
       let content = '';
       const childNodes = articleRef.current.childNodes;
 
-      function extractTextFromDOM(nodes: NodeListOf<ChildNode>) {
+      // Enhanced text extraction logic
+      function extractTextFromDOM(nodes: NodeListOf<ChildNode>): string {
         let tempText = "";
         nodes.forEach(node => {
           if (node.nodeType === Node.ELEMENT_NODE) {
             const element = node as HTMLElement;
-            if (element.tagName.toLowerCase() === 'figure' || element.tagName.toLowerCase() === 'blockquote' || element.classList.contains('absolute')) { // Exclude play buttons too
+            // Skip elements that are part of the UI (buttons, figures, blockquotes for now)
+            if (element.tagName.toLowerCase() === 'figure' || 
+                element.tagName.toLowerCase() === 'blockquote' || 
+                element.classList.contains('absolute') || // Exclude our play buttons
+                element.closest('.absolute')) { // Exclude elements within our play buttons
               return; 
             }
+
+            // For headings, add a period for better sentence separation by TTS
             if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(element.tagName.toLowerCase())) {
               tempText += (element.textContent || '').trim() + '. ';
             } 
-            else if (element.tagName.toLowerCase() === 'ul' || element.tagName.toLowerCase() === 'ol') {
-              element.querySelectorAll('li').forEach(li => {
-                // Check if li contains our play button wrapper
-                if (!li.querySelector('button[aria-label="Озвучить этот фрагмент"]')) {
-                   tempText += (li.textContent || '').trim() + '. ';
-                } else {
-                  // Extract text only from the content part of li, not the button
-                  let liText = '';
-                  li.childNodes.forEach(childNode => {
-                    if (childNode.nodeType === Node.TEXT_NODE) {
-                      liText += childNode.textContent || '';
-                    } else if (childNode.nodeType === Node.ELEMENT_NODE && !(childNode as HTMLElement).classList.contains('absolute')) {
-                      liText += (childNode as HTMLElement).textContent || '';
-                    }
-                  });
-                  tempText += liText.trim() + '. ';
-                }
-              });
+            // For list items, also add a period
+            else if (element.tagName.toLowerCase() === 'li') {
+              tempText += (element.textContent || '').trim() + '. ';
             }
-            // Exclude the button itself from the text content of paragraphs/headers
-            else if (element.textContent && !element.querySelector('button[aria-label="Озвучить этот фрагмент"]')) {
-                 tempText += (element.textContent || '').trim() + ' ';
-            } else if (element.textContent) {
-                let elText = '';
-                element.childNodes.forEach(childNode => {
-                     if (childNode.nodeType === Node.TEXT_NODE) {
-                      elText += childNode.textContent || '';
-                    } else if (childNode.nodeType === Node.ELEMENT_NODE && !(childNode as HTMLElement).classList.contains('absolute')) {
-                      elText += (childNode as HTMLElement).textContent || '';
-                    }
-                });
-                tempText += elText.trim() + ' ';
+            // For other elements, just add the text content
+            else if (element.textContent) {
+              let elText = '';
+              // Iterate child nodes to exclude button text
+              element.childNodes.forEach(childNode => {
+                  if (childNode.nodeType === Node.TEXT_NODE) {
+                    elText += childNode.textContent || '';
+                  } else if (childNode.nodeType === Node.ELEMENT_NODE && 
+                            !(childNode as HTMLElement).classList.contains('absolute') && 
+                            (childNode as HTMLElement).tagName.toLowerCase() !== 'button') {
+                    elText += (childNode as HTMLElement).textContent || '';
+                  }
+              });
+              tempText += elText.trim() + ' ';
             }
           } else if (node.nodeType === Node.TEXT_NODE && node.textContent) {
             tempText += node.textContent.trim() + ' ';
@@ -126,29 +124,38 @@ export function BookChapterTextSection() {
       
       content = extractTextFromDOM(childNodes);
       const cleanedContent = content.replace(/\s+/g, ' ').trim();
-      console.log("BookChapterTextSection: Extracted full article text:", cleanedContent.substring(0,100)+"...");
+      console.log("BookChapterTextSection: Extracted full article text for TTS Player:", cleanedContent.substring(0,100)+"...");
       setFullArticleText(cleanedContent);
     }
   }, []);
 
   const handleParagraphPlay = (text: string) => {
-    console.log("BookChapterTextSection: handleParagraphPlay called with:", text.substring(0,50)+"...");
-    ttsPlayerRef.current?.play(text);
+    console.log("BookChapterTextSection: handleParagraphPlay called with text:", text.substring(0,50)+"...");
+    if (ttsPlayerRef.current) {
+      ttsPlayerRef.current.play(text);
+    } else {
+      console.error("BookChapterTextSection: ttsPlayerRef is not available.");
+    }
   };
-
-  // Re-wrap components for individual play functionality
+  
   const WrappedP: React.FC<{children: React.ReactNode, className?: string}> = ({ children, className }) => <TextWrapper tag="div" onPlayClick={handleParagraphPlay} className={className}><P>{children}</P></TextWrapper>;
   const WrappedH2: React.FC<{children: React.ReactNode, className?: string}> = ({ children, className }) => <TextWrapper tag="div" onPlayClick={handleParagraphPlay} className={className}><H2>{children}</H2></TextWrapper>;
   const WrappedH3: React.FC<{children: React.ReactNode, className?: string}> = ({ children, className }) => <TextWrapper tag="div" onPlayClick={handleParagraphPlay} className={className}><H3>{children}</H3></TextWrapper>;
   const WrappedUl: React.FC<{items: React.ReactNode[], className?: string}> = ({ items, className }) => (
-    <div className={cn("group relative", className)}>
+    <TextWrapper tag="div" onPlayClick={(text) => {
+      // For UL, we might want to play the whole list or individual items.
+      // This current implementation will try to play the combined text of all LIs if clicked on the UL wrapper.
+      // Individual LI wrappers will handle playing their own text.
+      const listText = items.map(item => extractReactNodeToString(item)).join('. ');
+      console.log("BookChapterTextSection: Playing UL wrapper text:", listText.substring(0,50)+"...");
+      handleParagraphPlay(listText);
+    }} className={className}>
       <Ul items={items.map((item, index) => (
         <TextWrapper key={index} tag="li" onPlayClick={handleParagraphPlay}>
-          {/* The original Ul component already renders li, so we pass children directly */}
           {item}
         </TextWrapper>
       ))} />
-    </div>
+    </TextWrapper>
   );
 
 
@@ -434,5 +441,7 @@ export function BookChapterTextSection() {
     </>
   );
 }
+
+    
 
     
