@@ -47,7 +47,7 @@ export function AnalysisSection() {
         <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-3">
           {analysisItems.map((item) => (
             <AccordionItem value={item.id} key={item.id} className="border bg-card rounded-md shadow-sm hover:shadow-md transition-shadow">
-              <AccordionTrigger className="bg-primary/10 hover:bg-primary/20 text-primary-foreground p-4 font-semibold hover:no-underline">
+              <AccordionTrigger className="bg-primary/10 hover:bg-primary/20 text-foreground p-4 font-semibold hover:no-underline">
                 {item.title}
               </AccordionTrigger>
               <AccordionContent className="p-4 pt-2 text-muted-foreground bg-background rounded-b-md border border-t-0">
