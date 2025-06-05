@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -59,7 +60,7 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
   }, []);
 
   const handlePlayPause = () => {
-    if (!textToSpeak.trim()) {
+    if (!textToSpeak?.trim()) {
       alert('Нет текста для озвучки.');
       return;
     }
@@ -108,8 +109,16 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
         setIsPaused(false);
         setIsSpeaking(true);
       };
-      newUtterance.onerror = (event) => {
-        console.error('Ошибка синтеза речи:', event);
+      newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => {
+        console.error('Ошибка синтеза речи:', { 
+          errorCode: event.error, 
+          message: event.error, 
+          text: event.utterance?.text?.substring(0, 100) + (event.utterance?.text?.length > 100 ? '...' : ''),
+          voiceName: event.utterance?.voice?.name,
+          voiceLang: event.utterance?.voice?.lang,
+          selectedVoiceURI: selectedVoiceURI,
+          eventObject: event 
+        });
         setIsSpeaking(false);
         setIsPaused(false);
         alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
@@ -131,18 +140,48 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
     const rate = parseFloat(value);
     setPlaybackRate(rate);
     if (utteranceRef.current && synthRef.current && synthRef.current.speaking && !synthRef.current.paused) {
-      // Stop and restart with new rate if already speaking.
-      // This is a common workaround as directly changing rate mid-speech is not always reliable.
-      synthRef.current.cancel();
+      synthRef.current.cancel(); 
+      
       const newUtterance = new SpeechSynthesisUtterance(textToSpeak);
       utteranceRef.current = newUtterance;
+
       const selectedVoice = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
-      if (selectedVoice) newUtterance.voice = selectedVoice;
-      newUtterance.lang = selectedVoice ? selectedVoice.lang : 'ru-RU';
-      newUtterance.rate = rate;
-      newUtterance.onstart = () => setIsSpeaking(true);
-      newUtterance.onend = () => setIsSpeaking(false);
-      newUtterance.onerror = (event) => { console.error('Ошибка:', event); setIsSpeaking(false); };
+      if (selectedVoice) {
+        newUtterance.voice = selectedVoice;
+        newUtterance.lang = selectedVoice.lang;
+      } else {
+        newUtterance.lang = 'ru-RU';
+      }
+      newUtterance.rate = rate; 
+
+      newUtterance.onstart = () => {
+        setIsSpeaking(true);
+        setIsPaused(false);
+      };
+      newUtterance.onend = () => {
+        setIsSpeaking(false);
+        setIsPaused(false);
+      };
+      newUtterance.onpause = () => {
+        setIsPaused(true);
+        setIsSpeaking(true);
+      };
+      newUtterance.onresume = () => {
+        setIsPaused(false);
+        setIsSpeaking(true);
+      };
+      newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => {
+        console.error('Ошибка синтеза речи при смене скорости:', { 
+          errorCode: event.error, 
+          message: event.error,
+          text: event.utterance?.text?.substring(0, 100) + (event.utterance?.text?.length > 100 ? '...' : ''),
+          voiceName: event.utterance?.voice?.name,
+          eventObject: event 
+        });
+        setIsSpeaking(false);
+        setIsPaused(false);
+        alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
+      };
       synthRef.current.speak(newUtterance);
     }
   };
@@ -160,7 +199,7 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
   return (
     <div className={cn("p-4 sm:p-6 space-y-4 bg-card text-card-foreground rounded-lg shadow-md border", className)}>
       <div className="flex flex-col sm:flex-row gap-4 items-center">
-        <Button onClick={handlePlayPause} disabled={!textToSpeak.trim()} className="w-full sm:w-auto" size="sm">
+        <Button onClick={handlePlayPause} disabled={!textToSpeak?.trim()} className="w-full sm:w-auto" size="sm">
           {isSpeaking && !isPaused ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
           {isSpeaking && !isPaused ? 'Пауза' : isPaused ? 'Продолжить' : 'Озвучить'}
         </Button>
@@ -210,6 +249,11 @@ export function TextToSpeechPlayer({ textToSpeak, className }: TextToSpeechPlaye
         </div>
       </div>
        {isSpeaking && <p className="text-xs text-center text-primary animate-pulse">Воспроизведение...</p>}
+       {!textToSpeak?.trim() && availableVoices.length > 0 && (
+        <p className="text-xs text-center text-muted-foreground">Нет текста для озвучки. Текст извлекается из содержимого статьи.</p>
+       )}
     </div>
   );
 }
+
+  
