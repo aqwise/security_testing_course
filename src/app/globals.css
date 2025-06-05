@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap'); /* Added Inter font */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', 'Inter', sans-serif; /* Added Inter as fallback/primary */
 }
 
 @layer base {
@@ -26,7 +27,7 @@ body {
     --secondary-foreground: 199 65% 54%;
 
     --muted: 207 27% 85%;
-    --muted-foreground: 200 15% 45%;
+    --muted-foreground: 200 15% 45%; /* Adjusted for better contrast */
 
     --accent: 196 78% 73%; /* Light Blue #83D6F2 */
     --accent-foreground: 199 65% 30%; /* Darker blue for text on accent */
@@ -75,7 +76,7 @@ body {
     --secondary-foreground: 207 27% 95%;
 
     --muted: 200 15% 25%;
-    --muted-foreground: 207 27% 65%;
+    --muted-foreground: 207 27% 75%; /* Adjusted for better contrast in dark mode */
 
     --accent: 196 78% 73%;
     --accent-foreground: 199 65% 25%;
