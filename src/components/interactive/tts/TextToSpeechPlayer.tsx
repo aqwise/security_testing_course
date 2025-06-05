@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Play, Pause, StopCircle } from 'lucide-react';
+import { Play, StopCircle } from 'lucide-react'; // Removed Pause
 import { cn } from '@/lib/utils';
 
 interface TextToSpeechPlayerProps {
@@ -21,6 +21,7 @@ interface TextToSpeechPlayerRef {
 export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextToSpeechPlayerProps>(
   ({ initialTextToSpeak, className }, ref) => {
     const [isSpeaking, setIsSpeaking] = React.useState<boolean>(false);
+    // isPaused state is no longer directly controlled by the main button, but kept for internal consistency if speech is paused by other means
     const [isPaused, setIsPaused] = React.useState<boolean>(false);
     const [availableVoices, setAvailableVoices] = React.useState<SpeechSynthesisVoice[]>([]);
     const [selectedVoiceURI, setSelectedVoiceURI] = React.useState<string | undefined>();
@@ -75,8 +76,9 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
     const commonOnErrorHandler = (event: SpeechSynthesisErrorEvent, context: string = "general") => {
       if (event.error === 'interrupted') {
         console.warn(`Синтез речи прерван (контекст: ${context}, ожидаемо): ${event.error}`);
-        // setIsSpeaking(false); // Should be handled by onend or explicit stop
-        // setIsPaused(false);
+        // No alert for interrupted errors
+        setIsSpeaking(false); 
+        setIsPaused(false);
         return; 
       }
 
@@ -97,7 +99,7 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
     const _speakText = (text: string) => {
       if (!text.trim()) {
         console.log("TTS Player: Attempted to speak empty text.");
-        alert('Нет текста для озвучки.');
+        // alert('Нет текста для озвучки.'); // Might be too noisy if called programmatically often
         return;
       }
       if (!synthRef.current) {
@@ -107,11 +109,9 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
 
       console.log("TTS Player: _speakText called with:", text.substring(0, 50) + "...");
       
-      // Cancel any ongoing speech before starting new
       synthRef.current.cancel(); 
-      // Allow time for cancel to propagate, this is a common workaround
       setTimeout(() => {
-        if (!synthRef.current) return; // Check again after timeout
+        if (!synthRef.current) return;
 
         const newUtterance = new SpeechSynthesisUtterance(text);
         utteranceRef.current = newUtterance;
@@ -140,42 +140,22 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
           utteranceRef.current = null; 
         };
         newUtterance.onpause = () => {
-          console.log("TTS Player: Speech paused.");
+          console.log("TTS Player: Speech paused by browser/OS.");
           setIsPaused(true);
-          // isSpeaking remains true
+          setIsSpeaking(true); // Still speaking, just paused
         };
         newUtterance.onresume = () => {
-          console.log("TTS Player: Speech resumed.");
+          console.log("TTS Player: Speech resumed by browser/OS.");
           setIsPaused(false);
-          // isSpeaking remains true
         };
         newUtterance.onerror = (event: SpeechSynthesisErrorEvent) => commonOnErrorHandler(event, "utterance event");
         
         synthRef.current.speak(newUtterance);
-      }, 50); // Small delay for cancel to take effect
+      }, 50);
     };
 
-    const handlePlayPauseClick = () => {
-      console.log("TTS Player: Play/Pause button clicked. isSpeaking:", isSpeaking, "isPaused:", isPaused);
-      if (!synthRef.current) return;
-
-      if (isSpeaking) {
-        if (isPaused) {
-          console.log("TTS Player: Resuming speech.");
-          synthRef.current.resume();
-        } else {
-          console.log("TTS Player: Pausing speech.");
-          synthRef.current.pause();
-        }
-      } else {
-        // Start speaking with currentTextToSpeakRef (either initial or last played paragraph)
-        console.log("TTS Player: Starting speech with current ref text:", currentTextToSpeakRef.current.substring(0,50)+"...");
-        _speakText(currentTextToSpeakRef.current);
-      }
-    };
-
-    const handleStopClick = () => {
-      console.log("TTS Player: Stop button clicked.");
+    const handleStopExplicitly = () => {
+      console.log("TTS Player: Explicit Stop button clicked or stop() called.");
       if (synthRef.current) {
         synthRef.current.cancel(); 
         setIsSpeaking(false);
@@ -184,15 +164,27 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
       }
     };
     
+    const handlePlayStopToggleClick = () => {
+      console.log("TTS Player: Play/Stop toggle button clicked. isSpeaking:", isSpeaking);
+      if (!synthRef.current) return;
+
+      if (isSpeaking) { // If it's speaking (or paused by browser), stop it
+        handleStopExplicitly();
+      } else { // If not speaking, start speaking with currentTextToSpeakRef
+        console.log("TTS Player: Starting speech from main button with current ref text:", currentTextToSpeakRef.current.substring(0,50)+"...");
+        _speakText(currentTextToSpeakRef.current);
+      }
+    };
+    
     React.useImperativeHandle(ref, () => ({
       play: (text: string) => {
         console.log("TTS Player: Imperative play called for text:", text.substring(0,50)+"...");
-        currentTextToSpeakRef.current = text;
+        currentTextToSpeakRef.current = text; // Update ref for main button if it's clicked next
         _speakText(text);
       },
       stop: () => {
         console.log("TTS Player: Imperative stop called.");
-        handleStopClick();
+        handleStopExplicitly();
       }
     }));
 
@@ -200,14 +192,10 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
       const rate = parseFloat(value);
       console.log("TTS Player: Rate changed to", rate);
       setPlaybackRate(rate);
-      // If currently speaking, stop and restart with new rate for the current utterance
       if (synthRef.current && synthRef.current.speaking && utteranceRef.current) {
         const currentText = utteranceRef.current.text;
-        // Optimistically update rate on current utterance if possible, though spec says it's read-only after speak
-        // utteranceRef.current.rate = rate; // This might not work reliably
-        // More robust: cancel and respeak
         console.log("TTS Player: Respeaking with new rate.");
-        _speakText(currentText); // This will cancel and create a new utterance with the new rate
+        _speakText(currentText); 
       }
     };
     
@@ -225,24 +213,24 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
       <div className={cn("p-4 sm:p-6 space-y-4 bg-card text-card-foreground rounded-lg shadow-md border", className)}>
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <Button 
-            onClick={handlePlayPauseClick} 
+            onClick={handlePlayStopToggleClick} 
             disabled={!currentTextToSpeakRef.current?.trim()} 
             className="w-full sm:w-auto" 
             size="sm"
-            aria-label={isSpeaking && !isPaused ? "Пауза" : isPaused ? "Продолжить" : "Озвучить"}
+            aria-label={isSpeaking ? "Стоп" : "Озвучить"}
           >
-            {isSpeaking && !isPaused ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
-            {isSpeaking && !isPaused ? 'Пауза' : isPaused ? 'Продолжить' : 'Озвучить'}
+            {isSpeaking ? <StopCircle className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
+            {isSpeaking ? 'Стоп' : 'Озвучить'}
           </Button>
           <Button 
-            onClick={handleStopClick} 
+            onClick={handleStopExplicitly} 
             disabled={!isSpeaking} 
             variant="outline" 
             className="w-full sm:w-auto" 
             size="sm"
             aria-label="Стоп"
           >
-            <StopCircle className="mr-2 h-4 w-4" /> Стоп
+            <StopCircle className="mr-2 h-4 w-4" /> Стоп (доп.)
           </Button>
         </div>
         
@@ -253,7 +241,7 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
               <Select
                 value={selectedVoiceURI}
                 onValueChange={setSelectedVoiceURI}
-                disabled={isSpeaking && !isPaused}
+                disabled={isSpeaking && !isPaused} 
               >
                 <SelectTrigger id="voice-select-player-page" className="w-full h-9 text-sm">
                   <SelectValue placeholder="Выберите голос..." />
@@ -273,7 +261,6 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
              <Select
               value={playbackRate.toString()}
               onValueChange={handleRateChange}
-              disabled={isSpeaking && !isPaused && !utteranceRef.current} // Allow changing rate if paused
             >
               <SelectTrigger id="rate-select-player-page" className="w-full h-9 text-sm">
                 <SelectValue placeholder="Выберите скорость..." />
@@ -298,5 +285,3 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
 );
 
 TextToSpeechPlayer.displayName = 'TextToSpeechPlayer';
-
-    
