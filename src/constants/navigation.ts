@@ -25,5 +25,6 @@ export const navigationLinks: NavLink[] = [
     ],
   },
   { href: '/interactive/chapter-1', label: 'Интерактивная Глава 1', icon: PlayCircle },
+  { href: '/text-chapter/chapter-1', label: 'Текстовая Глава 1', icon: FileText },
   // Source link is handled in AppLayout footer
 ];
