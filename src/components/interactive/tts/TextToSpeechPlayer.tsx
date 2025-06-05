@@ -5,9 +5,11 @@ import * as React from 'react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+// import { Button } from '@/components/ui/button'; // Removed as main button is gone
+// import { Play, StopCircle } from 'lucide-react'; // Removed as main button is gone
 
 interface TextToSpeechPlayerProps {
-  initialTextToSpeak: string; // Although not directly used for a main play button now
+  initialTextToSpeak: string;
   className?: string;
 }
 
@@ -30,8 +32,6 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
     const currentTextToSpeakRef = React.useRef<string>(initialTextToSpeak);
 
     React.useEffect(() => {
-      // This ref holds the text that *should* be spoken if a global play action were initiated.
-      // Since play is now per-paragraph, this might be less relevant unless a "play all" is added back.
       currentTextToSpeakRef.current = initialTextToSpeak;
     }, [initialTextToSpeak]);
 
@@ -44,16 +44,18 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
           setAvailableVoices(voices);
           
           if (voices.length > 0) {
-            const defaultRussianVoice = voices.find(voice => voice.lang.toLowerCase().startsWith('ru'));
-            if (defaultRussianVoice) {
-              setSelectedVoiceURI(defaultRussianVoice.voiceURI);
+            let defaultVoice = voices.find(voice => voice.lang.toLowerCase().startsWith('ru') && voice.default);
+            if (!defaultVoice) defaultVoice = voices.find(voice => voice.lang.toLowerCase().startsWith('ru'));
+            if (!defaultVoice) defaultVoice = voices.find(voice => voice.lang.toLowerCase().includes('cyrillic'));
+            if (!defaultVoice) defaultVoice = voices.find(voice => voice.lang.toLowerCase().startsWith('en') && voice.default);
+            if (!defaultVoice) defaultVoice = voices.find(voice => voice.default);
+            if (!defaultVoice) defaultVoice = voices[0];
+            
+            if (defaultVoice) {
+              setSelectedVoiceURI(defaultVoice.voiceURI);
+              console.log(`TTS Player: Default voice selected: ${defaultVoice.name} (${defaultVoice.lang})`);
             } else {
-              const firstEnglishVoice = voices.find(v => v.lang.toLowerCase().startsWith('en'));
-              if (firstEnglishVoice) {
-                setSelectedVoiceURI(firstEnglishVoice.voiceURI);
-              } else if (voices[0]) {
-                setSelectedVoiceURI(voices[0].voiceURI);
-              }
+               console.warn("TTS Player: No suitable default voice found.");
             }
           }
         };
@@ -61,8 +63,9 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
         if (synthRef.current.onvoiceschanged !== undefined) {
           synthRef.current.onvoiceschanged = loadVoices;
         }
-        loadVoices();
+        loadVoices(); // Initial attempt
 
+        // Cleanup
         return () => {
           if (synthRef.current) {
             if (utteranceRef.current) {
@@ -79,51 +82,44 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
       }
     }, []);
 
-    const _speakText = (text: string) => {
-      if (!text?.trim()) {
-        console.warn("TTS Player: _speakText - Attempted to speak empty or undefined text. Aborting.");
+    const _speakText = () => { // Removed 'text' parameter
+      if (!currentTextToSpeakRef.current || !currentTextToSpeakRef.current.trim()) {
+        console.warn("TTS Player: _speakText - currentTextToSpeakRef is empty. Aborting.");
         setIsSpeakingState(false);
         return;
       }
+
       if (!synthRef.current) {
         alert('Ваш браузер не поддерживает Web Speech API.');
         setIsSpeakingState(false);
         return;
       }
       
-      console.log("TTS Player: _speakText preparing to speak:", text.substring(0, 50) + "...");
+      console.log(`TTS Player: _speakText preparing to speak from ref: ${currentTextToSpeakRef.current.substring(0, 50)}...`);
 
-      // Cancel any ongoing or pending speech and clean up old utterance
       if (synthRef.current.speaking || synthRef.current.pending) {
         console.log("TTS Player: _speakText - Cancelling active/pending speech.");
         if (utteranceRef.current) {
           utteranceRef.current.onstart = null;
           utteranceRef.current.onend = null;
           utteranceRef.current.onerror = null;
+          console.log("TTS Player: Detached listeners from utterance being stopped in _speakText's cancel branch.");
         }
         synthRef.current.cancel();
       }
-      utteranceRef.current = null; // Ensure ref is clear before timeout
-      setIsSpeakingState(false); // Assume stopped until new utterance starts
+      utteranceRef.current = null;
+      setIsSpeakingState(false); 
 
-      // Delay to allow the browser to process the cancel() call
       setTimeout(() => {
-        if (!synthRef.current || !currentTextToSpeakRef.current) { // Re-check synth and if text is still valid
+        if (!synthRef.current || !currentTextToSpeakRef.current || !currentTextToSpeakRef.current.trim()) {
             console.warn("TTS Player: Synth or currentTextToSpeakRef became null/empty in speak setTimeout. Aborting.");
-            setIsSpeakingState(false); // Ensure state is correct
-            return;
-        }
-        
-        // Use the most up-to-date text from the ref, which was set by the 'play' command
-        const textToActuallySpeak = currentTextToSpeakRef.current;
-        if (!textToActuallySpeak.trim()) {
-            console.warn("TTS Player: textToActuallySpeak is empty in speak setTimeout. Aborting.");
             setIsSpeakingState(false);
             return;
         }
-
+        
+        const textToActuallySpeak = currentTextToSpeakRef.current;
         const newUtterance = new SpeechSynthesisUtterance(textToActuallySpeak);
-        utteranceRef.current = newUtterance; // This is now the active utterance
+        utteranceRef.current = newUtterance; 
 
         const selectedVoice = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
         if (selectedVoice) {
@@ -131,21 +127,21 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
           newUtterance.lang = selectedVoice.lang;
         } else {
           const ruVoice = availableVoices.find(v => v.lang.toLowerCase().startsWith('ru'));
-          if (ruVoice) {
-            newUtterance.voice = ruVoice;
-            newUtterance.lang = ruVoice.lang;
-          } else {
-            newUtterance.lang = 'ru-RU';
-          }
+          if (ruVoice) newUtterance.voice = ruVoice;
+          newUtterance.lang = ruVoice ? ruVoice.lang : 'ru-RU';
         }
         newUtterance.rate = playbackRate;
+
+        console.log(`TTS Player: Attempting to speak... Text: ${textToActuallySpeak.substring(0,30)}..., Voice: ${newUtterance.voice?.name}, Lang: ${newUtterance.lang}, Rate: ${newUtterance.rate}`);
+        console.log(`TTS Player: Before speak() call - synth.speaking: ${synthRef.current.speaking}, synth.pending: ${synthRef.current.pending}`);
+
 
         newUtterance.onstart = () => {
           if (utteranceRef.current === newUtterance) {
             console.log("TTS Player: Speech started for current utterance:", newUtterance.text.substring(0,30)+"...");
             setIsSpeakingState(true);
           } else {
-             console.log("TTS Player: onstart event for a STALE utterance. Current is:", utteranceRef.current?.text.substring(0,30));
+             console.warn("TTS Player: onstart event for a STALE utterance. Current is:", utteranceRef.current?.text.substring(0,30), "This utterance:", newUtterance.text.substring(0,30));
           }
         };
 
@@ -155,7 +151,7 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
             setIsSpeakingState(false);
             utteranceRef.current = null;
           } else {
-            console.log("TTS Player: onend event for a STALE utterance. Current is:", utteranceRef.current?.text.substring(0,30));
+            console.warn("TTS Player: onend event for a STALE utterance. Current is:", utteranceRef.current?.text.substring(0,30), "This utterance:", newUtterance.text.substring(0,30));
           }
         };
 
@@ -165,20 +161,32 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
               charIndex: event.charIndex,
               elapsedTime: event.elapsedTime,
               textSample: event.utterance?.text?.substring(event.charIndex > 10 ? event.charIndex - 10 : 0, event.charIndex + 40),
+              voice: event.utterance?.voice?.name,
             });
-            if (event.error !== 'interrupted' && event.error !== 'canceled') {
+            if (event.error !== 'interrupted' && event.error !== 'canceled' && event.error !== 'not-allowed') {
               alert(`Ошибка озвучки: ${event.error}. Попробуйте другой голос или текст.`);
             }
             setIsSpeakingState(false);
             utteranceRef.current = null;
           } else {
-             console.warn("TTS Player: onerror event for a STALE utterance. Current is:", utteranceRef.current?.text.substring(0,30), "Error code:", event.error);
+             console.warn("TTS Player: onerror event for a STALE utterance. Error code:", event.error, "Current is:", utteranceRef.current?.text.substring(0,30), "This utterance:", event.utterance?.text.substring(0,30));
           }
         };
         
-        console.log("TTS Player: Calling synth.speak() for current utterance:", newUtterance.text.substring(0,50)+"...");
         synthRef.current.speak(newUtterance);
-      }, 200); // Increased delay for cancel to process
+        
+        setTimeout(() => {
+            if(synthRef.current) {
+                console.log(`TTS Player: After speak() call (100ms delay) - synth.speaking: ${synthRef.current.speaking}, synth.pending: ${synthRef.current.pending}`);
+                if (!synthRef.current.speaking && !synthRef.current.pending && textToActuallySpeak.length > 0) {
+                    // If it's not speaking and not pending, and we tried to speak non-empty text, it's a silent fail.
+                    console.warn("TTS Player: synth.speak() was called, but synth is not speaking or pending. This might indicate a silent failure or very short text.");
+                     // Don't setIsSpeakingState(false) here as onend/onerror should handle it
+                }
+            }
+        }, 100);
+
+      }, 250); 
     };
 
     const handleStopExplicitly = () => {
@@ -190,40 +198,48 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
           utteranceRef.current.onerror = null;
           console.log("TTS Player: Detached listeners from utterance being stopped.");
         }
-        synthRef.current.cancel();
+        synthRef.current.cancel(); // This should trigger onend or onerror with 'canceled'
         setIsSpeakingState(false);
-        utteranceRef.current = null;
-        console.log("TTS Player: Speech cancelled, state set to not speaking, utteranceRef cleared.");
+        utteranceRef.current = null; // Clear ref after cancelling
+        console.log("TTS Player: Speech explicitly cancelled, state set to not speaking, utteranceRef cleared.");
       }
     };
 
     React.useImperativeHandle(ref, () => ({
       play: (text: string) => {
-        console.log("TTS Player: Imperative play called with text:", text.substring(0,50)+"...");
-        currentTextToSpeakRef.current = text; // Set the text that should be spoken
-        _speakText(text);
+        console.log(`TTS Player: Imperative play called with text: ${text.substring(0, 50)}...`);
+        if (!text || !text.trim()) {
+          console.warn("TTS Player: Play called with empty text. Aborting.");
+          handleStopExplicitly();
+          return;
+        }
+        currentTextToSpeakRef.current = text;
+        _speakText(); // Call _speakText without parameter
       },
       stop: () => {
         handleStopExplicitly();
       },
-      isSpeaking: () => isSpeakingState,
+      isSpeaking: () => {
+        // More reliable check might involve synth.speaking directly if state updates are tricky
+        return synthRef.current?.speaking || isSpeakingState;
+      },
       currentTextToSpeakRef: currentTextToSpeakRef
     }));
 
     const handleRateChange = (value: string) => {
       const rate = parseFloat(value);
       setPlaybackRate(rate);
-      if (isSpeakingState && currentTextToSpeakRef.current) {
+      if (isSpeakingState && currentTextToSpeakRef.current && currentTextToSpeakRef.current.trim()) {
         console.log("TTS Player: Rate changed while speaking. Respeaking.");
-        _speakText(currentTextToSpeakRef.current);
+        _speakText();
       }
     };
     
     const handleVoiceChange = (newVoiceURI: string) => {
       setSelectedVoiceURI(newVoiceURI);
-      if (isSpeakingState && currentTextToSpeakRef.current) {
+      if (isSpeakingState && currentTextToSpeakRef.current && currentTextToSpeakRef.current.trim()) {
         console.log("TTS Player: Voice changed while speaking. Respeaking.");
-         _speakText(currentTextToSpeakRef.current);
+         _speakText();
       }
     };
 
@@ -280,7 +296,6 @@ export const TextToSpeechPlayer = React.forwardRef<TextToSpeechPlayerRef, TextTo
           </div>
         </div>
          {isSpeakingState && <p className="text-xs text-center text-primary animate-pulse">Воспроизведение...</p>}
-         {/* Removed "Нет текста для озвучки" message as it might be confusing now */}
       </div>
     );
   }
