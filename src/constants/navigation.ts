@@ -10,7 +10,7 @@ export interface NavLink {
 }
 
 export const navigationLinks: NavLink[] = [
-  { href: '/', label: 'Главная', icon: Home },
+  { href: '/', label: 'Введение', icon: Home },
   { href: '/concepts', label: 'Концепции', icon: Info },
   { href: '/audience', label: 'Аудитория', icon: Users },
   { href: '/prerequisites', label: 'Требования', icon: ListChecks },
@@ -58,3 +58,4 @@ export const navigationLinks: NavLink[] = [
   { href: '/text-chapter/chapter-4', label: 'Текстовая Глава 4', icon: FileText },
   // Source link is handled in AppLayout footer
 ];
+
