@@ -91,8 +91,8 @@ const labFocusChartOptions: ChartOptions<'bar'> = {
       ticks: {
         color: 'hsl(var(--muted-foreground))',
         autoSkip: false,
-        callback: function(value) {
-            const scale = this as any;
+        callback: function(value: string | number) {
+            const scale = this as any; 
             const label = scale.getLabelForValue(typeof value === 'string' ? parseFloat(value) : value);
             if (typeof label === 'string' && label.length > 25) {
                 return label.slice(0, 25) + '...';
