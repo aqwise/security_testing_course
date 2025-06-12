@@ -3,27 +3,11 @@
 
 import Link from 'next/link';
 import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ChartOptions,
-  ChartData
-} from 'chart.js';
+import { Chart, registerables } from 'chart.js/auto'; // Changed to use chart.js/auto
+import type { ChartOptions, ChartData } from 'chart.js'; // Types can still be imported from 'chart.js'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+Chart.register(...registerables); // Register all components
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
