@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -10,10 +9,11 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend,
-  ChartOptions,
-  ChartData
+  Legend
 } from 'chart.js';
+import type { ChartOptions, ChartData } from 'chart.js'; // Explicitly import types
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 ChartJS.register(
   CategoryScale,
@@ -59,7 +59,14 @@ const labFocusChartOptions: ChartOptions<'bar'> = {
       displayColors: false,
       callbacks: {
         label: function(context) {
-          return (context.dataset.label || '') + ': ' + context.parsed.x;
+          let label = context.dataset.label || '';
+          if (label) {
+            label += ': ';
+          }
+          if (context.parsed.x !== null) {
+            label += context.parsed.x;
+          }
+          return label;
         }
       }
     },
@@ -118,9 +125,13 @@ export function LabsAndToolsSection() {
             </ul>
           </div>
         </div>
-        <div className="relative w-full max-w-3xl mx-auto h-[450px] md:h-[500px]">
-          <Bar options={labFocusChartOptions} data={labFocusChartData} />
-        </div>
+         <Card className="shadow-lg rounded-xl border border-border">
+          <CardContent className="p-4 md:p-6">
+            <div className="relative w-full max-w-3xl mx-auto h-[450px] md:h-[500px]">
+              <Bar options={labFocusChartOptions} data={labFocusChartData} />
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );
