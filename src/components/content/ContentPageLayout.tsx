@@ -26,7 +26,7 @@ export function ContentPageLayout({
         <div className={imageUrl ? "md:flex" : ""}> {/* Apply md:flex only if imageUrl exists */}
           <div className={imageUrl ? "md:w-3/5 p-6 md:p-10" : "w-full p-6 md:p-10"}> {/* Adjust width */}
             <CardHeader className="px-0 pt-0 pb-4">
-              <CardTitle className="text-3xl lg:text-4xl font-bold text-primary mb-2">{title}</CardTitle>
+              <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground mb-2">{title}</CardTitle>
               {subtitle && <CardDescription className="text-lg text-muted-foreground">{subtitle}</CardDescription>}
             </CardHeader>
             <hr className="my-6 border-accent" />
