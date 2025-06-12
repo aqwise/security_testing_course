@@ -11,11 +11,10 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions, // Directly imported
-  ChartData    // Directly imported
+  ChartOptions,
+  ChartData
 } from 'chart.js';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 
 ChartJS.register(
   CategoryScale,
