@@ -23,25 +23,25 @@ export function RecommendedLanguagesSection() {
               <li className="flex items-start">
                 <span className={IconStyle}>🐍</span>
                 <div>
-                  <strong><Link href="https://www.python.org/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>Python</Link>:</strong> Широко используется в ИБ для автоматизации, эксплойтов (32). Многие инструменты (sqlmap (129), Autorize (175)) на Python. <Link href="https://www.python.org/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>Python.org</Link>. (174)
+                  <strong><Link href="https://www.python.org/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>Python</Link>:</strong> Широко используется в ИБ для автоматизации, эксплойтов. Многие инструменты (sqlmap, Autorize) на Python. <Link href="https://www.python.org/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>Python.org</Link>.
                 </div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>✍️</span>
                 <div>
-                  <strong>JavaScript:</strong> Крайне важен для клиентских уязвимостей (XSS и др.) и анализа современных веб-приложений (SPA). (10)
+                  <strong>JavaScript:</strong> Крайне важен для клиентских уязвимостей (XSS и др.) и анализа современных веб-приложений (SPA).
                 </div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>💲</span> {/* Changed from $ to avoid confusion with shell prompt itself */}
                 <div>
-                  <strong>Bash/Shell Scripting:</strong> Полезен для автоматизации в Linux и работы с CLI-инструментами. (32)
+                  <strong>Bash/Shell Scripting:</strong> Полезен для автоматизации в Linux и работы с CLI-инструментами.
                 </div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>🐘</span>
                 <div>
-                  <strong>(Опционально) <Link href="https://www.php.net/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>PHP</Link>, <Link href="https://ru.wikipedia.org/wiki/SQL" target="_blank" rel="noopener noreferrer" className={LinkStyle}>SQL</Link>:</strong> Базовое понимание синтаксиса поможет при анализе кода (DVWA (12)) и SQL-инъекциях. (98)
+                  <strong>(Опционально) <Link href="https://www.php.net/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>PHP</Link>, <Link href="https://ru.wikipedia.org/wiki/SQL" target="_blank" rel="noopener noreferrer" className={LinkStyle}>SQL</Link>:</strong> Базовое понимание синтаксиса поможет при анализе кода (DVWA) и SQL-инъекциях.
                 </div>
               </li>
             </ul>

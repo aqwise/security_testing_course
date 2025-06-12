@@ -23,11 +23,11 @@ export function HardwareSection() {
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>💾</span>
-                <div><strong>Оперативная память (RAM):</strong> Минимум 8 ГБ, рекомендуется 16 ГБ+ для виртуальных машин и Burp Suite. (103)</div>
+                <div><strong>Оперативная память (RAM):</strong> Минимум 8 ГБ, рекомендуется 16 ГБ+ для виртуальных машин и Burp Suite.</div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>💽</span>
-                <div><strong>Место на диске:</strong> Достаточное для ОС, инструментов, VM/контейнеров и словарей (например, <Link href="https://github.com/danielmiessler/SecLists" target="_blank" rel="noopener noreferrer" className={LinkStyle}>SecLists</Link> (104)).</div>
+                <div><strong>Место на диске:</strong> Достаточное для ОС, инструментов, VM/контейнеров и словарей (например, <Link href="https://github.com/danielmiessler/SecLists" target="_blank" rel="noopener noreferrer" className={LinkStyle}>SecLists</Link>).</div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>📶</span>
