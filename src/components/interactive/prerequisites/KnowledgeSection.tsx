@@ -20,25 +20,25 @@ export function KnowledgeSection() {
               <li className="flex items-start">
                 <span className={IconStyle}>🌐</span>
                 <div>
-                  <strong>Основы веб-технологий:</strong> Понимание клиент-серверной архитектуры, различий front-end/back-end. Знание HTML, CSS, JavaScript. (80)
+                  <strong>Основы веб-технологий:</strong> Понимание клиент-серверной архитектуры, различий front-end/back-end. Знание HTML, CSS, JavaScript.
                 </div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>🔗</span>
                 <div>
-                  <strong>Протокол HTTP/HTTPS:</strong> Структура запросов/ответов, методы (GET, POST и др.), заголовки (Host, User-Agent, Cookie и т.д.), коды состояния, сессии, cookie. (15, 72) Ресурс: <Link href="https://tryhackme.com/room/httpindetail" target="_blank" rel="noopener noreferrer" className={LinkStyle}>TryHackMe "HTTP in Detail"</Link>. (72)
+                  <strong>Протокол HTTP/HTTPS:</strong> Структура запросов/ответов, методы (GET, POST и др.), заголовки (Host, User-Agent, Cookie и т.д.), коды состояния, сессии, cookie. Ресурс: <Link href="https://tryhackme.com/room/httpindetail" target="_blank" rel="noopener noreferrer" className={LinkStyle}>TryHackMe "HTTP in Detail"</Link>.
                 </div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>💻</span>
                 <div>
-                  <strong>Основы сетей:</strong> Базовое понимание TCP/IP, DNS, IP-адресации, портов, межсетевых экранов, прокси. (32)
+                  <strong>Основы сетей:</strong> Базовое понимание TCP/IP, DNS, IP-адресации, портов, межсетевых экранов, прокси.
                 </div>
               </li>
               <li className="flex items-start">
                 <span className={IconStyle}>🛡️</span>
                 <div>
-                  <strong>Осведомленность об уязвимостях:</strong> Общее представление о классах уязвимостей (инъекции, XSS, IDOR, CSRF) из <Link href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>OWASP Top 10</Link>. (17)
+                  <strong>Осведомленность об уязвимостях:</strong> Общее представление о классах уязвимостей (инъекции, XSS, IDOR, CSRF) из <Link href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener noreferrer" className={LinkStyle}>OWASP Top 10</Link>.
                 </div>
               </li>
             </ul>
@@ -48,3 +48,4 @@ export function KnowledgeSection() {
     </section>
   );
 }
+
