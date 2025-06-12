@@ -33,7 +33,6 @@ const getCleanTextFromDomNode = (node: Node): string => {
           text += " "; 
       }
   }
-  // console.log(`BookChapterTextSection (getCleanTextFromDomNode): NodeName: ${node.nodeName}, Extracted: "${text.substring(0,50)}..."`);
   return text;
 };
 
@@ -43,7 +42,7 @@ interface TextWrapperProps {
   tag: keyof JSX.IntrinsicElements;
   onPlayClick: (element: HTMLElement) => void; 
   className?: string;
-  elementRef?: React.RefObject<HTMLElement>; // Pass ref for the content element
+  elementRef?: React.RefObject<HTMLElement>; 
 }
 
 const TextWrapper: React.FC<TextWrapperProps> = ({ children, tag: Tag, onPlayClick, className, elementRef }) => {
@@ -84,10 +83,8 @@ export function BookChapterTextSection() {
   const [fullArticleText, setFullArticleText] = React.useState('');
   const currentlyPlayingSegmentRef = React.useRef<HTMLElement | null>(null);
 
-  // Stores references to all TextWrapper elements
   const textWrapperRefs = React.useRef<Map<number, HTMLElement | null>>(new Map());
 
-  // Check Web Speech API availability on component mount
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       if (!window.speechSynthesis) {
@@ -99,10 +96,9 @@ export function BookChapterTextSection() {
     }
   }, []);
 
-  // Function to ensure a ref is available for a given index
   const getTextWrapperRef = (index: number) => {
     if (!textWrapperRefs.current.has(index)) {
-      textWrapperRefs.current.set(index, null); // Initialize if not present
+      textWrapperRefs.current.set(index, null); 
     }
     return (el: HTMLElement | null) => textWrapperRefs.current.set(index, el);
   };
@@ -113,8 +109,6 @@ export function BookChapterTextSection() {
     let fullText = "";
     
     const textWrapperDivs = Array.from(rootElement.children) as HTMLElement[];
-    console.log("BookChapterTextSection (extractTextFromDOMArticle): Found", textWrapperDivs.length, "TextWrapper divs (direct children of article).");
-
     textWrapperDivs.forEach((wrapperDiv) => {
       if (wrapperDiv.nodeType === Node.ELEMENT_NODE) {
         const contentChildNodes = Array.from(wrapperDiv.childNodes).filter(
@@ -135,7 +129,6 @@ export function BookChapterTextSection() {
       }
     });
     const processedFullText = fullText.replace(/\s+/g, ' ').trim();
-    console.log("BookChapterTextSection (extractTextFromDOMArticle): Final extracted full text for player (first 100 chars):", processedFullText.substring(0,100));
     return processedFullText;
   }, []);
 
@@ -149,37 +142,26 @@ export function BookChapterTextSection() {
 
 
   const handleParagraphPlay = (clickedWrapperElement: HTMLElement) => {
-    console.log("BookChapterTextSection (handleParagraphPlay): Called with element:", clickedWrapperElement);
-    console.log("BookChapterTextSection: Article ref available:", !!articleRef.current);
-    console.log("BookChapterTextSection: TTS player ref available:", !!ttsPlayerRef.current);
-    
     if (!articleRef.current || !ttsPlayerRef.current) {
       console.error("BookChapterTextSection (handleParagraphPlay): Article ref or TTS player ref not available.");
       return;
     }
   
-    // If the player is currently speaking
     if (ttsPlayerRef.current.isSpeaking()) {
       const wasPlayingThisSegment = currentlyPlayingSegmentRef.current === clickedWrapperElement;
-      console.log(`BookChapterTextSection: Player is speaking. Was playing this segment (${wasPlayingThisSegment})? Stopping current speech.`);
       ttsPlayerRef.current.stop();
       currentlyPlayingSegmentRef.current = null;
       if (wasPlayingThisSegment) {
-        // If clicked on the same segment that was playing, just stop.
         return;
       }
-      // If clicked on a *different* segment while playing, proceed to play the new one after a short delay
-      // to allow the stop command to fully process.
       setTimeout(() => startPlayingFrom(clickedWrapperElement), 150);
       return;
     }
 
-    // If player is not speaking, start playing from the clicked element.
     startPlayingFrom(clickedWrapperElement);
   };
 
   const startPlayingFrom = (startElement: HTMLElement) => {
-    console.log("BookChapterTextSection (startPlayingFrom): Starting from element:", startElement);
     if (!articleRef.current || !ttsPlayerRef.current) {
       console.error("BookChapterTextSection (startPlayingFrom): Missing refs");
       return;
@@ -189,33 +171,26 @@ export function BookChapterTextSection() {
     let textToPlay = "";
     let startReading = false;
     const allTextWrappers = Array.from(articleRef.current.children) as HTMLElement[];
-    console.log("BookChapterTextSection: Found", allTextWrappers.length, "text wrappers");
 
     for (const wrapper of allTextWrappers) {
       if (wrapper === startElement) {
         startReading = true;
-        console.log("BookChapterTextSection: Found start element, beginning text extraction");
       }
       if (startReading) {
         const contentChildNodes = Array.from(wrapper.childNodes).filter(
           (n) => !(n.nodeName === 'BUTTON' || (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).classList.contains('absolute')))
         );
         
-        console.log("BookChapterTextSection: Processing wrapper with", contentChildNodes.length, "content nodes");
-        
         contentChildNodes.forEach(contentNode => {
           if (contentNode.nodeName === "UL" || contentNode.nodeName === "OL") {
-            console.log("BookChapterTextSection: Processing list");
             Array.from(contentNode.childNodes).forEach(li => {
               if (li.nodeName === "LI") {
                 const liText = getCleanTextFromDomNode(li);
-                console.log("BookChapterTextSection: List item text:", liText.substring(0, 50) + "...");
                 textToPlay += liText;
               }
             });
           } else if (contentNode.nodeName !== 'FIGURE' && contentNode.nodeName !== 'BLOCKQUOTE') { 
             const nodeText = getCleanTextFromDomNode(contentNode);
-            console.log("BookChapterTextSection: Node text from", contentNode.nodeName, ":", nodeText.substring(0, 50) + "...");
             textToPlay += nodeText;
           }
         });
@@ -223,22 +198,17 @@ export function BookChapterTextSection() {
     }
     
     const finalTextToPlay = textToPlay.replace(/\s+/g, ' ').trim();
-    console.log("BookChapterTextSection (startPlayingFrom): Final text length:", finalTextToPlay.length);
-    console.log("BookChapterTextSection (startPlayingFrom): Final text preview:", finalTextToPlay.substring(0, 200) + "...");
     
     if (finalTextToPlay) {
-      console.log("BookChapterTextSection (startPlayingFrom): Playing text from element:", startElement, "Full text to play:", finalTextToPlay.substring(0,100)+"...");
       ttsPlayerRef.current.play(finalTextToPlay);
       if (ttsPlayerRef.current.currentTextToSpeakRef) {
           ttsPlayerRef.current.currentTextToSpeakRef.current = finalTextToPlay;
       }
     } else {
-      console.warn("BookChapterTextSection (startPlayingFrom): No text extracted from element:", startElement);
       ttsPlayerRef.current.stop();
     }
   };
   
-  // Helper for creating unique keys for wrapped elements
   let elementKeyCounter = 0;
 
   const WrappedP: React.FC<{children: React.ReactNode, className?: string}> = ({ children, className }) => {
@@ -292,11 +262,11 @@ export function BookChapterTextSection() {
         <figure className="my-6 text-center">
           <Image
             src="https://placehold.co/600x300.png" 
-            alt="Традиционный веб-сайт со статической информацией"
+            alt="Традиционный веб-сайт со статической информацией, отображающий простой текстовый документ и однонаправленную стрелку от сервера к браузеру."
             width={600}
             height={300}
             className="mx-auto rounded-md shadow-md"
-            data-ai-hint="vintage computer web diagram"
+            data-ai-hint="early internet"
           />
           <figcaption className="mt-2 text-sm text-muted-foreground">
             <em>Рисунок 1-1: Традиционный веб-сайт, содержащий статическую информацию</em>
@@ -308,11 +278,11 @@ export function BookChapterTextSection() {
         <figure className="my-6 text-center">
           <Image
             src="https://placehold.co/600x300.png" 
-            alt="Типичное веб-приложение с динамическим контентом"
+            alt="Современный интерфейс веб-приложения с интерактивными элементами, такими как профиль пользователя, корзина покупок и динамически обновляемый контент."
             width={600}
             height={300}
             className="mx-auto rounded-md shadow-md"
-            data-ai-hint="modern interface dynamic content"
+            data-ai-hint="modern webapp"
           />
           <figcaption className="mt-2 text-sm text-muted-foreground">
             <em>Рисунок 1-2: Типичное веб-приложение</em>
@@ -413,11 +383,11 @@ export function BookChapterTextSection() {
         <figure className="my-8 text-center">
           <Image
             src="https://placehold.co/700x450.png" 
-            alt="Статистика распространенности уязвимостей веб-приложений"
+            alt="График, показывающий статистику распространенности уязвимостей веб-приложений, таких как XSS, SQL-инъекции, CSRF."
             width={700}
             height={450}
             className="mx-auto rounded-md shadow-md"
-            data-ai-hint="cybersecurity chart data graph"
+            data-ai-hint="cybersecurity chart"
           />
           <figcaption className="mt-2 text-sm text-muted-foreground">
             <em>Рисунок 1-3: Распространенность некоторых распространенных уязвимостей веб-приложений<br />в приложениях, недавно протестированных авторами (на основе выборки из более чем 100)</em>
@@ -554,3 +524,4 @@ export function BookChapterTextSection() {
     </>
   );
 }
+
