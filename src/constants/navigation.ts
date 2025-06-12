@@ -12,7 +12,7 @@ export interface NavLink {
 export const navigationLinks: NavLink[] = [
   { href: '/', label: 'Введение', icon: Home },
   { href: '/concepts', label: 'Концепции', icon: Info },
-  { href: '/audience', label: 'Аудитория', icon: Users },
+  { href: '/audience', label: 'Требования к кандидатам', icon: Users },
   { href: '/prerequisites', label: 'Требования', icon: ListChecks },
   {
     href: '/guidelines',
