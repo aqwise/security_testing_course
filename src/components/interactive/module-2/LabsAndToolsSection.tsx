@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -9,9 +10,10 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartOptions, // Directly imported
+  ChartData    // Directly imported
 } from 'chart.js';
-import type { ChartOptions, ChartData } from 'chart.js'; // Explicitly import types
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 
@@ -87,7 +89,18 @@ const labFocusChartOptions: ChartOptions<'bar'> = {
     },
     y: {
       grid: { display: false },
-      ticks: { color: 'hsl(var(--muted-foreground))', autoSkip: false }
+      ticks: {
+        color: 'hsl(var(--muted-foreground))',
+        autoSkip: false,
+        callback: function(value) {
+            const scale = this as any;
+            const label = scale.getLabelForValue(typeof value === 'string' ? parseFloat(value) : value);
+            if (typeof label === 'string' && label.length > 25) {
+                return label.slice(0, 25) + '...';
+            }
+            return label;
+        }
+      }
     }
   }
 };
