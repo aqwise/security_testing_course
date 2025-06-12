@@ -3,15 +3,23 @@
 
 import Link from 'next/link';
 import { Bar } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js/auto'; // Changed to use chart.js/auto
-import type { ChartOptions, ChartData } from 'chart.js'; // Types can still be imported from 'chart.js'
+import * as ChartJS from 'chart.js'; // Namespace import
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-Chart.register(...registerables); // Register all components
+// Регистрация всех необходимых компонентов Chart.js
+// Обратите внимание: Chart, Scales, Elements, Controllers, Plugins, Tooltip, Legend - все это теперь свойства объекта ChartJS
+ChartJS.Chart.register(
+  ChartJS.CategoryScale,
+  ChartJS.LinearScale,
+  ChartJS.BarElement,
+  ChartJS.Title,
+  ChartJS.Tooltip,
+  ChartJS.Legend
+);
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
-const labFocusChartData: ChartData<'bar'> = {
+const labFocusChartData: ChartJS.ChartData<'bar'> = {
   labels: [
     'PortSwigger (Info Discl.)',
     'Juice Shop (API/Hidden)',
@@ -29,7 +37,7 @@ const labFocusChartData: ChartData<'bar'> = {
   }]
 };
 
-const labFocusChartOptions: ChartOptions<'bar'> = {
+const labFocusChartOptions: ChartJS.ChartOptions<'bar'> = {
   indexAxis: 'y',
   responsive: true,
   maintainAspectRatio: false,
@@ -76,7 +84,7 @@ const labFocusChartOptions: ChartOptions<'bar'> = {
         color: 'hsl(var(--muted-foreground))',
         autoSkip: false,
         callback: function(value: string | number) {
-            const scale = this as any; 
+            const scale = this as any;
             const label = scale.getLabelForValue(typeof value === 'string' ? parseFloat(value) : value);
             if (typeof label === 'string' && label.length > 25) {
                 return label.slice(0, 25) + '...';
