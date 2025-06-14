@@ -695,3 +695,4 @@ export default function Module2Lesson1Page() {
     </ContentPageLayout>
   );
 }
+
