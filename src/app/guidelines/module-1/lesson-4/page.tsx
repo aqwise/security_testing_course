@@ -111,10 +111,16 @@ export default function Module1Lesson4Page() {
                 <P>Хотя страница SQL Injection в DVWA напрямую не является формой входа, принцип обхода аутентификации важен. Представьте, что запрос для проверки логина и пароля выглядит так:</P>
                 <CodeBlock code="SELECT * FROM users WHERE username = 'введенное_имя' AND password = 'введенный_пароль';" />
                 <P>Если бы поле "User ID" на странице SQL Injection было полем имени пользователя, вы могли бы попробовать:</P>
-                <P><strong>Полезная нагрузка:</strong> <CodeBlock code="admin'--" /></P>
-                <P><strong>Результат:</strong> Запрос превратился бы в <CodeBlock code="SELECT * FROM users WHERE username = 'admin'--' AND password = '...'" />. Часть запроса после -- (комментарий SQL) игнорируется, позволяя войти как 'admin' без пароля<Link href="#source-17" className={LinkStyle}><sup className="align-super text-xs">17</sup></Link>.</P>
-                <P><strong>Полезная нагрузка:</strong> <CodeBlock code="' OR '1'='1" /></P>
-                <P><strong>Результат:</strong> Запрос мог бы стать <CodeBlock code="SELECT * FROM users WHERE username = '' OR '1'='1--' AND password = '...'" />. Условие 1=1 всегда истинно, что может позволить обойти проверку<Link href="#source-15" className={LinkStyle}><sup className="align-super text-xs">15</sup></Link>.</P>
+                <P><strong>Полезная нагрузка:</strong></P>
+                <CodeBlock code="admin'--" />
+                <P><strong>Результат:</strong> Запрос превратился бы в</P>
+                <CodeBlock code="SELECT * FROM users WHERE username = 'admin'--' AND password = '...'" />
+                <P>Часть запроса после -- (комментарий SQL) игнорируется, позволяя войти как 'admin' без пароля<Link href="#source-17" className={LinkStyle}><sup className="align-super text-xs">17</sup></Link>.</P>
+                <P><strong>Полезная нагрузка:</strong></P>
+                <CodeBlock code="' OR '1'='1" />
+                <P><strong>Результат:</strong> Запрос мог бы стать</P>
+                <CodeBlock code="SELECT * FROM users WHERE username = '' OR '1'='1--' AND password = '...'" />
+                <P>Условие 1=1 всегда истинно, что может позволить обойти проверку<Link href="#source-15" className={LinkStyle}><sup className="align-super text-xs">15</sup></Link>.</P>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="task-1-2">
@@ -133,7 +139,8 @@ export default function Module1Lesson4Page() {
                     ]} />
                   </>,
                   <>Извлечение данных из таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>: Теперь мы можем попытаться извлечь данные. Мы знаем, что в DVWA есть таблица <code className="font-mono text-sm bg-muted p-1 rounded">users</code> со столбцами <code className="font-mono text-sm bg-muted p-1 rounded">user</code> (имя пользователя) и <code className="font-mono text-sm bg-muted p-1 rounded">password</code> (хэш пароля).
-                    <P><strong>Полезная нагрузка:</strong> <CodeBlock code="1' UNION SELECT user, password FROM users--" /></P>
+                    <P><strong>Полезная нагрузка:</strong></P>
+                    <CodeBlock code="1' UNION SELECT user, password FROM users--" />
                     <P>Введите эту полезную нагрузку в поле "User ID" и нажмите "Submit".</P>
                     <P><strong>Ожидаемый результат:</strong> Вы должны увидеть список имен пользователей и их хешированных паролей из таблицы users, отображенных на странице<Link href="#source-15" className={LinkStyle}><sup className="align-super text-xs">15</sup></Link>.</P>
                   </>,
@@ -176,7 +183,9 @@ export default function Module1Lesson4Page() {
             <AccordionItem value="task-2-1">
               <AccordionTrigger>Задача 2.1: Анализ защиты и обход фильтров</AccordionTrigger>
               <AccordionContent>
-                <P>На среднем уровне DVWA для SQL-инъекций используется выпадающий список для выбора User ID, и запросы отправляются методом POST<Link href="#source-20" className={LinkStyle}><sup className="align-super text-xs">20</sup></Link>. Также применяется функция <CodeBlock code="mysql_real_escape_string()" /> для экранирования спецсимволов.</P>
+                <P>На среднем уровне DVWA для SQL-инъекций используется выпадающий список для выбора User ID, и запросы отправляются методом POST<Link href="#source-20" className={LinkStyle}><sup className="align-super text-xs">20</sup></Link>. Также применяется функция</P>
+                <CodeBlock code="mysql_real_escape_string()" />
+                <P>для экранирования спецсимволов.</P>
                 <H3>Шаги:</H3>
                 <Ul items={[
                   <>Анализ исходного кода (View Source): На странице SQL Injection (Medium) нажмите кнопку "View Source". Обратите внимание на код обработки <CodeBlock code="$_POST['id']" />. Вы увидите, что используется <CodeBlock code="mysql_real_escape_string()" />. Эта функция экранирует специальные символы, такие как одинарная кавычка ('). Также заметьте, что <CodeBlock code="id" /> используется в запросе без кавычек, так как ожидается числовое значение из выпадающего списка.
@@ -194,7 +203,9 @@ export default function Module1Lesson4Page() {
                   </>,
                   "Ожидаемый результат: Вы должны увидеть список имен пользователей и их хешированных паролей, как и на уровне Low."
                 ]} />
-                <P><strong>Объяснение:</strong> Так как параметр id обрабатывается как число, и в SQL-запросе он не заключен в кавычки, <CodeBlock code="mysql_real_escape_string" /> не мешает инъекции, если мы не используем символы, которые эта функция экранирует (например, кавычки). Мы напрямую внедряем UNION SELECT после числового ID.</P>
+                <P><strong>Объяснение:</strong> Так как параметр id обрабатывается как число, и в SQL-запросе он не заключен в кавычки,</P>
+                <CodeBlock code="mysql_real_escape_string" />
+                <P>не мешает инъекции, если мы не используем символы, которые эта функция экранирует (например, кавычки). Мы напрямую внедряем UNION SELECT после числового ID.</P>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -279,9 +290,12 @@ export default function Module1Lesson4Page() {
                   <>Получение URL и Cookie:
                     <Ul items={[
                       "В браузере перейдите на страницу \"SQL Injection\" в DVWA (Low).",
-                      <>Скопируйте полный URL из адресной строки. Он должен выглядеть примерно так: <CodeBlock code="http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" /> (замените localhost на ваш IP/домен DVWA, если необходимо).</>,
+                      <>Скопируйте полный URL из адресной строки. Он должен выглядеть примерно так:</>,
+                      <CodeBlock code="http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" />,
+                      <P>(замените localhost на ваш IP/домен DVWA, если необходимо).</P>,
                       "Откройте инструменты разработчика в браузере (обычно F12), перейдите на вкладку \"Application\" (или \"Storage\"), найдите Cookies для вашего сайта DVWA. Нам нужен PHPSESSID и значение cookie security (которое должно быть low).",
-                      <>Пример cookie: <CodeBlock code="PHPSESSID=ваша_длинная_строка_сессии; security=low" />.</>
+                      <>Пример cookie:</>,
+                      <CodeBlock code="PHPSESSID=ваша_длинная_строка_сессии; security=low" />,
                     ]} />
                   </>,
                   <>Запуск SQLMap для обнаружения уязвимости: В терминале выполните следующую команду, подставив ваш URL и cookie:
