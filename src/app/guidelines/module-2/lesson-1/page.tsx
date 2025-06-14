@@ -107,7 +107,7 @@ export default function Module2Lesson1Page() {
                         <><CodeBlock code="-P pass.txt" />: Файл со списком паролей.</>,
                         <><CodeBlock code="<DVWA_IP>" />: IP-адрес DVWA.</>,
                         <><CodeBlock code="http-get-form" />: Указание на использование HTTP GET.</>,
-                        <><CodeBlock code='"/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect."' />: Путь, параметры формы (<CodeBlock code="^USER^" /> и <CodeBlock code="^PASS^" /> будут заменены значениями из списков) и строка, указывающая на неудачную попытку входа<Link href="#source-2" className={LinkStyle}><sup className="align-super text-xs">2</sup></Link>.</>,
+                        <> <CodeBlock code='"/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect."' />: Путь, параметры формы (<CodeBlock code="^USER^" /> и <CodeBlock code="^PASS^" /> будут заменены значениями из списков) и строка, указывающая на неудачную попытку входа<Link href="#source-2" className={LinkStyle}><sup className="align-super text-xs">2</sup></Link>.</>,
                         <><CodeBlock code="-V" />: Включить подробный вывод.</>
                       ]} />
                     ]} />
@@ -696,4 +696,3 @@ export default function Module2Lesson1Page() {
   );
 }
 
-    
