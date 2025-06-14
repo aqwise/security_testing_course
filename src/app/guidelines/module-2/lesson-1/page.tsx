@@ -73,7 +73,7 @@ export default function Module2Lesson1Page() {
         Аутентификация – это процесс проверки личности пользователя, как правило, посредством предоставления учетных данных, таких как логин и пароль. Надежность системы аутентификации напрямую влияет на общую безопасность приложения. Слабые механизмы аутентификации, такие как использование легко подбираемых паролей, отсутствие защиты от атак перебора (brute-force) или небезопасные процедуры восстановления пароля, могут привести к несанкционированному доступу [WAHH2 1.2.1].
       </P>
       <P>
-        Атаки на механизмы аутентификации чрезвычайно распространены. Злоумышленники могут использовать списки распространенных паролей <Link href="#source-1" className={LinkStyle}><sup>1</sup></Link> или специализированные инструменты для автоматизации подбора учетных данных. Отсутствие ограничений на количество попыток входа или недостаточная сложность парольной политики значительно упрощают такие атаки.
+        Атаки на механизмы аутентификации чрезвычайно распространены. Злоумышленники могут использовать списки распространенных паролей<Link href="#source-1" className={LinkStyle}><sup>1</sup></Link> или специализированные инструменты для автоматизации подбора учетных данных. Отсутствие ограничений на количество попыток входа или недостаточная сложность парольной политики значительно упрощают такие атаки.
       </P>
       <Card className="my-6">
         <CardHeader>
@@ -85,35 +85,34 @@ export default function Module2Lesson1Page() {
           <P><strong>Инструменты:</strong> Hydra, Burp Suite (Intruder).</P>
           <P><strong>Шаги (используя Hydra для GET-запроса на DVWA Low):</strong></P>
           <Ul items={[
-            <>Определить параметры запроса на вход в DVWA. На уровне "Low" это GET-запрос к http://&lt;DVWA_IP&gt;/vulnerabilities/brute/ с параметрами username и password. Сообщение об ошибке при неверном входе обычно содержит "Username and/or password incorrect<Link href="#source-2" className={LinkStyle}><sup>2</sup></Link>."</>,
-            <>Подготовить списки логинов (например, user.txt с admin) и паролей (например, pass.txt с распространенными паролями, такими как "password", "12345", "qwerty" <Link href="#source-1" className={LinkStyle}><sup>1</sup></Link>).</>,
-            <>Сформировать команду Hydra. Пример команды для DVWA Low (GET-запрос): 
-              <CodeBlock code={'hydra -L user.txt -P pass.txt <DVWA_IP> http-get-form "/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect." -V'} />
-              <Ul items={[
+            <>Определить параметры запроса на вход в DVWA. На уровне "Low" это GET-запрос к <code className="font-mono text-sm bg-muted p-1 rounded">http://&lt;DVWA_IP&gt;/vulnerabilities/brute/</code> с параметрами <code className="font-mono text-sm bg-muted p-1 rounded">username</code> и <code className="font-mono text-sm bg-muted p-1 rounded">password</code>. Сообщение об ошибке при неверном входе обычно содержит "Username and/or password incorrect"<Link href="#source-2" className={LinkStyle}><sup>2</sup></Link>.</>,
+            <>Подготовить списки логинов (например, <code className="font-mono text-sm bg-muted p-1 rounded">user.txt</code> с <code className="font-mono text-sm bg-muted p-1 rounded">admin</code>) и паролей (например, <code className="font-mono text-sm bg-muted p-1 rounded">pass.txt</code> с распространенными паролями, такими как "password", "12345", "qwerty"<Link href="#source-1" className={LinkStyle}><sup>1</sup></Link>).</>,
+            <>Сформировать команду Hydra. Пример команды для DVWA Low (GET-запрос):</>,
+            <CodeBlock language="bash" code={'hydra -L user.txt -P pass.txt <DVWA_IP> http-get-form "/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect." -V'} />,
+            <Ul items={[
                 "<strong>-L user.txt:</strong> Файл со списком пользователей.",
                 "<strong>-P pass.txt:</strong> Файл со списком паролей.",
                 "<strong>&lt;DVWA_IP&gt;:</strong> IP-адрес DVWA.",
                 "<strong>http-get-form:</strong> Указание на использование HTTP GET.",
-                <><strong>"/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect.":</strong> Путь, параметры формы (^USER^ и ^PASS^ будут заменены значениями из списков) и строка, указывающая на неудачную попытку входа<Link href="#source-2" className={LinkStyle}><sup>2</sup></Link>.</>,
+                <><strong>"/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect.":</strong> Путь, параметры формы (<code className="font-mono text-sm bg-muted p-1 rounded">^USER^</code> и <code className="font-mono text-sm bg-muted p-1 rounded">^PASS^</code> будут заменены значениями из списков) и строка, указывающая на неудачную попытку входа<Link href="#source-2" className={LinkStyle}><sup>2</sup></Link>.</>,
                 "<strong>-V:</strong> Включить подробный вывод."
-              ]}/>
-            </>
+            ]}/>
           ]}/>
           <P><strong>Шаги (используя Burp Suite Intruder):</strong></P>
           <Ul items={[
             "Перехватить запрос на вход в DVWA с помощью Burp Proxy.",
             <>Отправить запрос в Burp Intruder (ПКМ -> "Send to Intruder"<Link href="#source-5" className={LinkStyle}><sup>5</sup></Link>).</>,
             "В Intruder, на вкладке \"Positions\", выбрать тип атаки \"Cluster bomb\".",
-            <>Выделить значения параметров username и password и добавить их как позиции для перебора ("Add §"<Link href="#source-5" className={LinkStyle}><sup>5</sup></Link>).</>,
+            <>Выделить значения параметров <code className="font-mono text-sm bg-muted p-1 rounded">username</code> и <code className="font-mono text-sm bg-muted p-1 rounded">password</code> и добавить их как позиции для перебора ("Add §"<Link href="#source-5" className={LinkStyle}><sup>5</sup></Link>).</>,
             <>На вкладке "Payloads":
               <Ul items={[
-                <>Для "Payload set 1" (username) выбрать тип "Simple list" и загрузить список пользователей<Link href="#source-5" className={LinkStyle}><sup>5</sup></Link>.</>,
-                <>Для "Payload set 2" (password) выбрать тип "Simple list" и загрузить список паролей<Link href="#source-5" className={LinkStyle}><sup>5</sup></Link>.</>
+                <>Для "Payload set 1" (<code className="font-mono text-sm bg-muted p-1 rounded">username</code>) выбрать тип "Simple list" и загрузить список пользователей<Link href="#source-5" className={LinkStyle}><sup>5</sup></Link>.</>,
+                <>Для "Payload set 2" (<code className="font-mono text-sm bg-muted p-1 rounded">password</code>) выбрать тип "Simple list" и загрузить список паролей<Link href="#source-5" className={LinkStyle}><sup>5</sup></Link>.</>
               ]}/>
             </>,
             "Запустить атаку и анализировать ответы. Успешный вход обычно отличается по коду ответа (например, 302 Found) или длине ответа."
           ]}/>
-          <P><strong>Ожидаемый Результат:</strong> Успешный подбор учетных данных (например, admin/password для DVWA Low).</P>
+          <P><strong>Ожидаемый Результат:</strong> Успешный подбор учетных данных (например, <code className="font-mono text-sm bg-muted p-1 rounded">admin/password</code> для DVWA Low).</P>
           <P><strong>Контекст OWASP Top 10:</strong> Эта уязвимость относится к A07:2021-Identification and Authentication Failures<Link href="#source-6" className={LinkStyle}><sup>6</sup></Link>. Отсутствие защиты от перебора является прямым нарушением этого пункта.</P>
           <P>Успешное выполнение данной атаки наглядно демонстрирует, что простая форма входа без защиты от перебора учетных записей является легкодоступной мишенью. Злоумышленнику достаточно иметь список распространенных или потенциальных паролей и логинов, чтобы с высокой вероятностью получить несанкционированный доступ. Это подчеркивает критическую важность внедрения таких мер, как ограничение количества попыток входа, CAPTCHA и многофакторная аутентификация<Link href="#source-7" className={LinkStyle}><sup>7</sup></Link>.</P>
         </CardContent>
@@ -169,14 +168,16 @@ export default function Module2Lesson1Page() {
         <CardContent>
           <P><strong>Цель:</strong> Продемонстрировать несанкционированный доступ к данным другого пользователя путем манипулирования ссылками на объекты.</P>
           <P><strong>Среда:</strong> OWASP Juice Shop.</P>
-          <P><strong>Целевое Задание:</strong> "View another user's shopping basket" <Link href="#source-13" className={LinkStyle}><sup>13</sup></Link> или "Manipulate Basket" / "Put an additional product into another user's shopping basket"<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link>.</P>
+          <P><strong>Целевое Задание:</strong> "View another user's shopping basket"<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link> или "Manipulate Basket" / "Put an additional product into another user's shopping basket"<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link>.</P>
           <P><strong>Инструменты:</strong> Браузерные инструменты разработчика, Burp Suite Proxy.</P>
           <P><strong>Шаги (на основе <Link href="#source-13" className={LinkStyle}><sup>13</sup></Link>):</strong></P>
           <Ul items={[
             "Войти в систему как пользователь (например, user1). Добавить товары в его корзину.",
-            <>Наблюдать за HTTP-запросами для операций с корзиной (например, с помощью Burp Suite или инструментов разработчика). Идентифицировать параметр BasketId или аналогичный. В <Link href="#source-13" className={LinkStyle}><sup>13</sup></Link> упоминается поиск bid в Session Storage. В <Link href="#source-14" className={LinkStyle}><sup>14</sup></Link> упоминается BasketId в теле запроса.</>,
+            <>Наблюдать за HTTP-запросами для операций с корзиной (например, с помощью Burp Suite или инструментов разработчика). Идентифицировать параметр <code className="font-mono text-sm bg-muted p-1 rounded">BasketId</code> или аналогичный. В <Link href="#source-13" className={LinkStyle}><sup>13</sup></Link> упоминается поиск <code className="font-mono text-sm bg-muted p-1 rounded">bid</code> в Session Storage. В <Link href="#source-14" className={LinkStyle}><sup>14</sup></Link> упоминается <code className="font-mono text-sm bg-muted p-1 rounded">BasketId</code> в теле запроса.</>,
             "Попытаться получить доступ/изменить корзину другого пользователя, изменив BasketId (например, увеличив/уменьшив идентификатор). Если известен BasketId другого пользователя (например, путем регистрации второго пользователя или перебора), подставить его.",
-            <>Для задания "Manipulate Basket" <Link href="#source-13" className={LinkStyle}><sup>13</sup></Link> это может включать атаку HTTP Parameter Pollution (HPP), отправив дублирующиеся параметры BasketId: {`{"ProductId": X, "BasketId": "yourOwnBasketId", "quantity": 1, "BasketId": "victimBasketId"}`}. Сервер может обработать первый BasketId для проверки безопасности, а второй – для выполнения операции<Link href="#source-14" className={LinkStyle}><sup>14</sup></Link>.</>
+            <>Для задания "Manipulate Basket"<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link> это может включать атаку HTTP Parameter Pollution (HPP), отправив дублирующиеся параметры <code className="font-mono text-sm bg-muted p-1 rounded">BasketId</code>:</>,
+            <CodeBlock code={'{"ProductId": X, "BasketId": "yourOwnBasketId", "quantity": 1, "BasketId": "victimBasketId"}'} />,
+            <>Сервер может обработать первый <code className="font-mono text-sm bg-muted p-1 rounded">BasketId</code> для проверки безопасности, а второй – для выполнения операции<Link href="#source-14" className={LinkStyle}><sup>14</sup></Link>.</>
           ]}/>
           <P><strong>Ожидаемый Результат:</strong> Успешный просмотр или изменение корзины другого пользователя, решение соответствующего задания в Juice Shop.</P>
           <P><strong>Контекст OWASP Top 10:</strong> IDOR является классическим примером A01:2021-Broken Access Control<Link href="#source-11" className={LinkStyle}><sup>11</sup></Link>.</P>
@@ -195,7 +196,7 @@ export default function Module2Lesson1Page() {
         <Link href="#s1-3-1" className={LinkStyle}>1.3.1</Link> Повсеместность Пользовательского Ввода и Присущие Риски (из WAHH2 1.3.1)
       </H3>
       <P>
-        Источники пользовательского ввода многообразны: URL-адреса и их параметры, HTTP-заголовки (например, User-Agent, Referer), тело HTTP-запроса (данные форм, JSON, XML), а также значения cookie [WAHH2 1.3.1]. Каждый из этих источников потенциально может содержать вредоносные данные, поэтому необходима их тщательная проверка на стороне сервера. Разработчики могут сосредоточиться на очевидных полях форм, пренебрегая менее очевидными источниками, такими как HTTP-заголовки или даже метаданные файлов, что расширяет поверхность атаки. Примеры атак через различные векторы ввода, такие как XSS через HTTP-заголовки <Link href="#source-15" className={LinkStyle}><sup>15</sup></Link> или SQL-инъекции через параметры GET/POST запросов <Link href="#source-16" className={LinkStyle}><sup>16</sup></Link>, подчеркивают необходимость комплексной валидации всех входящих данных.
+        Источники пользовательского ввода многообразны: URL-адреса и их параметры, HTTP-заголовки (например, User-Agent, Referer), тело HTTP-запроса (данные форм, JSON, XML), а также значения cookie [WAHH2 1.3.1]. Каждый из этих источников потенциально может содержать вредоносные данные, поэтому необходима их тщательная проверка на стороне сервера. Разработчики могут сосредоточиться на очевидных полях форм, пренебрегая менее очевидными источниками, такими как HTTP-заголовки или даже метаданные файлов, что расширяет поверхность атаки. Примеры атак через различные векторы ввода, такие как XSS через HTTP-заголовки<Link href="#source-15" className={LinkStyle}><sup>15</sup></Link> или SQL-инъекции через параметры GET/POST запросов<Link href="#source-16" className={LinkStyle}><sup>16</sup></Link>, подчеркивают необходимость комплексной валидации всех входящих данных.
       </P>
 
       <H3 id="s1-3-2">
@@ -219,7 +220,7 @@ export default function Module2Lesson1Page() {
         Критически важно понимать, что любая валидация, выполненная на стороне клиента (например, с помощью JavaScript), должна рассматриваться лишь как улучшение пользовательского опыта, но никогда не как мера безопасности. Решающая валидация всегда должна происходить на стороне сервера, поскольку клиентские проверки могут быть легко обойдены [WAHH2 1.3.3].
       </P>
       <P>
-        Черные списки являются фундаментально ошибочным подходом к безопасности, поскольку требуют предвидения всех возможных вредоносных входных данных, что практически невозможно. Белые списки по своей сути безопаснее, так как определяют узкий диапазон допустимых входных данных. Многочисленные техники обхода XSS-фильтров, такие как использование различных кодировок, вариаций регистра и альтернативных тегов <Link href="#source-17" className={LinkStyle}><sup>17</sup></Link>, часто успешно применяются против фильтров на основе черных списков, что еще раз подтверждает превосходство белых списков.
+        Черные списки являются фундаментально ошибочным подходом к безопасности, поскольку требуют предвидения всех возможных вредоносных входных данных, что практически невозможно. Белые списки по своей сути безопаснее, так как определяют узкий диапазон допустимых входных данных. Многочисленные техники обхода XSS-фильтров, такие как использование различных кодировок, вариаций регистра и альтернативных тегов<Link href="#source-17" className={LinkStyle}><sup>17</sup></Link>, часто успешно применяются против фильтров на основе черных списков, что еще раз подтверждает превосходство белых списков.
       </P>
       <H3>Таблица: Сравнение Подходов к Валидации Ввода</H3>
       <div className="overflow-x-auto my-6">
@@ -266,7 +267,7 @@ export default function Module2Lesson1Page() {
         <Link href="#s1-3-3" className={LinkStyle}>1.3.3</Link> Каноникализация: Противодействие Техникам Уклонения (из WAHH2 1.3.4)
       </H3>
       <P>
-        Данные, поступающие от пользователя, могут быть представлены в различных формах, например, с использованием разных кодировок (URL-encoding, HTML-encoding, Base64) или с вариациями регистра символов. Каноникализация – это процесс приведения данных к единому, стандартному, минимальному формату перед их валидацией [WAHH2 1.3.4]. Это критически важный шаг для предотвращения обхода проверок. Например, если валидатор ищет строку &lt;script&gt;, атакующий может попытаться обойти его, используя смешанный регистр (&lt;ScRiPt&gt;) или кодируя часть символов (например, %3Cscript%3E). Каноникализация преобразует все эти варианты в единую форму (например, &lt;script&gt;), которую затем проверяет валидатор.
+        Данные, поступающие от пользователя, могут быть представлены в различных формах, например, с использованием разных кодировок (URL-encoding, HTML-encoding, Base64) или с вариациями регистра символов. Каноникализация – это процесс приведения данных к единому, стандартному, минимальному формату перед их валидацией [WAHH2 1.3.4]. Это критически важный шаг для предотвращения обхода проверок. Например, если валидатор ищет строку <code className="font-mono text-sm bg-muted p-1 rounded">&lt;script&gt;</code>, атакующий может попытаться обойти его, используя смешанный регистр (<code className="font-mono text-sm bg-muted p-1 rounded">&lt;ScRiPt&gt;</code>) или кодируя часть символов (например, <code className="font-mono text-sm bg-muted p-1 rounded">%3Cscript%3E</code>). Каноникализация преобразует все эти варианты в единую форму (например, <code className="font-mono text-sm bg-muted p-1 rounded">&lt;script&gt;</code>), которую затем проверяет валидатор.
       </P>
       <P><strong>Вопрос из теста для самоконтроля (WAHH2):</strong> "Зачем нужна каноникализация данных перед валидацией?".</P>
       <P><em>Правильный ответ: C) Чтобы привести данные к единому стандартному формату и предотвратить обход проверок с помощью разных кодировок.</em></P>
@@ -296,17 +297,17 @@ export default function Module2Lesson1Page() {
           <P><strong>Среда и Задания:</strong></P>
           <Ul items={[
             "DVWA (Уровни безопасности Low и Medium) - Reflected XSS, Stored XSS.",
-            "Low: Простой ввод <script>alert('XSS')</script>.",
-            <>Medium: Обход str_replace('&lt;script&gt;', '') с использованием таких техник, как &lt;SCRIPT&gt;, &lt;img src=x onerror=alert(1)&gt;, или вложенных тегов, если применимо (например, &lt;scr&lt;script&gt;ipt&gt;). <Link href="#source-18" className={LinkStyle}><sup>18</sup></Link> показывает обход изменением регистра<Link href="#source-17" className={LinkStyle}><sup>17</sup></Link> упоминает альтернативные теги и обработчики событий.</>,
+            <>Low: Простой ввод <CodeBlock code={"<script>alert('XSS')</script>"} />.</>,
+            <>Medium: Обход <code className="font-mono text-sm bg-muted p-1 rounded">str_replace('&lt;script&gt;', '')</code> с использованием таких техник, как <CodeBlock code={"<SCRIPT>"} />, <CodeBlock code={"<img src=x onerror=alert(1)>"} />, или вложенных тегов, если применимо (например, <CodeBlock code={"<scr<script>ipt>"} />). <Link href="#source-18" className={LinkStyle}><sup>18</sup></Link> показывает обход изменением регистра<Link href="#source-17" className={LinkStyle}><sup>17</sup></Link> упоминает альтернативные теги и обработчики событий.</>,
             "OWASP Juice Shop:",
-            <>"Perform a DOM XSS attack"<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link>. Пример полезной нагрузки: &lt;iframe src="javascript:alert('xss')"&gt; в строке поиска.</>,
+            <>"Perform a DOM XSS attack"<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link>. Пример полезной нагрузки: <CodeBlock code={'<iframe src="javascript:alert(\'xss\')">'} /> в строке поиска.</>,
             <>"Perform a persisted XSS attack" (например, "Zero Stars" или "Product Tampering" для внедрения XSS в отзывы о товарах<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link>).</>,
             <>"Bonus Payload" / XSS через HTTP-заголовок (например, User-Agent<Link href="#source-13" className={LinkStyle}><sup>13</sup></Link>).</>
           ]}/>
           <P><strong>Инструменты:</strong> Браузер, Burp Suite.</P>
           <P><strong>Ожидаемый Результат:</strong> Успешное появление всплывающих окон XSS (alert). Понимание различных типов XSS и базовых техник обхода.</P>
           <P><strong>Контекст OWASP Top 10:</strong> XSS является частью A03:2021-Injection<Link href="#source-6" className={LinkStyle}><sup>6</sup></Link>.</P>
-          <P>Злоумышленники не ограничиваются простым &lt;script&gt;. Они используют широкий спектр техник уклонения (кодирование, различные теги, обработчики событий, вариации регистра), как показано в <Link href="#source-17" className={LinkStyle}><sup>17</sup></Link> и<Link href="#source-18" className={LinkStyle}><sup>18</sup></Link>. Это делает простые фильтры на основе черных списков крайне неэффективными. XSS остается распространенной уязвимостью, поскольку корректная санация вывода для всех возможных контекстов, где может отображаться пользовательский ввод, является сложной задачей. DOM XSS <Link href="#source-19" className={LinkStyle}><sup>19</sup></Link> подчеркивает, что клиентский код также является значительным источником уязвимостей. Неэффективность фильтра DVWA Medium <Link href="#source-18" className={LinkStyle}><sup>18</sup></Link> напрямую иллюстрирует утверждение WAHH2 о слабости черных списков.</P>
+          <P>Злоумышленники не ограничиваются простым <code className="font-mono text-sm bg-muted p-1 rounded">&lt;script&gt;</code>. Они используют широкий спектр техник уклонения (кодирование, различные теги, обработчики событий, вариации регистра), как показано в <Link href="#source-17" className={LinkStyle}><sup>17</sup></Link> и<Link href="#source-18" className={LinkStyle}><sup>18</sup></Link>. Это делает простые фильтры на основе черных списков крайне неэффективными. XSS остается распространенной уязвимостью, поскольку корректная санация вывода для всех возможных контекстов, где может отображаться пользовательский ввод, является сложной задачей. DOM XSS<Link href="#source-19" className={LinkStyle}><sup>19</sup></Link> подчеркивает, что клиентский код также является значительным источником уязвимостей. Неэффективность фильтра DVWA Medium<Link href="#source-18" className={LinkStyle}><sup>18</sup></Link> напрямую иллюстрирует утверждение WAHH2 о слабости черных списков.</P>
         </CardContent>
       </Card>
 
@@ -320,8 +321,8 @@ export default function Module2Lesson1Page() {
           <P><strong>Среда и Задания:</strong></P>
           <Ul items={[
             "DVWA (Уровни безопасности Low и Medium) - SQL Injection, SQL Injection (Blind).",
-            "Low: ' OR '1'='1 для обхода входа или 1' UNION SELECT user, password FROM users # для извлечения учетных данных.",
-            <>Medium: На среднем уровне DVWA для SQL-инъекции часто используется выпадающий список, что требует перехвата запроса с помощью Burp Suite для внедрения полезной нагрузки. Также может применяться функция mysql_real_escape_string(). Обход может включать числовые инъекции, если ввод ожидается как целое число (например, 1 UNION SELECT user, password FROM users # без кавычек), или различные кодировки, если функция экранирования имеет недостатки (хотя это менее вероятно для самой mysql_real_escape_string). Некоторые принципы обхода WAF, такие как нормализация или загрязнение параметров <Link href="#source-16" className={LinkStyle}><sup>16</sup></Link>, могут быть концептуально адаптированы, если на среднем уровне есть специфические фильтры.</>
+            <>Low: <CodeBlock code={"' OR '1'='1"} /> для обхода входа или <CodeBlock code={"1' UNION SELECT user, password FROM users #"} /> для извлечения учетных данных.</>,
+            <>Medium: На среднем уровне DVWA для SQL-инъекции часто используется выпадающий список, что требует перехвата запроса с помощью Burp Suite для внедрения полезной нагрузки. Также может применяться функция <code className="font-mono text-sm bg-muted p-1 rounded">mysql_real_escape_string()</code>. Обход может включать числовые инъекции, если ввод ожидается как целое число (например, <CodeBlock code={"1 UNION SELECT user, password FROM users #"} /> без кавычек), или различные кодировки, если функция экранирования имеет недостатки (хотя это менее вероятно для самой <code className="font-mono text-sm bg-muted p-1 rounded">mysql_real_escape_string()</code>). Некоторые принципы обхода WAF, такие как нормализация или загрязнение параметров<Link href="#source-16" className={LinkStyle}><sup>16</sup></Link>, могут быть концептуально адаптированы, если на среднем уровне есть специфические фильтры.</>
           ]}/>
           <P><strong>Инструменты:</strong> Браузер, Burp Suite, (опционально sqlmap для продвинутых).</P>
           <P><strong>Ожидаемый Результат:</strong> Успешный обход входа, извлечение данных.</P>
@@ -338,18 +339,18 @@ export default function Module2Lesson1Page() {
           <P><strong>Цель:</strong> Включить и просмотреть/выполнить локальные или удаленные файлы через уязвимые параметры ввода.</P>
           <P><strong>Концепции:</strong></P>
           <Ul items={[
-            <>Local File Inclusion (LFI): Доступ к файлам на сервере (например, /etc/passwd, исходный код, логи<Link href="#source-20" className={LinkStyle}><sup>20</sup></Link>).</>,
-            <>Remote File Inclusion (RFI): Включение файлов с внешнего сервера (менее распространено, если allow_url_include отключен в PHP<Link href="#source-20" className={LinkStyle}><sup>20</sup></Link>).</>,
-            "Directory Traversal: Использование ../ для навигации по файловой системе."
+            <>Local File Inclusion (LFI): Доступ к файлам на сервере (например, <CodeBlock code={"/etc/passwd"} />, исходный код, логи<Link href="#source-20" className={LinkStyle}><sup>20</sup></Link>).</>,
+            <>Remote File Inclusion (RFI): Включение файлов с внешнего сервера (менее распространено, если <code className="font-mono text-sm bg-muted p-1 rounded">allow_url_include</code> отключен в PHP<Link href="#source-20" className={LinkStyle}><sup>20</sup></Link>).</>,
+            "Directory Traversal: Использование <code className=\"font-mono text-sm bg-muted p-1 rounded\">../</code> для навигации по файловой системе."
           ]}/>
           <P><strong>Среда и Задания:</strong></P>
           <Ul items={[
             "DVWA (Уровни безопасности Low и Medium) - File Inclusion.",
-            <>Low: ?page=../../../../etc/passwd<Link href="#source-20" className={LinkStyle}><sup>20</sup></Link>.</>,
-            "Medium: На среднем уровне DVWA часто применяются замены типа str_replace( array( \"http://\", \"https://\" ), \"\", $file ); и str_replace( array( \"../\", \"..\\\"\" ), \"\", $file );. Обходы для среднего уровня могут включать:",
-            "?page=....//....//....//....//etc/passwd (если ../ заменяется на пустую строку, это может превратиться в ../../../../etc/passwd после нескольких замен).",
-            "Использование абсолютных путей, если они известны: ?page=/etc/passwd.",
-            "Вариации регистра, если фильтр чувствителен к регистру (например, ?page=..%2F..%2Fetc/passwd, если фильтруется только ../). Фильтр str_replace по умолчанию чувствителен к регистру."
+            <>Low: <CodeBlock code={"?page=../../../../etc/passwd"} /><Link href="#source-20" className={LinkStyle}><sup>20</sup></Link>.</>,
+            "Medium: На среднем уровне DVWA часто применяются замены типа <code className=\"font-mono text-sm bg-muted p-1 rounded\">str_replace( array( \"http://\", \"https://\" ), \"\", $file );</code> и <code className=\"font-mono text-sm bg-muted p-1 rounded\">str_replace( array( \"../\", \"..\\\"\" ), \"\", $file );</code>. Обходы для среднего уровня могут включать:",
+            <><CodeBlock code={"?page=....//....//....//....//etc/passwd"} /> (если <code className="font-mono text-sm bg-muted p-1 rounded">../</code> заменяется на пустую строку, это может превратиться в <code className="font-mono text-sm bg-muted p-1 rounded">../../../../etc/passwd</code> после нескольких замен).</>,
+            <>Использование абсолютных путей, если они известны: <CodeBlock code={"?page=/etc/passwd"} />.</>,
+            <>Вариации регистра, если фильтр чувствителен к регистру (например, <CodeBlock code={"?page=..%2F..%2Fetc/passwd"} />, если фильтруется только <code className="font-mono text-sm bg-muted p-1 rounded">../</code>). Фильтр <code className="font-mono text-sm bg-muted p-1 rounded">str_replace</code> по умолчанию чувствителен к регистру.</>
           ]}/>
           <P><strong>Инструменты:</strong> Браузер.</P>
           <P><strong>Ожидаемый Результат:</strong> Отображение содержимого чувствительных файлов.</P>
@@ -383,14 +384,14 @@ export default function Module2Lesson1Page() {
         <CardContent>
           <P><strong>Цель:</strong> Выявить случаи, когда приложение раскрывает чувствительную информацию через сообщения об ошибках.</P>
           <P><strong>Среда:</strong> OWASP Juice Shop.</P>
-          <P><strong>Целевое Задание:</strong> "Provoke an error that is neither very gracefully nor consistently handled<Link href="#source-25" className={LinkStyle}><sup>25</sup></Link>."</P>
+          <P><strong>Целевое Задание:</strong> "Provoke an error that is neither very gracefully nor consistently handled"<Link href="#source-25" className={LinkStyle}><sup>25</sup></Link>.</P>
           <P><strong>Инструменты:</strong> Браузер, Burp Suite.</P>
           <P><strong>Шаги (на основе <Link href="#source-25" className={LinkStyle}><sup>25</sup></Link>):</strong></P>
           <Ul items={[
             "Попробовать отправить некорректный ввод в формы (например, неожиданные типы данных, слишком длинные строки).",
             "Манипулировать URL-путями или параметрами.",
             "Отправить неожиданные HTTP-методы или некорректно сформированные запросы.",
-            <>Конкретно для Juice Shop<Link href="#source-26" className={LinkStyle}><sup>26</sup></Link> показывает пример вызова ошибки SQL путем ввода одинарной кавычки в поле входа (например, u'). Наблюдать, раскрывает ли сообщение об ошибке синтаксис SQL, тип базы данных (SQLite в <Link href="#source-26" className={LinkStyle}><sup>26</sup></Link>) или части запроса.</>
+            <>Конкретно для Juice Shop<Link href="#source-26" className={LinkStyle}><sup>26</sup></Link> показывает пример вызова ошибки SQL путем ввода одинарной кавычки в поле входа (например, <code className="font-mono text-sm bg-muted p-1 rounded">u'</code>). Наблюдать, раскрывает ли сообщение об ошибке синтаксис SQL, тип базы данных (SQLite в <Link href="#source-26" className={LinkStyle}><sup>26</sup></Link>) или части запроса.</>
           ]}/>
           <P><strong>Ожидаемый Результат:</strong> Сообщение об ошибке, которое раскрывает внутренние детали о приложении или сервере, решая задание Juice Shop.</P>
           <P>Злоумышленники используют утекшую из сообщений об ошибках информацию для понимания стека технологий приложения (например, "SQLite" из <Link href="#source-26" className={LinkStyle}><sup>26</sup></Link>), структуры базы данных, путей к файлам или даже для подтверждения уязвимостей, таких как SQLi. Подробные сообщения об ошибках снижают планку для атакующих, предоставляя им бесплатную разведку, которая может значительно помочь в дальнейшей эксплуатации.</P>
@@ -411,7 +412,7 @@ export default function Module2Lesson1Page() {
           <P><strong>Цель:</strong> Понять тип информации, содержащейся в логах, и ее полезность.</P>
           <P><strong>Среда:</strong></P>
           <Ul items={[
-            <>При использовании Docker-контейнеров DVWA/Juice Shop, найти логи Apache/приложения (в <Link href="#source-27" className={LinkStyle}><sup>27</sup></Link> обсуждаются расположения логов Docker, обычно /var/lib/docker/containers/&lt;container_id&gt;/&lt;container_id&gt;-json.log для STDOUT/STDERR контейнера, или специфичные пути, такие как /var/log/apache2, если настроено внутри контейнера).</>,
+            <>При использовании Docker-контейнеров DVWA/Juice Shop, найти логи Apache/приложения (в <Link href="#source-27" className={LinkStyle}><sup>27</sup></Link> обсуждаются расположения логов Docker, обычно <code className="font-mono text-sm bg-muted p-1 rounded">/var/lib/docker/containers/&lt;container_id&gt;/&lt;container_id&gt;-json.log</code> для STDOUT/STDERR контейнера, или специфичные пути, такие как <code className="font-mono text-sm bg-muted p-1 rounded">/var/log/apache2</code>, если настроено внутри контейнера).</>,
             <>DVWA имеет интеграцию с PHPIDS (система обнаружения вторжений)<Link href="#source-29" className={LinkStyle}><sup>29</sup></Link>. По возможности изучить его логи, чтобы увидеть, как он помечает вредоносные попытки.</>
           ]}/>
           <P><strong>Шаги:</strong></P>
@@ -422,7 +423,7 @@ export default function Module2Lesson1Page() {
             "Обсудить, предоставляют ли логи достаточно деталей для расследования."
           ]}/>
           <P><strong>Ожидаемый Результат:</strong> Ознакомление с содержимым логов и понимание важности детального логирования.</P>
-          <P>Недостаточное логирование (OWASP Top 10 A09:2021-Security Logging and Monitoring Failures <Link href="#source-6" className={LinkStyle}><sup>6</sup></Link>) является серьезной проблемой. Без логов почти невозможно обнаружить атаку в процессе или расследовать взлом постфактум. Эффективное логирование — это не просто техническое требование, а критически важный компонент общей системы безопасности организации и ее способности реагировать на инциденты.</P>
+          <P>Недостаточное логирование (OWASP Top 10 A09:2021-Security Logging and Monitoring Failures<Link href="#source-6" className={LinkStyle}><sup>6</sup></Link>) является серьезной проблемой. Без логов почти невозможно обнаружить атаку в процессе или расследовать взлом постфактум. Эффективное логирование — это не просто техническое требование, а критически важный компонент общей системы безопасности организации и ее способности реагировать на инциденты.</P>
         </CardContent>
       </Card>
 
@@ -430,7 +431,7 @@ export default function Module2Lesson1Page() {
         <Link href="#s1-4-3" className={LinkStyle}>1.4.3</Link> Оповещение и Стратегии Активного Реагирования (из WAHH2 1.4.3)
       </H3>
       <P>
-        Система должна предусматривать механизмы оповещения администраторов о подозрительной активности или обнаруженных атаках в реальном времени. Адекватная реакция на атаки может включать временную блокировку IP-адресов, с которых исходит атака, принудительное завершение сессий подозрительных пользователей или активацию более строгих режимов безопасности [WAHH2 1.4.3]. В реальных сценариях это часто реализуется с помощью WAF (Web Application Firewall), IDS/IPS (Intrusion Detection/Prevention System) или SIEM (Security Information and Event Management) систем. Оповещение и активное реагирование переводят безопасность из чисто пассивного состояния в более проактивное, позволяя вмешаться до того, как будет нанесен значительный ущерб. Хотя данный урок не предполагает настройку систем оповещения, важно понимать, что эффективные логи (см. <Link href="#s1-4-2" className={LinkStyle}>1.4.2</Link>), такие как логи PHPIDS в DVWA <Link href="#source-29" className={LinkStyle}><sup>29</sup></Link>, являются основой для таких систем.
+        Система должна предусматривать механизмы оповещения администраторов о подозрительной активности или обнаруженных атаках в реальном времени. Адекватная реакция на атаки может включать временную блокировку IP-адресов, с которых исходит атака, принудительное завершение сессий подозрительных пользователей или активацию более строгих режимов безопасности [WAHH2 1.4.3]. В реальных сценариях это часто реализуется с помощью WAF (Web Application Firewall), IDS/IPS (Intrusion Detection/Prevention System) или SIEM (Security Information and Event Management) систем. Оповещение и активное реагирование переводят безопасность из чисто пассивного состояния в более проактивное, позволяя вмешаться до того, как будет нанесен значительный ущерб. Хотя данный урок не предполагает настройку систем оповещения, важно понимать, что эффективные логи (см. <Link href="#s1-4-2" className={LinkStyle}>1.4.2</Link>), такие как логи PHPIDS в DVWA<Link href="#source-29" className={LinkStyle}><sup>29</sup></Link>, являются основой для таких систем.
       </P>
 
       <H3 id="s1-5">
@@ -444,7 +445,7 @@ export default function Module2Lesson1Page() {
         "Надежная конфигурация: Приложения, веб-серверы и базы данных должны быть настроены с учетом принципов безопасности, отключая ненужные функции и службы.",
         <>Своевременное применение исправлений: Все компоненты системы, включая операционную систему, серверное программное обеспечение, библиотеки и фреймворки, должны регулярно обновляться для устранения известных уязвимостей. Это напрямую связано с OWASP Top 10 A06:2021-Vulnerable and Outdated Components<Link href="#source-6" className={LinkStyle}><sup>6</sup></Link>.</>,
         "Безопасное администрирование: Использование сложных, уникальных паролей для административных интерфейсов и отказ от учетных данных по умолчанию.",
-        <>Предотвращение утечки информации через HTTP-заголовки: Такие заголовки, как Server, X-Powered-By, X-AspNet-Version, могут раскрывать информацию о версиях используемого ПО, что облегчает злоумышленникам поиск известных уязвимостей<Link href="#source-32" className={LinkStyle}><sup>32</sup></Link>. Проект OWASP Secure Headers Project <Link href="#source-33" className={LinkStyle}><sup>33</sup></Link> описывает заголовки, которые могут повысить безопасность приложения (например, Strict-Transport-Security, Content-Security-Policy).</>
+        <>Предотвращение утечки информации через HTTP-заголовки: Такие заголовки, как Server, X-Powered-By, X-AspNet-Version, могут раскрывать информацию о версиях используемого ПО, что облегчает злоумышленникам поиск известных уязвимостей<Link href="#source-32" className={LinkStyle}><sup>32</sup></Link>. Проект OWASP Secure Headers Project<Link href="#source-33" className={LinkStyle}><sup>33</sup></Link> описывает заголовки, которые могут повысить безопасность приложения (например, Strict-Transport-Security, Content-Security-Policy).</>
       ]}/>
       <Card className="my-6">
         <CardHeader>
@@ -459,7 +460,7 @@ export default function Module2Lesson1Page() {
             "Сделать запрос к приложению.",
             "Проанализировать заголовки ответа на наличие Server, X-Powered-By, X-AspNet-Version и т.д.",
             "Обсудить, как эта информация может помочь злоумышленнику (например, найти известные эксплойты для конкретных версий).",
-            <>Обратиться к OWASP Secure Headers Project <Link href="#source-33" className={LinkStyle}><sup>33</sup></Link> для ознакомления с заголовками, повышающими безопасность (например, Strict-Transport-Security, Content-Security-Policy, X-Frame-Options, X-Content-Type-Options). Хотя это не напрямую связано с утечкой, это хороший контекст для управления безопасностью заголовков.</>
+            <>Обратиться к OWASP Secure Headers Project<Link href="#source-33" className={LinkStyle}><sup>33</sup></Link> для ознакомления с заголовками, повышающими безопасность (например, Strict-Transport-Security, Content-Security-Policy, X-Frame-Options, X-Content-Type-Options). Хотя это не напрямую связано с утечкой, это хороший контекст для управления безопасностью заголовков.</>
           ]}/>
           <P><strong>Ожидаемый Результат:</strong> Идентификация потенциально раскрывающих информацию заголовков. Понимание, как уменьшить эту утечку.</P>
           <P>Конфигурации по умолчанию часто приводят к утечке информации о версиях через HTTP-заголовки, предоставляя злоумышленникам легкие цели, если эти версии имеют известные уязвимости. Это "низко висящие фрукты" для атакующих. Управление приложением — это не только обеспечение его функциональности, но и усиление защиты среды и минимизация информационного следа, доступного потенциальным злоумышленникам. Это напрямую связано с OWASP A05:2021-Security Misconfiguration<Link href="#source-6" className={LinkStyle}><sup>6</sup></Link>.</P>
@@ -570,4 +571,3 @@ export default function Module2Lesson1Page() {
     </ContentPageLayout>
   );
 }
-
