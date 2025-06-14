@@ -53,7 +53,7 @@ export const navigationLinks: NavLink[] = [
         children: [
           {
             href: '/guidelines/module-2/lesson-1',
-            label: 'Урок 1: Механизмы Защиты',
+            label: 'Урок 1: Механизмы Защиты', // Updated Label
             icon: ShieldAlert 
           }
         ]
@@ -69,4 +69,3 @@ export const navigationLinks: NavLink[] = [
   { href: '/text-chapter/chapter-4', label: 'Текстовая Глава 4', icon: FileText },
   // Source link is handled in AppLayout footer
 ];
-

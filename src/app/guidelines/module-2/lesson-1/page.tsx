@@ -47,7 +47,7 @@ const sourcesData = [
 export default function Module2Lesson1Page() {
   return (
     <ContentPageLayout
-      title="Урок 1: Основные Механизмы Защиты – Фундамент Безопасности Веб-Приложений (WAHH2, Глава 2)"
+      title="Урок 1: Механизмы Защиты"
       subtitle="Модуль II: Разведка и Картирование Приложения"
     >
       <H3 id="s1-1">
@@ -89,17 +89,17 @@ export default function Module2Lesson1Page() {
           <P><strong>Инструменты:</strong> Hydra, Burp Suite (Intruder).</P>
           <P><strong>Шаги (используя Hydra для GET-запроса на DVWA Low):</strong></P>
           <Ul items={[
-            <>Определить параметры запроса на вход в DVWA. На уровне "Low" это GET-запрос к <CodeBlock code="http://<DVWA_IP>/vulnerabilities/brute/" /> с параметрами <CodeBlock code="username" /> и <CodeBlock code="password" />. Сообщение об ошибке при неверном входе обычно содержит "Username and/or password incorrect".<Link href="#source-2" className={LinkStyle}><sup className="align-super text-xs">2</sup></Link></>,
+            <>Определить параметры запроса на вход в DVWA. На уровне "Low" это GET-запрос к <CodeBlock code="http://<DVWA_IP>/vulnerabilities/brute/" /> с параметрами <CodeBlock code="username" /> и <CodeBlock code="password" />. Сообщение об ошибке при неверном входе обычно содержит "Username and/or password incorrect"<Link href="#source-2" className={LinkStyle}><sup className="align-super text-xs">2</sup></Link>.</>,
             <>Подготовить списки логинов (например, <CodeBlock code="user.txt" /> с <CodeBlock code="admin" />) и паролей (например, <CodeBlock code="pass.txt" /> с распространенными паролями, такими как "password", "12345", "qwerty"<Link href="#source-1" className={LinkStyle}><sup className="align-super text-xs">1</sup></Link>).</>,
             <>Сформировать команду Hydra. Пример команды для DVWA Low (GET-запрос):</>,
             <CodeBlock language="bash" code={'hydra -L user.txt -P pass.txt <DVWA_IP> http-get-form "/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect." -V'} />,
             <Ul items={[
-                <><strong><CodeBlock code="-L user.txt" />:</strong> Файл со списком пользователей.</>,
-                <><strong><CodeBlock code="-P pass.txt" />:</strong> Файл со списком паролей.</>,
-                <><strong><CodeBlock code="<DVWA_IP>" />:</strong> IP-адрес DVWA.</>,
-                <><strong><CodeBlock code="http-get-form" />:</strong> Указание на использование HTTP GET.</>,
-                <><strong><CodeBlock code='"/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect."' />:</strong> Путь, параметры формы (<code className="font-mono text-sm bg-muted p-1 rounded">^USER^</code> и <code className="font-mono text-sm bg-muted p-1 rounded">^PASS^</code> будут заменены значениями из списков) и строка, указывающая на неудачную попытку входа<Link href="#source-2" className={LinkStyle}><sup className="align-super text-xs">2</sup></Link>.</>,
-                <><strong><CodeBlock code="-V" />:</strong> Включить подробный вывод.</>
+                <><CodeBlock code="-L user.txt" />: Файл со списком пользователей.</>,
+                <><CodeBlock code="-P pass.txt" />: Файл со списком паролей.</>,
+                <><CodeBlock code="<DVWA_IP>" />: IP-адрес DVWA.</>,
+                <><CodeBlock code="http-get-form" />: Указание на использование HTTP GET.</>,
+                <><CodeBlock code='"/vulnerabilities/brute/index.php:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect."' />: Путь, параметры формы (<code className="font-mono text-sm bg-muted p-1 rounded">^USER^</code> и <code className="font-mono text-sm bg-muted p-1 rounded">^PASS^</code> будут заменены значениями из списков) и строка, указывающая на неудачную попытку входа<Link href="#source-2" className={LinkStyle}><sup className="align-super text-xs">2</sup></Link>.</>,
+                <><CodeBlock code="-V" />: Включить подробный вывод.</>
             ]}/>
           ]}/>
           <P><strong>Шаги (используя Burp Suite Intruder):</strong></P>
