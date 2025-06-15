@@ -3,30 +3,23 @@
 
 import Link from 'next/link';
 import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ChartOptions,
-  ChartData
-} from 'chart.js';
+import * as ChartJS from 'chart.js'; // Namespace import
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
+// Регистрация всех необходимых компонентов Chart.js
+// Обратите внимание: Chart, Scales, Elements, Controllers, Plugins, Tooltip, Legend - все это теперь свойства объекта ChartJS
+ChartJS.Chart.register(
+  ChartJS.CategoryScale,
+  ChartJS.LinearScale,
+  ChartJS.BarElement,
+  ChartJS.Title,
+  ChartJS.Tooltip,
+  ChartJS.Legend
 );
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
-const labFocusChartData: ChartData<'bar'> = {
+const labFocusChartData: ChartJS.ChartData<'bar'> = {
   labels: [
     'PortSwigger (Info Discl.)',
     'Juice Shop (API/Hidden)',
@@ -44,7 +37,7 @@ const labFocusChartData: ChartData<'bar'> = {
   }]
 };
 
-const labFocusChartOptions: ChartOptions<'bar'> = {
+const labFocusChartOptions: ChartJS.ChartOptions<'bar'> = {
   indexAxis: 'y',
   responsive: true,
   maintainAspectRatio: false,
@@ -59,7 +52,14 @@ const labFocusChartOptions: ChartOptions<'bar'> = {
       displayColors: false,
       callbacks: {
         label: function(context) {
-          return (context.dataset.label || '') + ': ' + context.parsed.x;
+          let label = context.dataset.label || '';
+          if (label) {
+            label += ': ';
+          }
+          if (context.parsed.x !== null) {
+            label += context.parsed.x;
+          }
+          return label;
         }
       }
     },
@@ -80,7 +80,18 @@ const labFocusChartOptions: ChartOptions<'bar'> = {
     },
     y: {
       grid: { display: false },
-      ticks: { color: 'hsl(var(--muted-foreground))', autoSkip: false }
+      ticks: {
+        color: 'hsl(var(--muted-foreground))',
+        autoSkip: false,
+        callback: function(value: string | number) {
+            const scale = this as any;
+            const label = scale.getLabelForValue(typeof value === 'string' ? parseFloat(value) : value);
+            if (typeof label === 'string' && label.length > 25) {
+                return label.slice(0, 25) + '...';
+            }
+            return label;
+        }
+      }
     }
   }
 };
@@ -118,9 +129,13 @@ export function LabsAndToolsSection() {
             </ul>
           </div>
         </div>
-        <div className="relative w-full max-w-3xl mx-auto h-[450px] md:h-[500px]">
-          <Bar options={labFocusChartOptions} data={labFocusChartData} />
-        </div>
+         <Card className="shadow-lg rounded-xl border border-border">
+          <CardContent className="p-4 md:p-6">
+            <div className="relative w-full max-w-3xl mx-auto h-[450px] md:h-[500px]">
+              <Bar options={labFocusChartOptions} data={labFocusChartData} />
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

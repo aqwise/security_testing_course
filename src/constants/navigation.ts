@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -46,7 +46,18 @@ export const navigationLinks: NavLink[] = [
           }
         ]
       },
-      { href: '/guidelines/module-2', label: 'Модуль II: Разведка', icon: Microscope },
+      { 
+        href: '/guidelines/module-2', 
+        label: 'Модуль II: Разведка', 
+        icon: Microscope,
+        children: [
+          {
+            href: '/guidelines/module-2/lesson-1',
+            label: 'Урок 1: Механизмы Защиты', // Updated Label
+            icon: ShieldAlert 
+          }
+        ]
+      },
       { href: '/guidelines/module-3', label: 'Модуль III: Аутентификация', icon: KeyRound },
       { href: '/guidelines/module-4', label: 'Модуль IV: Серверные Уязвимости', icon: ServerIcon },
     ],
@@ -58,4 +69,3 @@ export const navigationLinks: NavLink[] = [
   { href: '/text-chapter/chapter-4', label: 'Текстовая Глава 4', icon: FileText },
   // Source link is handled in AppLayout footer
 ];
-

@@ -69,10 +69,10 @@ export function Ul({ items }: { items: ReactNode[] }) {
 }
 
 // Helper component for subheadings
-export function H2({ children }: { children: ReactNode }) {
-  return <h2 className="text-2xl font-semibold text-primary mt-8 mb-4">{children}</h2>;
+export function H2({ children, id }: { children: ReactNode, id?: string }) {
+  return <h2 id={id} className="text-2xl font-semibold text-primary mt-8 mb-4 scroll-mt-20">{children}</h2>;
 }
 
-export function H3({ children }: { children: ReactNode }) {
-  return <h3 className="text-xl font-semibold text-accent-foreground mt-6 mb-3">{children}</h3>;
+export function H3({ children, id }: { children: ReactNode, id?: string }) {
+  return <h3 id={id} className="text-xl font-semibold text-accent-foreground mt-6 mb-3 scroll-mt-20">{children}</h3>;
 }
