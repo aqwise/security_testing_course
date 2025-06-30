@@ -1,72 +1,32 @@
 'use client';
 
 import Link from 'next/link';
-import { Bar } from 'react-chartjs-2';
-import 'chart.js/auto';
-import type { ChartOptions, ChartData } from 'chart.js';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
-const labFocusChartDataMod3: ChartData<'bar'> = {
-  labels: [
-    'PortSwigger (Аутентификация)', 
-    'PortSwigger (Контроль Доступа)', 
-    'OWASP Juice Shop (Аутентиф./JWT)', 
-    'OWASP Juice Shop (Контроль Доступа)',
-    'DVWA (Брутфорс)',
-    'TryHackMe (IDOR/Auth Bypass)'
-  ],
-  datasets: [{
-    label: 'Фокус Лаборатории',
-    data: [9, 8, 7, 7, 6, 8], 
-    backgroundColor: 'hsl(var(--primary) / 0.6)', 
-    borderColor: 'hsl(var(--primary))',
-    borderWidth: 1,
-    borderRadius: 4,
-  }]
-};
+const labFocusChartDataMod3 = [
+  { lab: 'PortSwigger (Аутентификация)', Релевантность: 9 },
+  { lab: 'PortSwigger (Контроль Доступа)', Релевантность: 8 },
+  { lab: 'OWASP Juice Shop (Аутентиф./JWT)', Релевантность: 7 },
+  { lab: 'OWASP Juice Shop (Контроль Доступа)', Релевантность: 7 },
+  { lab: 'DVWA (Брутфорс)', Релевантность: 6 },
+  { lab: 'TryHackMe (IDOR/Auth Bypass)', Релевантность: 8 },
+];
 
-const labFocusChartOptionsMod3: ChartOptions<'bar'> = {
-  indexAxis: 'y',
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: 'hsl(var(--card))',
-      titleColor: 'hsl(var(--card-foreground))',
-      bodyColor: 'hsl(var(--card-foreground))',
-      borderColor: 'hsl(var(--border))',
-      borderWidth: 1,
-      displayColors: false,
-       callbacks: {
-        label: function(context) {
-          return (context.dataset.label || '') + ': ' + context.parsed.x;
-        }
-      }
-    },
-    title: {
-      display: true,
-      text: 'Релевантность Лабораторий Темам Модуля III (1-10)',
-      color: 'hsl(var(--foreground))',
-      font: { size: 16 }
-    }
+const labFocusChartConfigMod3 = {
+  "Релевантность": {
+    label: "Релевантность Темам Модуля III (1-10)",
+    color: "hsl(var(--chart-1))",
   },
-  scales: {
-    x: {
-      beginAtZero: true,
-      max: 10,
-      grid: { color: 'hsl(var(--border) / 0.5)' },
-      ticks: { color: 'hsl(var(--muted-foreground))' },
-      title: { display: true, text: 'Условная Релевантность', color: 'hsl(var(--muted-foreground))' }
-    },
-    y: {
-      grid: { display: false },
-      ticks: { color: 'hsl(var(--muted-foreground))', autoSkip: false }
-    }
-  }
-};
+} satisfies ChartConfig;
 
 export function LabsAndToolsSectionMod3() {
   return (
@@ -108,9 +68,22 @@ export function LabsAndToolsSectionMod3() {
         </div>
         <Card className="shadow-lg rounded-xl border border-border">
           <CardContent className="p-4 md:p-6">
-            <div className="relative w-full max-w-3xl mx-auto h-[450px] md:h-[500px]">
-              <Bar options={labFocusChartOptionsMod3} data={labFocusChartDataMod3} />
-            </div>
+            <ChartContainer config={labFocusChartConfigMod3} className="h-[500px] w-full">
+              <BarChart accessibilityLayer data={labFocusChartDataMod3} layout="vertical" margin={{ left: 20 }}>
+                <CartesianGrid horizontal={false} />
+                <YAxis
+                  dataKey="lab"
+                  type="category"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  className="fill-muted-foreground"
+                />
+                <XAxis dataKey="Релевантность" type="number" domain={[0, 10]} />
+                <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                <Bar dataKey="Релевантность" layout="vertical" radius={4} />
+              </BarChart>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>

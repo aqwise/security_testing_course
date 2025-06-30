@@ -2,83 +2,29 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Bar } from 'react-chartjs-2';
-import 'chart.js/auto';
-import type { ChartData, ChartOptions } from 'chart.js';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart"
 
-const vulnerabilityChartData: ChartData<'bar'> = {
-  labels: [
-    'Подделка межсайтовых запросов (CSRF)',
-    'Утечка информации',
-    'Межсайтовый скриптинг (XSS)',
-    'SQL-инъекция',
-    'Нарушение контроля доступа',
-    'Нарушение аутентификации'
-  ],
-  datasets: [{
-    label: 'Частота в протестированных приложениях (%)',
-    data: [92, 78, 94, 32, 71, 62],
-    backgroundColor: 'hsl(var(--primary) / 0.6)',
-    borderColor: 'hsl(var(--primary))',
-    borderWidth: 1,
-    borderRadius: 4,
-  }]
-};
+const chartData = [
+  { vulnerability: 'XSS', "Частота": 94 },
+  { vulnerability: 'CSRF', "Частота": 92 },
+  { vulnerability: 'Утечка информации', "Частота": 78 },
+  { vulnerability: 'Контроль доступа', "Частота": 71 },
+  { vulnerability: 'Аутентификация', "Частота": 62 },
+  { vulnerability: 'SQL-инъекция', "Частота": 32 },
+];
 
-const vulnerabilityChartOptions: ChartOptions<'bar'> = {
-  indexAxis: 'y',
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false
-    },
-    title: {
-      display: true,
-      text: 'Частота распространенных уязвимостей',
-      font: { size: 16, family: 'Inter, sans-serif' },
-      color: 'hsl(var(--foreground))'
-    },
-    tooltip: {
-      callbacks: {
-        label: function(context) {
-          return context.dataset.label + ': ' + context.parsed.x + '%';
-        }
-      }
-    }
+const chartConfig = {
+  "Частота": {
+    label: "Частота в протестированных приложениях (%)",
+    color: "hsl(var(--chart-1))",
   },
-  scales: {
-    x: {
-      beginAtZero: true,
-      max: 100,
-      ticks: {
-        callback: function(value) {
-          return value + '%'
-        },
-        color: 'hsl(var(--muted-foreground))',
-      },
-      grid: {
-        color: 'hsl(var(--border) / 0.5)'
-      }
-    },
-    y: {
-      ticks: {
-        autoSkip: false,
-        color: 'hsl(var(--muted-foreground))',
-        callback: function(value, index, values) {
-            const label = this.getLabelForValue(value as number);
-            if (label.length > 25) { // Ensure type safety for label
-                return label.slice(0, 25) + '...';
-            }
-            return label;
-        }
-      },
-       grid: {
-        color: 'hsl(var(--border) / 0.5)'
-      }
-    }
-  }
-};
+} satisfies ChartConfig
 
 const accordionData = [
     { title: 'Нарушение аутентификации (62%)', content: 'Охватывает различные дефекты в механизме входа в приложение, которые могут позволить злоумышленнику угадать слабые пароли, запустить атаку методом перебора или обойти вход в систему.' },
@@ -94,13 +40,35 @@ export function VulnerabilitiesSection() {
     <section id="vulnerabilities">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 text-primary/90">Распространенные Уязвимости</h2>
       <p className="text-center text-muted-foreground mb-8 md:mb-12 max-w-3xl mx-auto">
-        Несмотря на заявления о безопасности и использование SSL, большинство веб-приложений уязвимы. Данные, основанные на тестировании сотен приложений, показывают тревожную картину. Наведите курсор на столбцы диаграммы для получения точных значений.
+        Несмотря на заявления о безопасности и использование SSL, большинство веб-приложений уязвимы. Данные, основанные на тестировании сотен приложений, показывают тревожную картину.
       </p>
       <Card className="p-4 md:p-6 shadow-md">
         <CardContent className="pt-6">
-          <div className="relative w-full max-w-3xl mx-auto h-[300px] md:h-[400px]">
-            <Bar options={vulnerabilityChartOptions} data={vulnerabilityChartData} />
-          </div>
+          <ChartContainer config={chartConfig} className="h-[400px] w-full">
+            <BarChart
+              accessibilityLayer
+              data={chartData}
+              layout="vertical"
+              margin={{ left: 20 }}
+            >
+              <CartesianGrid horizontal={false} />
+              <YAxis
+                dataKey="vulnerability"
+                type="category"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                className="fill-muted-foreground"
+                tickFormatter={(value) => value.length > 25 ? `${value.slice(0, 25)}...` : value}
+              />
+              <XAxis dataKey="Частота" type="number" hide />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Bar dataKey="Частота" layout="vertical" radius={5} />
+            </BarChart>
+          </ChartContainer>
         </CardContent>
       </Card>
       <div className="mt-10 md:mt-12">
