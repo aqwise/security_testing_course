@@ -75,9 +75,9 @@ export const navigationLinks: NavLink[] = [
     ],
   },
   { href: '/interactive/chapter-1', label: 'Интерактивная Глава 1', icon: PlayCircle },
-  { href: '/text-chapter/chapter-1', label: 'Текстовая Глава 1', icon: FileText },
-  { href: '/text-chapter/chapter-2', label: 'Текстовая Глава 2', icon: FileText },
-  { href: '/text-chapter/chapter-3', label: 'Текстовая Глава 3', icon: FileText },
-  { href: '/text-chapter/chapter-4', label: 'Текстовая Глава 4', icon: FileText },
+  { href: '/text-chapter/chapter-1', label: 'Глава 1', icon: FileText },
+  { href: '/text-chapter/chapter-2', label: 'Глава 2', icon: FileText },
+  { href: '/text-chapter/chapter-3', label: 'Глава 3', icon: FileText },
+  { href: '/text-chapter/chapter-4', label: 'Глава 4', icon: FileText },
   // Source link is handled in AppLayout footer
 ];
