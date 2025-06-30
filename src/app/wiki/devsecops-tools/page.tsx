@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+import { Microscope, ShieldCheck, KeyRound, Network, Blend, Container, Bug, BrainCircuit } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 interface Tool {
     name: string;
@@ -8,9 +10,17 @@ interface Tool {
     note?: string;
 }
 
-const sections = [
+interface Section {
+    id: string;
+    title: string;
+    icon: ReactNode;
+    tools: Tool[];
+}
+
+const sections: Section[] = [
     {
         id: "sast",
+        icon: <Microscope className="h-8 w-8 text-primary" />,
         title: "1. Статический анализ (SAST)",
         tools: [
             {
@@ -57,6 +67,7 @@ const sections = [
     },
     {
         id: "sca",
+        icon: <ShieldCheck className="h-8 w-8 text-primary" />,
         title: "2. Анализ состава ПО (SCA)",
         tools: [
             {
@@ -82,6 +93,7 @@ const sections = [
     },
     {
         id: "secret-scanning",
+        icon: <KeyRound className="h-8 w-8 text-primary" />,
         title: "3. Поиск секретов",
         tools: [
             {
@@ -103,6 +115,7 @@ const sections = [
     },
     {
         id: "dast",
+        icon: <Network className="h-8 w-8 text-primary" />,
         title: "4. Динамический анализ (DAST)",
         tools: [
             {
@@ -122,6 +135,7 @@ const sections = [
     },
     {
         id: "iast",
+        icon: <Blend className="h-8 w-8 text-primary" />,
         title: "5. Интерактивный анализ (IAST)",
         tools: [
             {
@@ -134,6 +148,7 @@ const sections = [
     },
     {
         id: "container-security",
+        icon: <Container className="h-8 w-8 text-primary" />,
         title: "6. Безопасность контейнеров",
         tools: [
             {
@@ -153,6 +168,7 @@ const sections = [
     },
     {
         id: "fuzzing",
+        icon: <Bug className="h-8 w-8 text-primary" />,
         title: "7. Фазинг (Fuzzing)",
         tools: [
             {
@@ -172,6 +188,7 @@ const sections = [
     },
     {
         id: "ai-ml",
+        icon: <BrainCircuit className="h-8 w-8 text-primary" />,
         title: "8. AI/ML в безопасности",
         tools: [
             {
@@ -201,7 +218,10 @@ export default function DevSecOpsToolsPage() {
             <main className="space-y-12">
                 {sections.map(section => (
                     <section key={section.id} id={section.id}>
-                        <h2 className="text-3xl font-bold text-foreground border-b-2 border-border pb-3 mb-8">{section.title}</h2>
+                        <h2 className="text-3xl font-bold text-foreground border-b-2 border-border pb-3 mb-8 flex items-center gap-3">
+                            {section.icon}
+                            {section.title}
+                        </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {section.tools.map(tool => (
                                 <Card key={tool.name} className="bg-card flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
