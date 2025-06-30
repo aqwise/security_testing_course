@@ -1,3 +1,4 @@
+
 'use client';
 
 import { BookChapterTextSection } from '@/components/interactive/chapter-4/BookChapterTextSection';
@@ -12,4 +13,4 @@ export default function TextChapterFourPage() {
       <ChapterFooter />
     </div>
   );
-} 
+}

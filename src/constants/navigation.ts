@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -53,7 +53,7 @@ export const navigationLinks: NavLink[] = [
         children: [
           {
             href: '/guidelines/module-2/lesson-1',
-            label: 'Урок 1: Механизмы Защиты', // Updated Label
+            label: 'Урок 1: Механизмы Защиты',
             icon: ShieldAlert 
           }
         ]
@@ -62,10 +62,21 @@ export const navigationLinks: NavLink[] = [
       { href: '/guidelines/module-4', label: 'Модуль IV: Серверные Уязвимости', icon: ServerIcon },
     ],
   },
+  {
+    href: '/wiki/devsecops-tools',
+    label: 'Wiki',
+    icon: LibraryBig,
+    children: [
+      {
+        href: '/wiki/devsecops-tools',
+        label: 'Инструменты AppSec (SafeCode)',
+        icon: Wrench,
+      },
+    ],
+  },
   { href: '/interactive/chapter-1', label: 'Интерактивная Глава 1', icon: PlayCircle },
-  { href: '/text-chapter/chapter-1', label: 'Текстовая Глава 1', icon: FileText },
-  { href: '/text-chapter/chapter-2', label: 'Текстовая Глава 2', icon: FileText },
-  { href: '/text-chapter/chapter-3', label: 'Текстовая Глава 3', icon: FileText },
-  { href: '/text-chapter/chapter-4', label: 'Текстовая Глава 4', icon: FileText },
-  // Source link is handled in AppLayout footer
+  { href: '/text-chapter/chapter-1', label: 'Глава 1', icon: FileText },
+  { href: '/text-chapter/chapter-2', label: 'Глава 2', icon: FileText },
+  { href: '/text-chapter/chapter-3', label: 'Глава 3', icon: FileText },
+  { href: '/text-chapter/chapter-4', label: 'Глава 4', icon: FileText },
 ];
