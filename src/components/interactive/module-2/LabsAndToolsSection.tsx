@@ -1,25 +1,14 @@
-
 'use client';
 
 import Link from 'next/link';
 import { Bar } from 'react-chartjs-2';
-import * as ChartJS from 'chart.js'; // Namespace import
+import 'chart.js/auto';
+import type { ChartOptions, ChartData } from 'chart.js';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-// Регистрация всех необходимых компонентов Chart.js
-// Обратите внимание: Chart, Scales, Elements, Controllers, Plugins, Tooltip, Legend - все это теперь свойства объекта ChartJS
-ChartJS.Chart.register(
-  ChartJS.CategoryScale,
-  ChartJS.LinearScale,
-  ChartJS.BarElement,
-  ChartJS.Title,
-  ChartJS.Tooltip,
-  ChartJS.Legend
-);
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
-const labFocusChartData: ChartJS.ChartData<'bar'> = {
+const labFocusChartData: ChartData<'bar'> = {
   labels: [
     'PortSwigger (Info Discl.)',
     'Juice Shop (API/Hidden)',
@@ -37,7 +26,7 @@ const labFocusChartData: ChartJS.ChartData<'bar'> = {
   }]
 };
 
-const labFocusChartOptions: ChartJS.ChartOptions<'bar'> = {
+const labFocusChartOptions: ChartOptions<'bar'> = {
   indexAxis: 'y',
   responsive: true,
   maintainAspectRatio: false,

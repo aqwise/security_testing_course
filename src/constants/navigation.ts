@@ -79,5 +79,4 @@ export const navigationLinks: NavLink[] = [
   { href: '/text-chapter/chapter-2', label: 'Глава 2', icon: FileText },
   { href: '/text-chapter/chapter-3', label: 'Глава 3', icon: FileText },
   { href: '/text-chapter/chapter-4', label: 'Глава 4', icon: FileText },
-  // Source link is handled in AppLayout footer
 ];

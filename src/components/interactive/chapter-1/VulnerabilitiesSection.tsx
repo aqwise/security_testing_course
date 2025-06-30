@@ -1,29 +1,10 @@
-
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ChartOptions,
-  ChartData
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import 'chart.js/auto';
+import type { ChartData, ChartOptions } from 'chart.js';
 
 const vulnerabilityChartData: ChartData<'bar'> = {
   labels: [
