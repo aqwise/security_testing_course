@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { Microscope, ShieldCheck, KeyRound, Network, Blend, Container, Bug, BrainCircuit } from 'lucide-react';
+import { Microscope, ShieldCheck, KeyRound, Network, Blend, Container, Bug, BrainCircuit, Youtube } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 interface Tool {
@@ -211,8 +211,14 @@ export default function DevSecOpsToolsPage() {
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
             <header className="text-center mb-10 md:mb-16">
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground">Обзор инструментов и практик DevSecOps</h1>
-                <p className="mt-4 text-lg text-muted-foreground">Систематизированный обзор инструментов и методологий безопасной разработки.</p>
+                <h1 className="text-4xl md:text-5xl font-bold text-foreground">SafeCode 2023 Meetup #2: Обзорная прогулка по инструментам AppSec</h1>
+                <p className="mt-4 text-lg text-muted-foreground">Систематизированный обзор инструментов и методологий безопасной разработки, основанный на материалах митапа.</p>
+                <div className="mt-4 flex justify-center items-center gap-2">
+                    <Youtube className="h-5 w-5 text-red-500" />
+                    <Link href="https://www.youtube.com/watch?v=_B8AxFKV2vk&t=3708s" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                        Смотреть оригинальное видео
+                    </Link>
+                </div>
             </header>
 
             <main className="space-y-12">

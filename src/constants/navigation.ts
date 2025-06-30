@@ -69,7 +69,7 @@ export const navigationLinks: NavLink[] = [
     children: [
       {
         href: '/wiki/devsecops-tools',
-        label: 'Инструменты DevSecOps',
+        label: 'Инструменты AppSec (SafeCode)',
         icon: Wrench,
       },
     ],
