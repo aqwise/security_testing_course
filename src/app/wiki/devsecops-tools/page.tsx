@@ -27,9 +27,9 @@ const sections: Section[] = [
                 name: "CodeQL",
                 description: "Мощный семантический анализатор кода от GitHub.",
                 links: [
-                    { url: "https://securitylab.github.com/codeql", text: "Официальный сайт" },
-                    { url: "https://codeql.github.com/docs/", text: "Документация" },
-                    { url: "https://github.com/github/codeql", text: "Репозиторий" }
+                    { url: "https://security.github.com/code-scanning/codeql/", text: "Официальный сайт" },
+                    { url: "https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-codeql", text: "Документация" },
+                    { url: "https://github.com/github/codeql", text: "Репозиторий (запросы)" }
                 ]
             },
             {
@@ -82,7 +82,7 @@ const sections: Section[] = [
             {
                 name: "Dependabot",
                 description: "Инструмент GitHub для автоматического обнаружения и обновления уязвимых зависимостей.",
-                links: [{ url: "https://docs.github.com/en/code-security/dependabot", text: "Официальная страница" }]
+                links: [{ url: "https://github.com/dependabot", text: "Официальная страница" }]
             },
             {
                 name: "PBOM",
@@ -99,7 +99,7 @@ const sections: Section[] = [
             {
                 name: "GitHub Secret Scanning",
                 description: "Встроенная функция GitHub для поиска секретов в репозиториях.",
-                links: [{ url: "https://docs.github.com/en/code-security/secret-scanning", text: "Официальная страница" }]
+                links: [{ url: "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning", text: "Официальная страница" }]
             },
             {
                 name: "Gitleaks",
@@ -141,7 +141,7 @@ const sections: Section[] = [
             {
                 name: "Концепция IAST",
                 description: "Гибридное тестирование \"серого ящика\", комбинирующее SAST и DAST с помощью инструментации кода.",
-                links: [{ url: "https://owasp.org/www-community/Source_Code_Analysis_Tools#iast", text: "Статья OWASP" }],
+                links: [{ url: "https://owasp.org/www-community/Source_Code_Analysis_Tools#tab-Interactive_Application_Security_Testing_(IAST)", text: "Статья OWASP" }],
                 note: "Примечание: Многие IAST-решения являются коммерческими (Contrast Security, Veracode, Synopsys)."
             }
         ]
@@ -181,7 +181,7 @@ const sections: Section[] = [
                 description: "Один из самых известных и эффективных фаззеров.",
                 links: [
                     { url: "https://github.com/AFLplusplus/AFLplusplus", text: "Актуальный форк (AFL++)" },
-                    { url: "https://lcamtuf.coredump.cx/afl/", text: "Оригинальный AFL (архив)", note: "text-slate-500" }
+                    { url: "https://lcamtuf.coredump.cx/afl/", text: "Оригинальный AFL (не поддерживается)", note: "text-slate-500" }
                 ]
             }
         ]
@@ -199,7 +199,7 @@ const sections: Section[] = [
             {
                 name: "Потенциал LLM",
                 description: "Обсуждение использования моделей типа ChatGPT для анализа и генерации безопасного кода.",
-                links: [{ url: "https://github.blog/2022-09-14-github-copilot-and-code-security-getting-started-and-saving-time/", text: "Пример исследования от GitHub" }]
+                links: [{ url: "https://github.blog/2022-09-14-github-copilot-and-code-security-a-research-study/", text: "Пример исследования от GitHub" }]
             }
         ]
     }
