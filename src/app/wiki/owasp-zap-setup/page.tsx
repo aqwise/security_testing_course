@@ -68,7 +68,7 @@ export default function OwaspZapSetupPage() {
             
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183340.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183340.png"
                     alt="Главный интерфейс приложения OWASP ZAP, показывающий экран приветствия и главный прокси, работающий на localhost:8081."
                     width={800}
                     height={450}
@@ -88,7 +88,7 @@ export default function OwaspZapSetupPage() {
             
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183430.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183430.png"
                     alt="Главный графический интерфейс OWASP ZAP 2.8.0, показывающий экран приветствия и различные панели навигации."
                     width={800}
                     height={450}
