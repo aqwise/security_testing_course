@@ -1,4 +1,3 @@
-
 import { ContentPageLayout, P, H2, H3, Ul } from '@/components/content/ContentPageLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
@@ -67,12 +66,11 @@ export default function OwaspZapSetupPage() {
             
             <figure className="my-6 text-center">
                 <Image
-                    src="https://placehold.co/800x450.png"
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183340.png"
                     alt="Главный интерфейс приложения OWASP ZAP, показывающий экран приветствия и главный прокси, работающий на localhost:8081."
                     width={800}
                     height={450}
                     className="mx-auto rounded-md shadow-md"
-                    data-ai-hint="zap interface proxy"
                 />
             </figure>
             
@@ -86,11 +84,41 @@ export default function OwaspZapSetupPage() {
             <P><strong>1. Установка и запуск ZAP</strong></P>
             <P>После загрузки и установки OWASP ZAP запустите приложение. Конфигурация по умолчанию устанавливает локальный прокси на localhost:8080. Вы можете проверить это в строке состояния в нижней части интерфейса ZAP.</P>
             
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183430.png"
+                    alt="Главный графический интерфейс OWASP ZAP 2.8.0, показывающий экран приветствия и различные панели навигации."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
+
             <P><strong>2. Настройка параметров прокси ZAP</strong></P>
             <P>Перейдите в Tools > Options > Network > Local Servers/Proxies для настройки параметров прокси. Конфигурация по умолчанию обычно использует: Address: localhost (127.0.0.1), Port: 8080. Запомните точный адрес и порт, так как они понадобятся для настройки Firefox.</P>
 
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183538.png"
+                    alt="Конфигурация локального прокси OWASP ZAP, показывающая адрес и порт по умолчанию для интеграции с браузером."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
+
             <P><strong>3. Генерация SSL-сертификата</strong></P>
             <P>Для перехвата HTTPS-трафика сгенерируйте динамический SSL-сертификат: перейдите в Tools > Options > Network > Server Certificates, нажмите "Generate", чтобы создать новый корневой сертификат, затем "Save" и выберите запоминающееся место для файла сертификата. Этот сертификат имеет решающее значение для избежания предупреждений о сертификатах SSL/TLS при тестировании HTTPS-сайтов.</P>
+
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183629.png"
+                    alt="Создание SSL-сертификата в OWASP ZAP."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
 
             <H3>Этап 2: Конфигурация Firefox Developer Edition</H3>
             <P><strong>4. Доступ к настройкам сети</strong></P>
@@ -99,13 +127,43 @@ export default function OwaspZapSetupPage() {
             <P><strong>5. Настройка ручного прокси</strong></P>
             <P>В диалоговом окне "Параметры соединения" выберите "Ручная настройка прокси", введите `localhost` в поле "HTTP прокси" и `8080` в поле "Порт". Установите флажок "Использовать этот прокси-сервер для всех протоколов".</P>
 
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183715.png"
+                    alt="Диалоговое окно настроек соединения Firefox для ручной настройки прокси."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
+
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183849.png"
+                    alt="Диалоговое окно настроек соединения Firefox для ручной настройки прокси, с подробными полями для HTTP, HTTPS и SOCKS прокси."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
+
             <P><strong>6. Включение перехвата прокси для localhost</strong></P>
             <P>Критический шаг: современные версии Firefox блокируют прокси-соединения с localhost по умолчанию. Чтобы включить проксирование трафика localhost: введите `about:config` в адресной строке Firefox, найдите `network.proxy.allow_hijacking_localhost` и установите значение `true`.</P>
+
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 184009.png"
+                    alt="Настройка about:config в Firefox для разрешения перехвата прокси для localhost."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
 
             <H3>Этап 3: Управление сертификатами</H3>
             <P><strong>7. Импорт корневого сертификата ZAP</strong></P>
             <P>Чтобы избежать предупреждений о сертификатах на HTTPS-сайтах: откройте "Настройки" Firefox > "Приватность и защита" > "Сертификаты" > "Просмотр сертификатов". Выберите вкладку "Центры сертификации" (не "Ваши сертификаты"), нажмите "Импортировать", выберите файл сертификата ZAP и установите флажок "Доверять этому ЦС для идентификации веб-сайтов".</P>
-            
+
             <H2>Тестирование и проверка</H2>
             <P><strong>Базовый тест подключения:</strong></P>
             <Ul items={[
@@ -114,12 +172,32 @@ export default function OwaspZapSetupPage() {
                 "Проверьте трафик: проверьте вкладки Sites и History в ZAP на наличие захваченных запросов."
             ]}/>
 
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 184214.png"
+                    alt="Рабочий процесс настройки OWASP ZAP и Firefox Developer Edition."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
+
             <H2>Устранение распространенных проблем</H2>
             <P><strong>Ошибки сертификатов на HTTPS-сайтах:</strong> Обычно это означает, что корневой сертификат ZAP не был правильно импортирован. Повторно сгенерируйте сертификат в ZAP и импортируйте его во вкладку "Центры сертификации" Firefox с включенным параметром "Доверять этому ЦС".</P>
             <P><strong>Пустая история в ZAP:</strong> Если ZAP не показывает трафик, проверьте настройки прокси в обоих приложениях. Перезапустите ZAP и Firefox, затем сначала протестируйте с простым HTTP-сайтом.</P>
             
             <H2>Заключение</H2>
             <P>Успешная настройка OWASP ZAP с Firefox Developer Edition создает мощную платформу для тестирования безопасности веб-приложений. Ключом к успеху является правильное управление сертификатами и обеспечение включения перехвата прокси для localhost. Эта конфигурация обеспечивает комплексное динамическое тестирование безопасности приложений, от автоматического сканирования уязвимостей до детальных ручных рабочих процессов тестирования на проникновение.</P>
+
+            <figure className="my-6 text-center">
+                <Image
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 184245.png"
+                    alt="Успешная установка OWASP ZAP."
+                    width={800}
+                    height={450}
+                    className="mx-auto rounded-md shadow-md"
+                />
+            </figure>
 
             <H2 id="sources">Источники</H2>
             <ol className="list-decimal list-inside space-y-2 text-sm">
