@@ -2,10 +2,8 @@ import { ContentPageLayout, P, H2, H3, Ul } from '@/components/content/ContentPa
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
-import getConfig from 'next/config';
 
-const { publicRuntimeConfig } = getConfig();
-const basePath = publicRuntimeConfig.basePath || '';
+
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
@@ -70,7 +68,7 @@ export default function OwaspZapSetupPage() {
             
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183340.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183340.png"
                     alt="Главный интерфейс приложения OWASP ZAP, показывающий экран приветствия и главный прокси, работающий на localhost:8081."
                     width={800}
                     height={450}
@@ -90,7 +88,7 @@ export default function OwaspZapSetupPage() {
             
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183430.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183430.png"
                     alt="Главный графический интерфейс OWASP ZAP 2.8.0, показывающий экран приветствия и различные панели навигации."
                     width={800}
                     height={450}
@@ -103,7 +101,7 @@ export default function OwaspZapSetupPage() {
 
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183538.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183538.png"
                     alt="Конфигурация локального прокси OWASP ZAP, показывающая адрес и порт по умолчанию для интеграции с браузером."
                     width={800}
                     height={450}
@@ -116,7 +114,7 @@ export default function OwaspZapSetupPage() {
 
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183629.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183629.png"
                     alt="Создание SSL-сертификата в OWASP ZAP."
                     width={800}
                     height={450}
@@ -133,7 +131,7 @@ export default function OwaspZapSetupPage() {
 
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183715.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183715.png"
                     alt="Диалоговое окно настроек соединения Firefox для ручной настройки прокси."
                     width={800}
                     height={450}
@@ -143,7 +141,7 @@ export default function OwaspZapSetupPage() {
 
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 183849.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 183849.png"
                     alt="Диалоговое окно настроек соединения Firefox для ручной настройки прокси, с подробными полями для HTTP, HTTPS и SOCKS прокси."
                     width={800}
                     height={450}
@@ -156,7 +154,7 @@ export default function OwaspZapSetupPage() {
 
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 184009.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 184009.png"
                     alt="Настройка about:config в Firefox для разрешения перехвата прокси для localhost."
                     width={800}
                     height={450}
@@ -178,7 +176,7 @@ export default function OwaspZapSetupPage() {
 
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 184214.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 184214.png"
                     alt="Рабочий процесс настройки OWASP ZAP и Firefox Developer Edition."
                     width={800}
                     height={450}
@@ -195,7 +193,7 @@ export default function OwaspZapSetupPage() {
 
             <figure className="my-6 text-center">
                 <Image
-                    src={`${basePath}/pics/owasp-installation/Screenshot 2025-07-03 184245.png`}
+                    src="/pics/owasp-installation/Screenshot 2025-07-03 184245.png"
                     alt="Успешная установка OWASP ZAP."
                     width={800}
                     height={450}
