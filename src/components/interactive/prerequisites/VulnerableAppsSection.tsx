@@ -27,7 +27,7 @@ export function VulnerableAppsSection() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Классическое приложение PHP/MySQL (12). Репозиторий: <Link href="https://github.com/digininja/DVWA" target="_blank" rel="noopener noreferrer" className={LinkStyle}>digininja/DVWA</Link> (64). Docker: vulnerables/web-dvwa (110). Учетные данные: admin/password (13).
+                Классическое приложение PHP/MySQL. Репозиторий: <Link href="https://github.com/digininja/DVWA" target="_blank" rel="noopener noreferrer" className={LinkStyle}>digininja/DVWA</Link>. Docker: vulnerables/web-dvwa. Учетные данные: admin/password.
               </p>
             </CardContent>
           </Card>
@@ -42,7 +42,7 @@ export function VulnerableAppsSection() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Современное приложение JavaScript (Node.js/Angular) (10). GitHub: <Link href="https://github.com/juice-shop/juice-shop" target="_blank" rel="noopener noreferrer" className={LinkStyle}>juice-shop/juice-shop</Link> (22).
+                Современное приложение JavaScript (Node.js/Angular). GitHub: <Link href="https://github.com/juice-shop/juice-shop" target="_blank" rel="noopener noreferrer" className={LinkStyle}>juice-shop/juice-shop</Link>.
               </p>
             </CardContent>
           </Card>

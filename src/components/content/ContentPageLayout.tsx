@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { ReactNode } from 'react';
@@ -25,7 +26,7 @@ export function ContentPageLayout({
         <div className={imageUrl ? "md:flex" : ""}> {/* Apply md:flex only if imageUrl exists */}
           <div className={imageUrl ? "md:w-3/5 p-6 md:p-10" : "w-full p-6 md:p-10"}> {/* Adjust width */}
             <CardHeader className="px-0 pt-0 pb-4">
-              <CardTitle className="text-3xl lg:text-4xl font-bold text-primary mb-2">{title}</CardTitle>
+              <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground mb-2">{title}</CardTitle>
               {subtitle && <CardDescription className="text-lg text-muted-foreground">{subtitle}</CardDescription>}
             </CardHeader>
             <hr className="my-6 border-accent" />
@@ -68,10 +69,10 @@ export function Ul({ items }: { items: ReactNode[] }) {
 }
 
 // Helper component for subheadings
-export function H2({ children }: { children: ReactNode }) {
-  return <h2 className="text-2xl font-semibold text-primary mt-8 mb-4">{children}</h2>;
+export function H2({ children, id }: { children: ReactNode, id?: string }) {
+  return <h2 id={id} className="text-2xl font-semibold text-primary mt-8 mb-4 scroll-mt-20">{children}</h2>;
 }
 
-export function H3({ children }: { children: ReactNode }) {
-  return <h3 className="text-xl font-semibold text-accent-foreground mt-6 mb-3">{children}</h3>;
+export function H3({ children, id }: { children: ReactNode, id?: string }) {
+  return <h3 id={id} className="text-xl font-semibold text-accent-foreground mt-6 mb-3 scroll-mt-20">{children}</h3>;
 }

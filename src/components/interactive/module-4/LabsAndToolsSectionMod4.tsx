@@ -1,92 +1,32 @@
-
 'use client';
 
 import Link from 'next/link';
-import { Bar } from 'react-chartjs-2';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ChartOptions,
-  ChartData
-} from 'chart.js';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart"
+import { Card, CardContent } from '@/components/ui/card';
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
-const labFocusChartDataMod4: ChartData<'bar'> = {
-  labels: [
-    'SQLi Labs (PortSwigger)', 
-    'OS Cmd Inj. Labs (PortSwigger)', 
-    'Path Traversal Labs (PortSwigger)', 
-    'File Upload Labs (PortSwigger)',
-    'DVWA (SQLi, Cmd Inj.)',
-    'Juice Shop (SQLi, LFI)'
-  ],
-  datasets: [{
-    label: 'Примерный Фокус Лаборатории',
-    data: [9, 8, 7, 7, 8, 7], 
-    backgroundColor: 'hsl(var(--primary) / 0.6)', 
-    borderColor: 'hsl(var(--primary))',
-    borderWidth: 1,
-    borderRadius: 4,
-  }]
-};
+const labFocusChartDataMod4 = [
+  { lab: 'SQLi Labs (PortSwigger)', Релевантность: 9 },
+  { lab: 'OS Cmd Inj. Labs (PortSwigger)', Релевантность: 8 },
+  { lab: 'Path Traversal Labs (PortSwigger)', Релевантность: 7 },
+  { lab: 'File Upload Labs (PortSwigger)', Релевантность: 7 },
+  { lab: 'DVWA (SQLi, Cmd Inj.)', Релевантность: 8 },
+  { lab: 'Juice Shop (SQLi, LFI)', Релевантность: 7 },
+];
 
-const labFocusChartOptionsMod4: ChartOptions<'bar'> = {
-  indexAxis: 'y',
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: 'hsl(var(--card))', /* slate-800 from your HTML becomes card */
-      titleColor: 'hsl(var(--card-foreground))',
-      bodyColor: 'hsl(var(--card-foreground))',
-      borderColor: 'hsl(var(--border))',
-      borderWidth: 1,
-      displayColors: false,
-       callbacks: {
-        label: function(context) {
-          return (context.dataset.label || '') + ': ' + context.parsed.x;
-        }
-      }
-    },
-    title: {
-      display: true,
-      text: 'Релевантность темам Модуля IV (1-10)',
-      color: 'hsl(var(--foreground))', /* slate-700 becomes foreground */
-      font: { size: 16 }
-    }
+const labFocusChartConfigMod4 = {
+  "Релевантность": {
+    label: "Релевантность темам Модуля IV (1-10)",
+    color: "hsl(var(--chart-1))",
   },
-  scales: {
-    x: {
-      beginAtZero: true,
-      max:10,
-      grid: { color: 'hsl(var(--border) / 0.5)' }, /* slate-200 becomes border/0.5 */
-      ticks: { color: 'hsl(var(--muted-foreground))' }, /* slate-600 becomes muted-foreground */
-      title: { display: true, text: 'Условная Релевантность', color: 'hsl(var(--muted-foreground))' }
-    },
-    y: {
-      grid: { display: false },
-      ticks: { color: 'hsl(var(--muted-foreground))', autoSkip: false } /* slate-600 */
-    }
-  }
-};
+} satisfies ChartConfig;
 
 export function LabsAndToolsSectionMod4() {
   return (
@@ -99,9 +39,22 @@ export function LabsAndToolsSectionMod4() {
         </div>
          <Card className="shadow-lg rounded-xl border border-border">
             <CardContent className="p-4 md:p-6">
-                <div className="relative w-full max-w-3xl mx-auto h-[400px] md:h-[480px]"> {/* Adjusted height from HTML */}
-                <Bar options={labFocusChartOptionsMod4} data={labFocusChartDataMod4} />
-                </div>
+              <ChartContainer config={labFocusChartConfigMod4} className="h-[480px] w-full">
+                <BarChart accessibilityLayer data={labFocusChartDataMod4} layout="vertical" margin={{ left: 20 }}>
+                  <CartesianGrid horizontal={false} />
+                  <YAxis
+                    dataKey="lab"
+                    type="category"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    className="fill-muted-foreground"
+                  />
+                  <XAxis dataKey="Релевантность" type="number" domain={[0, 10]} />
+                  <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                  <Bar dataKey="Релевантность" layout="vertical" radius={4} />
+                </BarChart>
+              </ChartContainer>
             </CardContent>
         </Card>
         <div className="mt-8 text-center">

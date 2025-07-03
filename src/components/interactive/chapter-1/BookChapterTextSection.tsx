@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -33,7 +32,6 @@ const getCleanTextFromDomNode = (node: Node): string => {
           text += " "; 
       }
   }
-  // console.log(`BookChapterTextSection (getCleanTextFromDomNode): NodeName: ${node.nodeName}, Extracted: "${text.substring(0,50)}..."`);
   return text;
 };
 
@@ -43,7 +41,7 @@ interface TextWrapperProps {
   tag: keyof JSX.IntrinsicElements;
   onPlayClick: (element: HTMLElement) => void; 
   className?: string;
-  elementRef?: React.RefObject<HTMLElement>; // Pass ref for the content element
+  elementRef?: React.RefObject<HTMLElement>; 
 }
 
 const TextWrapper: React.FC<TextWrapperProps> = ({ children, tag: Tag, onPlayClick, className, elementRef }) => {
@@ -84,13 +82,22 @@ export function BookChapterTextSection() {
   const [fullArticleText, setFullArticleText] = React.useState('');
   const currentlyPlayingSegmentRef = React.useRef<HTMLElement | null>(null);
 
-  // Stores references to all TextWrapper elements
   const textWrapperRefs = React.useRef<Map<number, HTMLElement | null>>(new Map());
 
-  // Function to ensure a ref is available for a given index
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (!window.speechSynthesis) {
+        console.error("BookChapterTextSection: Web Speech API not supported in this browser");
+      } else {
+        console.log("BookChapterTextSection: Web Speech API is available");
+        console.log("BookChapterTextSection: speechSynthesis object:", window.speechSynthesis);
+      }
+    }
+  }, []);
+
   const getTextWrapperRef = (index: number) => {
     if (!textWrapperRefs.current.has(index)) {
-      textWrapperRefs.current.set(index, null); // Initialize if not present
+      textWrapperRefs.current.set(index, null); 
     }
     return (el: HTMLElement | null) => textWrapperRefs.current.set(index, el);
   };
@@ -101,8 +108,6 @@ export function BookChapterTextSection() {
     let fullText = "";
     
     const textWrapperDivs = Array.from(rootElement.children) as HTMLElement[];
-    console.log("BookChapterTextSection (extractTextFromDOMArticle): Found", textWrapperDivs.length, "TextWrapper divs (direct children of article).");
-
     textWrapperDivs.forEach((wrapperDiv) => {
       if (wrapperDiv.nodeType === Node.ELEMENT_NODE) {
         const contentChildNodes = Array.from(wrapperDiv.childNodes).filter(
@@ -123,7 +128,6 @@ export function BookChapterTextSection() {
       }
     });
     const processedFullText = fullText.replace(/\s+/g, ' ').trim();
-    console.log("BookChapterTextSection (extractTextFromDOMArticle): Final extracted full text for player (first 100 chars):", processedFullText.substring(0,100));
     return processedFullText;
   }, []);
 
@@ -142,28 +146,25 @@ export function BookChapterTextSection() {
       return;
     }
   
-    // If the player is currently speaking
     if (ttsPlayerRef.current.isSpeaking()) {
       const wasPlayingThisSegment = currentlyPlayingSegmentRef.current === clickedWrapperElement;
-      console.log(`BookChapterTextSection: Player is speaking. Was playing this segment (${wasPlayingThisSegment})? Stopping current speech.`);
       ttsPlayerRef.current.stop();
       currentlyPlayingSegmentRef.current = null;
       if (wasPlayingThisSegment) {
-        // If clicked on the same segment that was playing, just stop.
         return;
       }
-      // If clicked on a *different* segment while playing, proceed to play the new one after a short delay
-      // to allow the stop command to fully process.
       setTimeout(() => startPlayingFrom(clickedWrapperElement), 150);
       return;
     }
-  
-    // If player is not speaking, start playing from the clicked element.
+
     startPlayingFrom(clickedWrapperElement);
   };
 
   const startPlayingFrom = (startElement: HTMLElement) => {
-    if (!articleRef.current || !ttsPlayerRef.current) return;
+    if (!articleRef.current || !ttsPlayerRef.current) {
+      console.error("BookChapterTextSection (startPlayingFrom): Missing refs");
+      return;
+    }
 
     currentlyPlayingSegmentRef.current = startElement;
     let textToPlay = "";
@@ -178,34 +179,35 @@ export function BookChapterTextSection() {
         const contentChildNodes = Array.from(wrapper.childNodes).filter(
           (n) => !(n.nodeName === 'BUTTON' || (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).classList.contains('absolute')))
         );
+        
         contentChildNodes.forEach(contentNode => {
           if (contentNode.nodeName === "UL" || contentNode.nodeName === "OL") {
             Array.from(contentNode.childNodes).forEach(li => {
               if (li.nodeName === "LI") {
-                textToPlay += getCleanTextFromDomNode(li);
+                const liText = getCleanTextFromDomNode(li);
+                textToPlay += liText;
               }
             });
           } else if (contentNode.nodeName !== 'FIGURE' && contentNode.nodeName !== 'BLOCKQUOTE') { 
-            textToPlay += getCleanTextFromDomNode(contentNode);
+            const nodeText = getCleanTextFromDomNode(contentNode);
+            textToPlay += nodeText;
           }
         });
       }
     }
     
     const finalTextToPlay = textToPlay.replace(/\s+/g, ' ').trim();
+    
     if (finalTextToPlay) {
-      console.log("BookChapterTextSection (startPlayingFrom): Playing text from element:", startElement, "Full text to play:", finalTextToPlay.substring(0,100)+"...");
       ttsPlayerRef.current.play(finalTextToPlay);
       if (ttsPlayerRef.current.currentTextToSpeakRef) {
           ttsPlayerRef.current.currentTextToSpeakRef.current = finalTextToPlay;
       }
     } else {
-      console.warn("BookChapterTextSection (startPlayingFrom): No text extracted from element:", startElement);
       ttsPlayerRef.current.stop();
     }
   };
   
-  // Helper for creating unique keys for wrapped elements
   let elementKeyCounter = 0;
 
   const WrappedP: React.FC<{children: React.ReactNode, className?: string}> = ({ children, className }) => {
@@ -259,11 +261,11 @@ export function BookChapterTextSection() {
         <figure className="my-6 text-center">
           <Image
             src="https://placehold.co/600x300.png" 
-            alt="Традиционный веб-сайт со статической информацией"
+            alt="Традиционный веб-сайт со статической информацией, отображающий простой текстовый документ и однонаправленную стрелку от сервера к браузеру."
             width={600}
             height={300}
             className="mx-auto rounded-md shadow-md"
-            data-ai-hint="static website diagram"
+            data-ai-hint="early internet"
           />
           <figcaption className="mt-2 text-sm text-muted-foreground">
             <em>Рисунок 1-1: Традиционный веб-сайт, содержащий статическую информацию</em>
@@ -275,11 +277,11 @@ export function BookChapterTextSection() {
         <figure className="my-6 text-center">
           <Image
             src="https://placehold.co/600x300.png" 
-            alt="Типичное веб-приложение с динамическим контентом"
+            alt="Современный интерфейс веб-приложения с интерактивными элементами, такими как профиль пользователя, корзина покупок и динамически обновляемый контент."
             width={600}
             height={300}
             className="mx-auto rounded-md shadow-md"
-            data-ai-hint="web application diagram"
+            data-ai-hint="modern webapp"
           />
           <figcaption className="mt-2 text-sm text-muted-foreground">
             <em>Рисунок 1-2: Типичное веб-приложение</em>
@@ -330,7 +332,7 @@ export function BookChapterTextSection() {
           Нетрудно понять, почему веб-приложения приобрели такую ​​огромную популярность. Несколько технических факторов, наряду с очевидными коммерческими стимулами, способствовали революции в том, как мы используем Интернет:
         </WrappedP>
         <WrappedUl items={[
-          "HTTP, основной протокол связи, используемый для доступа к Всемирной паутине, является легковесным и не требующим установления соединения. Это обеспечивает отказоустойчивость в случае ошибок связи и избавляет сервер от необходимости поддерживать открытое сетевое соединение с каждым пользователем, как это было во многих устаревших клиент-серверных приложениях. HTTP также может проксироваться и туннелироваться через другие протоколы, обеспечивая безопасную связь в любой сетевой конфигурации.",
+          "HTTP, основной протокол связи, используемый для доступа ко Всемирной паутине, является легковесным и не требующим установления соединения. Это обеспечивает отказоустойчивость в случае ошибок связи и избавляет сервер от необходимости поддерживать открытое сетевое соединение с каждым пользователем, как это было во многих устаревших клиент-серверных приложениях. HTTP также может проксироваться и туннелироваться через другие протоколы, обеспечивая безопасную связь в любой сетевой конфигурации.",
           "У каждого веб-пользователя уже установлен браузер на его компьютере и мобильном устройстве. Веб-приложения динамически развертывают свой пользовательский интерфейс в браузере, что избавляет от необходимости распространять и управлять отдельным клиентским программным обеспечением, как это было в до-веб-приложениях. Изменения в интерфейсе необходимо реализовывать только один раз, на сервере, и они вступают в силу немедленно.",
           "Современные браузеры обладают высокой функциональностью, что позволяет создавать насыщенные и удобные пользовательские интерфейсы. Веб-интерфейсы используют стандартные элементы навигации и ввода, которые сразу знакомы пользователям, что избавляет от необходимости изучать, как работает каждое отдельное приложение. Клиентские сценарии позволяют приложениям переносить часть своей обработки на сторону клиента, а возможности браузеров при необходимости можно произвольно расширять с помощью технологий расширения браузера.",
           "Основные технологии и языки, используемые для разработки веб-приложений, относительно просты. Доступен широкий спектр платформ и инструментов разработки, облегчающих создание мощных приложений начинающими разработчиками, а также большое количество открытого исходного кода и других ресурсов, доступных для включения в создаваемые на заказ приложения."
@@ -380,11 +382,11 @@ export function BookChapterTextSection() {
         <figure className="my-8 text-center">
           <Image
             src="https://placehold.co/700x450.png" 
-            alt="Статистика распространенности уязвимостей веб-приложений"
+            alt="График, показывающий статистику распространенности уязвимостей веб-приложений, таких как XSS, SQL-инъекции, CSRF."
             width={700}
             height={450}
             className="mx-auto rounded-md shadow-md"
-            data-ai-hint="vulnerability statistics chart"
+            data-ai-hint="cybersecurity chart"
           />
           <figcaption className="mt-2 text-sm text-muted-foreground">
             <em>Рисунок 1-3: Распространенность некоторых распространенных уязвимостей веб-приложений<br />в приложениях, недавно протестированных авторами (на основе выборки из более чем 100)</em>
@@ -471,7 +473,9 @@ export function BookChapterTextSection() {
           Эффект от широкого распространения веб-приложений заключается в том, что периметр безопасности типичной организации сместился. Часть этого периметра по-прежнему воплощена в межсетевых экранах и бастионных хостах. Но значительная его часть теперь занята веб-приложениями организации. Из-за многообразия способов, которыми веб-приложения получают пользовательский ввод и передают его на конфиденциальные внутренние системы, они являются потенциальными шлюзами для широкого спектра атак, и защита от этих атак должна быть реализована в самих приложениях. Одна
           строка дефектного кода в одном веб-приложении может сделать внутренние системы организации уязвимыми. Кроме того, с ростом популярности гибридных приложений, сторонних виджетов и других методов междоменной интеграции периметр безопасности на стороне сервера часто выходит далеко за пределы самой организации. Неявное доверие оказывается службам внешних приложений и сервисов. Статистика, описанная ранее, о распространенности уязвимостей в этом новом периметре безопасности, должна заставить каждую организацию задуматься.
         </WrappedP>
-        <WrappedP><strong>ПРИМЕЧАНИЕ</strong> Для злоумышленника, нацеленного на организацию, получение доступа к сети или выполнение произвольных команд на серверах может быть не тем, чего он хочет достичь. Часто, и, возможно, как правило, злоумышленник на самом деле хочет выполнить какое-либо действие на уровне приложения, такое как кража личной информации, перевод средств или совершение дешевых покупок. И перемещение периметра безопасности на уровень приложения может значительно помочь злоумышленнику в достижении этих целей.</WrappedP>
+        <blockquote className="border-l-4 border-muted pl-4 italic my-4 text-muted-foreground">
+          <strong>ПРИМЕЧАНИЕ:</strong> Для злоумышленника, нацеленного на организацию, получение доступа к сети или выполнение произвольных команд на серверах может быть не тем, чего он хочет достичь. Часто, и, возможно, как правило, злоумышленник на самом деле хочет выполнить какое-либо действие на уровне приложения, такое как кража личной информации, перевод средств или совершение дешевых покупок. И перемещение периметра безопасности на уровень приложения может значительно помочь злоумышленнику в достижении этих целей.
+        </blockquote>
         <WrappedP>
           Например, предположим, что злоумышленник хочет «взломать» системы банка и украсть деньги со счетов пользователей. В прошлом, до того как банк развернул веб-приложение, злоумышленнику, возможно, потребовалось бы найти уязвимость в общедоступной службе, использовать ее для получения точки опоры в демилитаризованной зоне банка, проникнуть через межсетевой экран, ограничивающий доступ к его внутренним системам, составить карту сети, чтобы найти мэйнфрейм, расшифровать непонятный протокол, используемый для доступа к нему, и угадать какие-либо учетные данные для входа в систему. Однако, если банк теперь развертывает уязвимое веб-приложение, злоумышленник может достичь того же результата, просто изменив номер счета в скрытом поле HTML-формы.
         </WrappedP>
@@ -491,7 +495,7 @@ export function BookChapterTextSection() {
           Тем не менее, детали ландшафта безопасности веб-приложений не статичны. Несмотря на то, что старые и хорошо изученные уязвимости, такие как SQL-инъекции, продолжают появляться, их распространенность постепенно уменьшается. Кроме того, оставшиеся экземпляры становится все труднее найти и использовать. Новые исследования в этих областях, как правило, сосредоточены на разработке передовых методов атаки на более тонкие проявления уязвимостей, которые несколько лет назад можно было легко обнаружить и использовать, используя только браузер.
         </WrappedP>
         <WrappedP>
-          Второй заметной тенденцией стал постепенный сдвиг внимания от атак на серверную часть приложения к атакам, нацеленным на пользователей приложения. Последний вид атаки по-прежнему использует дефекты в самом приложении, но обычно включает какое-либо взаимодействие с другим пользователем для компрометации операций этого пользователя с уязвимым приложением. Эта тенденция воспроизводится и в других областях безопасности программного обеспечения. По мере созревания осведомленности об угрозах безопасности недостатки на стороне сервера первыми хорошо понимаются и устраняются, оставляя клиентскую сторону ключевым полем битвы по мере продолжения процесса обучения. Из всех атак, описанных в этой книге, атаки на других пользователей развиваются быстрее всего, и в последние годы они были в центре большинства исследований.
+          Второй заметной тенденцией стал постепенный сдвиг внимания от атак на серверную часть приложения к атакам, нацеленным на пользователей приложения. Последний вид атаки по-прежнему использует дефекты в самом приложении, но обычно включает какое-то взаимодействие с другим пользователем для компрометации операций этого пользователя с уязвимым приложением. Эта тенденция воспроизводится и в других областях безопасности программного обеспечения. По мере созревания осведомленности об угрозах безопасности недостатки на стороне сервера первыми хорошо понимаются и устраняются, оставляя клиентскую сторону ключевым полем битвы по мере продолжения процесса обучения. Из всех атак, описанных в этой книге, атаки на других пользователей развиваются быстрее всего, и в последние годы они были в центре большинства исследований.
         </WrappedP>
         <WrappedP>
           Различные недавние тенденции в технологиях несколько изменили ландшафт веб-приложений. Популярное сознание этих тенденций существует посредством различных довольно вводящих в заблуждение модных словечек, наиболее заметными из которых являются следующие:
@@ -521,6 +525,3 @@ export function BookChapterTextSection() {
     </>
   );
 }
-
-
-    
