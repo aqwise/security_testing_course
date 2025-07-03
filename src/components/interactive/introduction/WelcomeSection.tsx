@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Shield } from 'lucide-react';
+import { BookOpen, Shield, AlertTriangle } from 'lucide-react';
 
 export function WelcomeSection() {
   return (
@@ -14,11 +14,20 @@ export function WelcomeSection() {
         <p className="mt-6 max-w-3xl mx-auto text-lg text-muted-foreground leading-relaxed">
           Добро пожаловать в обновленное руководство по практическому тестированию безопасности веб-приложений. В современном цифровом мире веб-приложения являются неотъемлемой частью бизнеса, государственных услуг и повседневной жизни. Однако они также представляют собой значительную поверхность атаки, и уязвимости могут привести к серьезным последствиям, включая утечки данных, финансовые потери и компрометацию систем. Понимание и умение выявлять и эксплуатировать эти уязвимости – критически важные навыки для любого специалиста по кибербезопасности.
         </p>
-        <div className="mt-10 flex justify-center gap-4">
+        <p className="mt-6 max-w-3xl mx-auto text-sm text-destructive/90 leading-relaxed">
+          <strong>Важно:</strong> Все действия, описанные в курсе, должны выполняться только в контролируемой лабораторной среде или с явного письменного разрешения владельца системы. Несанкционированные действия являются нарушением законодательства.
+        </p>
+        <div className="mt-10 flex flex-wrap justify-center items-center gap-4">
           <Button size="lg" asChild>
             <Link href="/guidelines/module-1">
               <BookOpen className="mr-2 h-5 w-5" />
               Начать с Модуля I
+            </Link>
+          </Button>
+          <Button size="lg" variant="outline" asChild>
+            <Link href="https://forms.gle/T4c7HPXnNqqYf4WR7" target="_blank" rel="noopener noreferrer">
+              <AlertTriangle className="mr-2 h-5 w-5" />
+              Правовая информация
             </Link>
           </Button>
         </div>
@@ -26,4 +35,3 @@ export function WelcomeSection() {
     </section>
   );
 }
-
