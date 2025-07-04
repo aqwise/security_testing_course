@@ -3,6 +3,7 @@ import { ContentPageLayout, P, H2, H3, Ul } from '@/components/content/ContentPa
 import { CodeBlock } from '@/components/content/CodeBlock';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getImagePath } from '@/utils/paths';
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
@@ -36,9 +37,18 @@ export default function MobSfSetupPage() {
             title="Настройка DAST с Genymotion на Windows для MobSF"
             subtitle="Руководство по настройке Dynamic Application Security Testing (DAST) с использованием Mobile Security Framework (MobSF) и эмулятора Genymotion на операционной системе Windows."
         >
+            <div className="mb-6">
+                <Image
+                    src={getImagePath('pics/mobsf-setup/perplexity-logo.png')}
+                    alt="Perplexity Logo"
+                    width={120}
+                    height={30}
+                    className="mx-auto"
+                />
+            </div>
             <figure className="my-6 text-center">
                 <Image
-                    src="https://placehold.co/800x450.png"
+                    src={getImagePath('pics/mobsf-setup/dast-framework-diagram.jpg')}
                     alt="A flow diagram illustrating the typical process and architectural components of a DAST framework."
                     width={800}
                     height={450}
@@ -53,7 +63,7 @@ export default function MobSfSetupPage() {
             
             <figure className="my-6 text-center">
                 <Image
-                    src="https://placehold.co/800x450.png"
+                    src={getImagePath('pics/mobsf-setup/architecture-diagram.jpg')}
                     alt="Архитектура настройки DAST с MobSF и Genymotion"
                     width={800}
                     height={450}
@@ -131,7 +141,7 @@ export default function MobSfSetupPage() {
             ]} />
             <figure className="my-6 text-center">
                 <Image
-                    src="https://placehold.co/800x450.png"
+                    src={getImagePath('pics/mobsf-setup/genymotion-interface.jpg')}
                     alt="Genymotion Android emulator interface showing a Samsung Galaxy S8 virtual device and an Open GApps installation prompt."
                     width={800}
                     height={450}
@@ -186,7 +196,7 @@ export default function MobSfSetupPage() {
             <H2>Этап 6: Запуск и тестирование динамического анализа</H2>
             <figure className="my-6 text-center">
                 <Image
-                    src="https://placehold.co/800x450.png"
+                    src={getImagePath('pics/mobsf-setup/setup-process-diagram.jpg')}
                     alt="Пошаговый процесс настройки DAST с MobSF и Genymotion"
                     width={800}
                     height={450}
