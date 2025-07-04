@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -11,6 +11,7 @@ export interface NavLink {
 
 export const navigationLinks: NavLink[] = [
   { href: '/', label: 'Введение', icon: Home },
+  { href: '/legal', label: 'Правовая информация', icon: AlertTriangle },
   { href: '/concepts', label: 'Концепции', icon: Info },
   { href: '/audience', label: 'Требования к кандидатам', icon: Users },
   { href: '/prerequisites', label: 'Требования', icon: ListChecks },
