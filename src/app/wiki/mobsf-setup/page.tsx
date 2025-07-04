@@ -1,5 +1,6 @@
 
-import { ContentPageLayout, P, H2, H3, Ul, CodeBlock } from '@/components/content/ContentPageLayout';
+import { ContentPageLayout, P, H2, H3, Ul } from '@/components/content/ContentPageLayout';
+import { CodeBlock } from '@/components/content/CodeBlock';
 import Link from 'next/link';
 import Image from 'next/image';
 
