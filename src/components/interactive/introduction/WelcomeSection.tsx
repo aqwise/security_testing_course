@@ -25,7 +25,7 @@ export function WelcomeSection() {
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <Link href="https://forms.gle/T4c7HPXnNqqYf4WR7" target="_blank" rel="noopener noreferrer">
+            <Link href="/legal">
               <AlertTriangle className="mr-2 h-5 w-5" />
               Правовая информация
             </Link>
