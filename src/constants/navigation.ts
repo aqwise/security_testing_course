@@ -59,7 +59,18 @@ export const navigationLinks: NavLink[] = [
           }
         ]
       },
-      { href: '/guidelines/module-3', label: 'Модуль III: Аутентификация', icon: KeyRound },
+      { 
+        href: '/guidelines/module-3/lesson-1', 
+        label: 'Модуль III: Аутентификация', 
+        icon: KeyRound,
+        children: [
+            {
+                href: '/guidelines/module-3/lesson-1',
+                label: 'Урок 1: Атака на Аутентификацию',
+                icon: ShieldAlert
+            }
+        ]
+      },
       { href: '/guidelines/module-4', label: 'Модуль IV: Серверные Уязвимости', icon: ServerIcon },
     ],
   },
