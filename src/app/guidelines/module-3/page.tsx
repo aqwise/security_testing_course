@@ -6,11 +6,20 @@ import { AccessControlAttacksSection } from '@/components/interactive/module-3/A
 import { LabsAndToolsSectionMod3 } from '@/components/interactive/module-3/LabsAndToolsSectionMod3';
 import { ModuleFooterMod3 } from '@/components/interactive/module-3/ModuleFooterMod3';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function InteractiveModuleThreePage() {
   return (
     <div className="container mx-auto p-0 md:p-4">
       <IntroSectionMod3 />
+      <div className="text-center my-8">
+        <Button asChild size="lg">
+          <Link href="/guidelines/module-3/lesson-1">
+            Перейти к Уроку 1: Атака на Аутентификацию
+          </Link>
+        </Button>
+      </div>
       <AuthnAttacksSection />
       <SessionAttacksSection />
       <AccessControlAttacksSection />
