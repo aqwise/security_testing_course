@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { FlaskConical, CheckCircle2, XCircle, ScrollText } from 'lucide-react';
+import { FlaskConical, CheckCircle2, XCircle, ScrollText, BookOpen, KeyRound } from 'lucide-react';
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
