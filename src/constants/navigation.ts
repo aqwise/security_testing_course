@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle, Fingerprint } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle, Fingerprint, Video } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -98,6 +98,11 @@ export const navigationLinks: NavLink[] = [
         href: '/wiki/mobsf-setup',
         label: 'Настройка MobSF',
         icon: Smartphone,
+      },
+      {
+        href: '/wiki/modern-webapp-security',
+        label: 'Безопасность Web-Приложений (Видео)',
+        icon: Video,
       },
     ],
   },
