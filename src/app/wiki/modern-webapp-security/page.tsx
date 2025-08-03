@@ -132,7 +132,7 @@ const isMatch = await bcrypt.compare('mySuperPassword123', hash); // верне�
               <Card>
                 <CardHeader><CardTitle>Clickjacking</CardTitle></CardHeader>
                 <CardContent>
-                  <P>Перехват кликов с помощью невидимого <iframe>.<br/><strong>Защита:</strong> Заголовок X-Frame-Options, CSP-директива frame-ancestors.</P>
+                  <P>Перехват кликов с помощью невидимого &lt;iframe&gt;.<br/><strong>Защита:</strong> Заголовок X-Frame-Options, CSP-директива frame-ancestors.</P>
                 </CardContent>
               </Card>
             </AccordionContent>
