@@ -13,10 +13,15 @@ export default function InteractiveModuleThreePage() {
   return (
     <div className="container mx-auto p-0 md:p-4">
       <IntroSectionMod3 />
-      <div className="text-center my-8">
+      <div className="text-center my-8 flex flex-wrap justify-center gap-4">
         <Button asChild size="lg">
           <Link href="/guidelines/module-3/lesson-1">
             Перейти к Уроку 1: Атака на Аутентификацию
+          </Link>
+        </Button>
+         <Button asChild size="lg" variant="secondary">
+          <Link href="/guidelines/module-3/lesson-2">
+            Перейти к Уроку 2: Атака на Сессии
           </Link>
         </Button>
       </div>
