@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle, Fingerprint } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -60,14 +60,19 @@ export const navigationLinks: NavLink[] = [
         ]
       },
       { 
-        href: '/guidelines/module-3/lesson-1', 
-        label: 'Модуль III: Аутентификация', 
+        href: '/guidelines/module-3', 
+        label: 'Модуль III: Аутентификация и сессии', 
         icon: KeyRound,
         children: [
             {
                 href: '/guidelines/module-3/lesson-1',
                 label: 'Урок 1: Атака на Аутентификацию',
                 icon: ShieldAlert
+            },
+            {
+                href: '/guidelines/module-3/lesson-2',
+                label: 'Урок 2: Атака на Сессии',
+                icon: Fingerprint
             }
         ]
       },
