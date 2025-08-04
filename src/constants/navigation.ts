@@ -111,4 +111,7 @@ export const navigationLinks: NavLink[] = [
   { href: '/text-chapter/chapter-2', label: 'Глава 2', icon: FileText },
   { href: '/text-chapter/chapter-3', label: 'Глава 3', icon: FileText },
   { href: '/text-chapter/chapter-4', label: 'Глава 4', icon: FileText },
+  { href: '/text-chapter/chapter-5', label: 'Глава 5', icon: FileText },
+  { href: '/text-chapter/chapter-6', label: 'Глава 6', icon: FileText },
+  { href: '/text-chapter/chapter-7', label: 'Глава 7', icon: FileText },
 ];
