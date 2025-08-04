@@ -16,6 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Home, BookOpen, FileText, Users, ShieldCheck, AlertTriangle, Server, Info, ListChecks, PanelLeft } from 'lucide-react';
+import { ClientOnly } from '@/components/common/ClientOnly';
 
 
 function AppLayoutClient({ children }: { children: ReactNode }) {
@@ -62,8 +63,10 @@ function AppLayoutClient({ children }: { children: ReactNode }) {
 
 export function AppLayout({ children }: { children: ReactNode }) {
   return (
-    <SidebarProvider>
-      <AppLayoutClient>{children}</AppLayoutClient>
-    </SidebarProvider>
+    <ClientOnly>
+      <SidebarProvider>
+        <AppLayoutClient>{children}</AppLayoutClient>
+      </SidebarProvider>
+    </ClientOnly>
   );
 }
