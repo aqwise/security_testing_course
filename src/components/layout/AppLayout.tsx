@@ -1,3 +1,4 @@
+'use client';
 
 import type { ReactNode } from 'react';
 import {
@@ -8,24 +9,30 @@ import {
   SidebarFooter,
   SidebarInset,
   SidebarTrigger,
+  useSidebar
 } from '@/components/ui/sidebar';
 import { Header } from './Header';
 import { SidebarNav } from './SidebarNav';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Home, BookOpen, FileText, Users, ShieldCheck, AlertTriangle, Server, Info, ListChecks } from 'lucide-react';
+import { Home, BookOpen, FileText, Users, ShieldCheck, AlertTriangle, Server, Info, ListChecks, PanelLeft } from 'lucide-react';
 
 
-export function AppLayout({ children }: { children: ReactNode }) {
+function AppLayoutClient({ children }: { children: ReactNode }) {
+  const { toggleSidebar } = useSidebar();
   return (
-    <SidebarProvider defaultOpen>
+    <>
       <Sidebar className="border-r" collapsible="icon">
-        <SidebarHeader className="p-4">
-          <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-sidebar-primary hover:text-sidebar-primary/90 transition-colors">
+        <SidebarHeader className="p-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-sidebar-primary hover:text-sidebar-primary/90 transition-colors group-data-[collapsible=icon]:hidden">
             <ShieldCheck className="h-7 w-7" />
-            <span className="group-data-[collapsible=icon]:hidden">Security Testing Course</span>
+            <span >Security Testing Course</span>
           </Link>
+           <Button variant="ghost" size="icon" className="h-7 w-7 group-data-[collapsible=icon]:hidden" onClick={toggleSidebar}>
+            <PanelLeft />
+            <span className="sr-only">Toggle Sidebar</span>
+          </Button>
         </SidebarHeader>
         <ScrollArea className="flex-1">
           <SidebarContent>
@@ -49,6 +56,15 @@ export function AppLayout({ children }: { children: ReactNode }) {
           </main>
         </ScrollArea>
       </SidebarInset>
+    </>
+  )
+}
+
+
+export function AppLayout({ children }: { children: ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppLayoutClient>{children}</AppLayoutClient>
     </SidebarProvider>
   );
 }
