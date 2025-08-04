@@ -8,7 +8,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarInset,
-  SidebarTrigger,
   useSidebar
 } from '@/components/ui/sidebar';
 import { Header } from './Header';
@@ -29,7 +28,7 @@ function AppLayoutClient({ children }: { children: ReactNode }) {
             <ShieldCheck className="h-7 w-7" />
             <span >Security Testing Course</span>
           </Link>
-           <Button variant="ghost" size="icon" className="h-7 w-7 group-data-[collapsible=icon]:hidden" onClick={toggleSidebar}>
+           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={toggleSidebar}>
             <PanelLeft />
             <span className="sr-only">Toggle Sidebar</span>
           </Button>
