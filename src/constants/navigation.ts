@@ -73,6 +73,11 @@ export const navigationLinks: NavLink[] = [
                 href: '/guidelines/module-3/lesson-2',
                 label: 'Урок 2: Атака на Сессии',
                 icon: Fingerprint
+            },
+            {
+                href: '/guidelines/module-3/lesson-3',
+                label: 'Урок 3: Атаки на Контроль Доступа',
+                icon: Fingerprint 
             }
         ]
       },
