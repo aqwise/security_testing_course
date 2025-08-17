@@ -76,7 +76,6 @@ export default function Module3Lesson3Page() {
         </CardContent>
       </Card>
 
-
       <H2 id="practice">Практика с PortSwigger</H2>
       <P>
         Для отработки навыков поиска уязвимостей контроля доступа отлично подходят интерактивные лабораторные работы из <Link href="https://portswigger.net/web-security/access-control" target="_blank" rel="noopener noreferrer" className={LinkStyle}>PortSwigger Web Security Academy</Link>.
