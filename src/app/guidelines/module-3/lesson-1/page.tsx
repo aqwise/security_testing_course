@@ -13,7 +13,7 @@ import { FlaskConical, CheckCircle2, XCircle, ScrollText, BookOpen, KeyRound } f
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
 
 const sourcesData = [
-  { id: 1, text: "WAHH2 (предполагаемый источник)" },
+  { id: 1, text: "WAHH2" },
   { id: 2, text: "A07 Identification and Authentication Failures - OWASP Top 10:2021", url: "https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/" },
   { id: 3, text: "A01 Broken Access Control - OWASP Top 10:2021", url: "https://owasp.org/Top10/A01_2021-Broken_Access_Control/" },
   { id: 4, text: "Broken Authentication: Impact, Examples, and How to Fix It - Bright Security", url: "https://www.brightsec.com/blog/broken-authentication-impact-examples-and-how-to-fix-it/" },
