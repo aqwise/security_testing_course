@@ -24,6 +24,11 @@ export default function InteractiveModuleThreePage() {
             Перейти к Уроку 2: Атака на Сессии
           </Link>
         </Button>
+        <Button asChild size="lg" variant="outline">
+          <Link href="/guidelines/module-3/lesson-3">
+            Перейти к Уроку 3: Контроль доступа
+          </Link>
+        </Button>
       </div>
       <AuthnAttacksSection />
       <SessionAttacksSection />
