@@ -99,3 +99,4 @@ Warning: useLayoutEffect does nothing on the server, because its effect cannot b
  ✓ Compiled in 103ms
  GET /guidelines/module-3/lesson-3 200 in 271ms
  GET /favicon.ico?favicon.56766c03.ico 200 in 79ms
+[?25h
