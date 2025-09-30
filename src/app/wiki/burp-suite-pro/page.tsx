@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { getImagePath } from '@/utils/paths';
 import { FlaskConical, Settings, Globe, Shield, AlertTriangle, CheckCircle2, XCircle, Scan, Target, Bug, Server } from 'lucide-react';
 
 const LinkStyle = "text-primary hover:text-primary/80 hover:underline";
@@ -121,7 +122,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-37-59-20250930-083904.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-37-59-20250930-083904.png')}
                 alt="Настройка прокси в Burp Suite"
                 width={800}
                 height={400}
@@ -156,7 +157,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-38-14.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-38-14.png')}
                 alt="Скачивание сертификата Burp"
                 width={600}
                 height={300}
@@ -176,7 +177,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-44-13-20250930-084557.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-44-13-20250930-084557.png')}
                 alt="Встроенный браузер Burp Suite"
                 width={800}
                 height={500}
@@ -264,7 +265,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-52-08-20250930-085403.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-52-08-20250930-085403.png')}
                 alt="Выбор типа проекта в Burp Suite"
                 width={600}
                 height={400}
@@ -282,7 +283,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-52-35-20250930-085426.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-52-35-20250930-085426.png')}
                 alt="Выбор конфигурации сканера"
                 width={600}
                 height={400}
@@ -299,7 +300,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-53-11-20250930-085429.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-53-11-20250930-085429.png')}
                 alt="Добавление в Scope"
                 width={700}
                 height={400}
@@ -317,7 +318,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-57-36-20250930-085837.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-57-36-20250930-085837.png')}
                 alt="Scan Launcher"
                 width={800}
                 height={600}
@@ -351,7 +352,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-57-47-20250930-085840.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-57-47-20250930-085840.png')}
                 alt="Конфигурация сканирования"
                 width={700}
                 height={500}
@@ -372,7 +373,7 @@ export default function BurpSuiteProWikiPage() {
                 </CardHeader>
                 <CardContent>
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_10-58-01-20250930-085843.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-58-01-20250930-085843.png')}
                         alt="Dashboard Burp Suite"
                         width={500}
                         height={300}
@@ -386,7 +387,7 @@ export default function BurpSuiteProWikiPage() {
                 </CardHeader>
                 <CardContent>
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_10-58-09-20250930-085845.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-58-09-20250930-085845.png')}
                         alt="Детали сканирования"
                         width={500}
                         height={300}
@@ -403,7 +404,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_10-58-09-20250930-085845.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_10-58-09-20250930-085845.png')}
                 alt="Просмотр уязвимостей"
                 width={800}
                 height={500}
@@ -429,7 +430,7 @@ export default function BurpSuiteProWikiPage() {
             <CardContent>
                 <div className="my-4">
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_11-07-16-20250930-093038.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-07-16-20250930-093038.png')}
                         alt="Path Traversal уязвимость"
                         width={700}
                         height={400}
@@ -439,7 +440,7 @@ export default function BurpSuiteProWikiPage() {
                 <P>Для GET-запроса: ПКМ → "Copy URL" → вставить в браузер для проверки.</P>
                 <div className="my-4">
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_11-07-28-20250930-093113.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-07-28-20250930-093113.png')}
                         alt="Проверка Path Traversal"
                         width={600}
                         height={300}
@@ -459,7 +460,7 @@ export default function BurpSuiteProWikiPage() {
             <CardContent>
                 <div className="my-4">
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_11-07-35-20250930-093237.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-07-35-20250930-093237.png')}
                         alt="XSS уязвимость"
                         width={700}
                         height={400}
@@ -474,7 +475,7 @@ export default function BurpSuiteProWikiPage() {
                 ]} />
                 <div className="my-4">
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_11-07-47-20250930-093304.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-07-47-20250930-093304.png')}
                         alt="Перехват POST запроса"
                         width={600}
                         height={300}
@@ -483,7 +484,7 @@ export default function BurpSuiteProWikiPage() {
                 </div>
                 <div className="my-4">
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_11-07-55-20250930-093335.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-07-55-20250930-093335.png')}
                         alt="Результат XSS"
                         width={600}
                         height={300}
@@ -510,7 +511,7 @@ export default function BurpSuiteProWikiPage() {
             <CardContent>
                 <div className="my-4">
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_11-08-03-20250930-093423.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-08-03-20250930-093423.png')}
                         alt="False positive XSS"
                         width={700}
                         height={400}
@@ -523,7 +524,7 @@ export default function BurpSuiteProWikiPage() {
                 </P>
                 <div className="my-4">
                     <Image
-                        src="/pics/burp-suite-pro/image_2025-09-30_11-08-10-20250930-093454.png"
+                        src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-08-10-20250930-093454.png')}
                         alt="Отметка как False Positive"
                         width={600}
                         height={300}
@@ -568,7 +569,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_11-08-28-20250930-093643.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-08-28-20250930-093643.png')}
                 alt="Уведомление о завершении сессии"
                 width={700}
                 height={200}
@@ -584,7 +585,7 @@ export default function BurpSuiteProWikiPage() {
 
         <div className="my-6">
             <Image
-                src="/pics/burp-suite-pro/image_2025-09-30_11-08-33-20250930-093737.png"
+                src={getImagePath('pics/burp-suite-pro/image_2025-09-30_11-08-33-20250930-093737.png')}
                 alt="Add Custom Header расширение"
                 width={600}
                 height={400}
