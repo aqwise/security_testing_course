@@ -111,6 +111,11 @@ export const navigationLinks: NavLink[] = [
         icon: Zap,
       },
       {
+        href: '/wiki/burp-suite-pro',
+        label: 'Настройка Burp Suite Pro',
+        icon: Shield,
+      },
+      {
         href: '/wiki/mobsf-setup',
         label: 'Настройка MobSF',
         icon: Smartphone,
