@@ -5,6 +5,7 @@ import { ContentPageLayout } from '@/components/content/ContentPageLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExternalLink } from 'lucide-react';
 import { QuizItem } from '@/components/content/QuizItem';
+import { getImagePath } from '@/utils/paths';
 
 const P: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ children, ...props }) => (
   <p className="mb-3 leading-relaxed" {...props}>{children}</p>
@@ -235,7 +236,7 @@ document.getElementById("output").innerHTML = userInput;
                 <P className="text-sm mb-2">1. Отправляем запрос с внедренной ссылкой:</P>
                 <div className="border-2 border-dashed border-primary/30 rounded p-4 text-center bg-background">
                   <img 
-                    src="/pics/html-injection-lesson/blind-html-injection-request.png" 
+                    src={getImagePath('/pics/html-injection-lesson/blind-html-injection-request.png')}
                     alt="Запрос с HTML инъекцией в параметрах"
                     className="max-w-full h-auto mx-auto rounded shadow-md"
                   />
@@ -249,7 +250,7 @@ document.getElementById("output").innerHTML = userInput;
                 <P className="text-sm mb-2">2. Получатель видит результат в письме:</P>
                 <div className="border-2 border-dashed border-primary/30 rounded p-4 text-center bg-background">
                   <img 
-                    src="/pics/html-injection-lesson/blind-html-injection-email-result.png" 
+                    src={getImagePath('/pics/html-injection-lesson/blind-html-injection-email-result.png')}
                     alt="Email с отображением внедренного HTML"
                     className="max-w-full h-auto mx-auto rounded shadow-md"
                   />

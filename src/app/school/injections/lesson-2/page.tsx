@@ -6,6 +6,7 @@ import { ContentPageLayout, P, H2, H3 } from '@/components/content/ContentPageLa
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { AlertTriangle, Code, ExternalLink, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import { getImagePath } from '@/utils/paths';
 
 export default function XSSLesson() {
   return (
@@ -147,7 +148,7 @@ export default function XSSLesson() {
                 <div className="my-6 flex justify-center">
                   <div className="max-w-lg w-full">
                     <Image
-                      src="/pics/xss-lesson/burp-collaborator-diagram.png"
+                      src={getImagePath('/pics/xss-lesson/burp-collaborator-diagram.png')}
                       alt="Burp Collaborator - Out-of-Band Connection"
                       width={477}
                       height={385}
@@ -167,7 +168,7 @@ export default function XSSLesson() {
                 </P>
                 <div className="my-4 flex justify-center">
                   <Image
-                    src="/pics/xss-lesson/blind-xss-payload.jpg"
+                    src={getImagePath('/pics/xss-lesson/blind-xss-payload.jpg')}
                     alt="Отправка Blind XSS Payload"
                     width={736}
                     height={103}
@@ -179,10 +180,10 @@ export default function XSSLesson() {
                 </P>
                 <div className="my-4 flex justify-center">
                   <Image
-                    src="/pics/xss-lesson/blind-xss-result.png"
+                    src={getImagePath('/pics/xss-lesson/blind-xss-result.png')}
                     alt="Результат Blind XSS атаки"
-                    width={709}
-                    height={263}
+                    width={1029}
+                    height={556}
                     className="rounded-lg border shadow-md"
                   />
                 </div>
@@ -297,7 +298,7 @@ export default function XSSLesson() {
           </P>
           <div className="my-4 flex justify-center">
             <Image
-              src="/pics/xss-lesson/xss-alert-example.png"
+              src={getImagePath('/pics/xss-lesson/xss-alert-example.png')}
               alt="Пример XSS alert сообщения"
               width={371}
               height={158}
@@ -614,7 +615,7 @@ export default function XSSLesson() {
               </P>
               <div className="my-4 flex justify-center">
                 <Image
-                  src="/pics/xss-lesson/svg-xss-example.jpg"
+                  src={getImagePath('/pics/xss-lesson/svg-xss-example.jpg')}
                   alt="Пример XSS через SVG файл"
                   width={760}
                   height={320}
