@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle, Fingerprint, Video } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle, Fingerprint, Video, GraduationCap } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -15,6 +15,50 @@ export const navigationLinks: NavLink[] = [
   { href: '/concepts', label: 'Концепции', icon: Info },
   { href: '/audience', label: 'Требования к кандидатам', icon: Users },
   { href: '/prerequisites', label: 'Требования', icon: ListChecks },
+  {
+    href: '/school',
+    label: 'Школа',
+    icon: GraduationCap,
+    children: [
+      {
+        href: '/school/injections',
+        label: 'Инъекции',
+        icon: Shield,
+        children: [
+          {
+            href: '/school/injections/lesson-1',
+            label: 'Урок 1: Введение в инъекции',
+            icon: BookOpen
+          },
+          {
+            href: '/school/injections/lesson-2',
+            label: 'Урок 2: Cross-Site Scripting (XSS)',
+            icon: AlertTriangle
+          },
+          {
+            href: '/school/injections/lesson-3',
+            label: 'Урок 3: HTML Injection',
+            icon: FileText
+          },
+          {
+            href: '/school/injections/lesson-4',
+            label: 'Урок 4: SQL Injection',
+            icon: DatabaseZap
+          },
+          {
+            href: '/school/injections/lesson-5',
+            label: 'Урок 5: Command Injection',
+            icon: ServerIcon
+          },
+          {
+            href: '/school/injections/lesson-6',
+            label: 'Урок 6: XXE (XML External Entity)',
+            icon: FileText
+          }
+        ]
+      }
+    ]
+  },
   {
     href: '/guidelines',
     label: 'Руководство',
