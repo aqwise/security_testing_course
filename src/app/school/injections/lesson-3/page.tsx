@@ -5,6 +5,7 @@ import { ContentPageLayout } from '@/components/content/ContentPageLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExternalLink } from 'lucide-react';
 import { QuizItem } from '@/components/content/QuizItem';
+import { quizQuestions } from './quizQuestions';
 import { getImagePath } from '@/utils/paths';
 
 const P: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ children, ...props }) => (
@@ -20,58 +21,6 @@ const H3: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...p
 );
 
 export default function Lesson3Page() {
-  const quizQuestions = [
-    {
-      question: "Что такое HTML Injection?",
-      answers: [
-        "Внедрение SQL-кода в базу данных",
-        "Внедрение HTML-кода в веб-страницу через уязвимые входные данные",
-        "Внедрение JavaScript-кода",
-        "Внедрение CSS-стилей"
-      ],
-      correctAnswerIndex: 1
-    },
-    {
-      question: "Какой тип HTML Injection происходит, когда данные сохраняются на сервере?",
-      answers: [
-        "Reflected HTML Injection",
-        "Stored HTML Injection",
-        "DOM-based HTML Injection",
-        "Blind HTML Injection"
-      ],
-      correctAnswerIndex: 1
-    },
-    {
-      question: "В чем основное отличие HTML Injection от XSS?",
-      answers: [
-        "HTML Injection всегда более опасна",
-        "HTML Injection не позволяет выполнять JavaScript код",
-        "XSS не может изменять структуру страницы",
-        "Нет никакой разницы"
-      ],
-      correctAnswerIndex: 1
-    },
-    {
-      question: "Какой тип HTML Injection связан с манипуляцией DOM через JavaScript?",
-      answers: [
-        "Reflected HTML Injection",
-        "Stored HTML Injection",
-        "DOM-based HTML Injection",
-        "Server-side HTML Injection"
-      ],
-      correctAnswerIndex: 2
-    },
-    {
-      question: "Что может быть последствием успешной HTML Injection атаки?",
-      answers: [
-        "Только изменение внешнего вида страницы",
-        "Фишинг, кража данных, изменение контента",
-        "Удаление базы данных",
-        "Отказ в обслуживании (DoS)"
-      ],
-      correctAnswerIndex: 1
-    }
-  ];
 
   return (
     <ContentPageLayout
@@ -83,9 +32,9 @@ export default function Lesson3Page() {
           <CardContent className="pt-6">
             <P className="text-sm">
               <strong>Источник материала:</strong> Данный урок основан на материалах из{' '}
-              <a 
-                href="https://innowise-group.atlassian.net/wiki/spaces/QD/pages/4037412233/HTML+Injection" 
-                target="_blank" 
+              <a
+                href="https://innowise-group.atlassian.net/wiki/spaces/QD/pages/4037412233/HTML+Injection"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline inline-flex items-center"
               >
@@ -101,14 +50,14 @@ export default function Lesson3Page() {
           </CardHeader>
           <CardContent className="space-y-4">
             <P>
-              Данный тип уязвимости, как и в случае <strong>XSS</strong>, один из наиболее часто встречающихся, 
-              и её механика и логика очень схожа. Также, как и в случае ранее — это уязвимость с <strong>клиентской стороны</strong>, 
+              Данный тип уязвимости, как и в случае <strong>XSS</strong>, один из наиболее часто встречающихся,
+              и её механика и логика очень схожа. Также, как и в случае ранее — это уязвимость с <strong>клиентской стороны</strong>,
               то есть она может выполниться <strong>только в браузере</strong>.
             </P>
             <P>
-              <strong>HTML injection</strong> — это атака, при которой злоумышленник внедряет определенные <strong>HTML-теги</strong> 
-              и таким образом модифицирует контент страницы. Целью данной атаки является обман пользователей при помощи 
-              социальной инженерии (например, каким-либо образом заставить пользователя ввести свои данные в форму логина 
+              <strong>HTML injection</strong> — это атака, при которой злоумышленник внедряет определенные <strong>HTML-теги</strong>
+              и таким образом модифицирует контент страницы. Целью данной атаки является обман пользователей при помощи
+              социальной инженерии (например, каким-либо образом заставить пользователя ввести свои данные в форму логина
               и пароля / перейти по ссылке, которой там не должно быть и т.д.)
             </P>
             <P>
@@ -130,7 +79,7 @@ export default function Lesson3Page() {
             <div>
               <H3>1. Отраженный (Reflected)</H3>
               <P>
-                Полезная нагрузка отправляется в запросе (GET/POST) и возвращается в ответ сразу же. 
+                Полезная нагрузка отправляется в запросе (GET/POST) и возвращается в ответ сразу же.
                 Типично для поисковых строк, параметры URL, сообщения об ошибке и т.д.
               </P>
             </div>
@@ -138,8 +87,8 @@ export default function Lesson3Page() {
             <div>
               <H3>2. Сохраненный (Stored)</H3>
               <P>
-                Полезная нагрузка сохраняется сервером (DB, лог, профиль, комментарий) и затем отображается другим пользователям. 
-                Более опасен — долговременное воздействие. Например, сайт для скачивания ПО, вставили ссылку и сделали сайт 
+                Полезная нагрузка сохраняется сервером (DB, лог, профиль, комментарий) и затем отображается другим пользователям.
+                Более опасен — долговременное воздействие. Например, сайт для скачивания ПО, вставили ссылку и сделали сайт
                 похожий на настоящий, пользователь скачал – получил <strong>malware</strong>.
               </P>
             </div>
@@ -147,8 +96,8 @@ export default function Lesson3Page() {
             <div>
               <H3>3. На стороне клиента (DOM-based)</H3>
               <P>
-                Вставка происходит полностью в браузере — JS берёт данные из <em>location/hash/localStorage</em> и вставляет 
-                в <strong>DOM</strong> без экранирования. Может быть отражённым или сохраняемым по происхождению, 
+                Вставка происходит полностью в браузере — JS берёт данные из <em>location/hash/localStorage</em> и вставляет
+                в <strong>DOM</strong> без экранирования. Может быть отражённым или сохраняемым по происхождению,
                 но уязвимость — в клиентском коде.
               </P>
             </div>
@@ -158,34 +107,34 @@ export default function Lesson3Page() {
               <P>
                 Как и в случае с XSS, так же само и работает для HTML. Ниже несколько скринов, чтобы понять логику.
               </P>
-              
+
               <div className="bg-muted p-4 rounded-md mb-3 mt-3">
                 <P className="text-sm mb-2">Отправляем запрос с линкой:</P>
                 <div className="border-2 border-dashed border-primary/30 rounded p-4 text-center bg-background">
-                  <img 
+                  <img
                     src={getImagePath('/pics/html-injection-lesson/blind-html-injection-request.png')}
                     alt="Запрос с HTML инъекцией в параметрах"
                     className="max-w-full h-auto mx-auto rounded shadow-md"
                   />
                 </div>
               </div>
-              
+
               <div className="bg-muted p-4 rounded-md mb-3">
                 <P className="text-sm mb-2">Далее приходит письмо на почту и мы видим:</P>
                 <div className="border-2 border-dashed border-primary/30 rounded p-4 text-center bg-background">
-                  <img 
+                  <img
                     src={getImagePath('/pics/html-injection-lesson/blind-html-injection-email-result.png')}
                     alt="Email с отображением внедренного HTML"
                     className="max-w-full h-auto mx-auto rounded shadow-md"
                   />
                 </div>
               </div>
-              
+
               <P className="mt-3">
                 В данном случае HTML инъекция была в двух параметрах сразу.
               </P>
               <P>
-                А что если вместо <strong>Test</strong> и <strong>User_Name</strong> написать: 
+                А что если вместо <strong>Test</strong> и <strong>User_Name</strong> написать:
                 <em> "Dear user! We have been detected suspicious activity! Please change your password … Link Here."</em>
               </P>
             </div>
@@ -203,19 +152,19 @@ export default function Lesson3Page() {
               </li>
               <li>
                 <P className="mb-2">
-                  Самый простой способ – добавлять теги <code className="bg-muted px-1 py-0.5 rounded">&lt;h1&gt;Some_test&lt;/h1&gt;</code>, 
+                  Самый простой способ – добавлять теги <code className="bg-muted px-1 py-0.5 rounded">&lt;h1&gt;Some_test&lt;/h1&gt;</code>,
                   {' '}<code className="bg-muted px-1 py-0.5 rounded">&lt;b&gt;Bold_Text&lt;/b&gt;</code> и др.
                 </P>
                 <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-md p-3 mt-2">
                   <P className="text-sm mb-0">
-                    <strong>⚠️ Важно:</strong> Если в этом есть необходимость логики, как например на <strong>Confluence</strong>, 
-                    то это бизнес-идея приложения. Главное, чтобы она не позволяла нам, например, с помощью этого редактора 
+                    <strong>⚠️ Важно:</strong> Если в этом есть необходимость логики, как например на <strong>Confluence</strong>,
+                    то это бизнес-идея приложения. Главное, чтобы она не позволяла нам, например, с помощью этого редактора
                     изменить страницу, которую не можем (например, при помощи <strong>Broken Access Control</strong>).
                   </P>
                 </div>
               </li>
               <li>
-                Отправить тег открытия комментария <code className="bg-muted px-1 py-0.5 rounded">&lt;!--</code>, 
+                Отправить тег открытия комментария <code className="bg-muted px-1 py-0.5 rounded">&lt;!--</code>,
                 что позволит полностью остановить работу, т.к. новые данные будут восприниматься как комментарий к коду.
               </li>
               <li>
@@ -236,18 +185,18 @@ export default function Lesson3Page() {
           </CardHeader>
           <CardContent className="space-y-4">
             <P>
-              Практические задачи есть на платформе <strong>bWAPP</strong>. Но её нужно устанавливать локально 
-              в <strong>VirtualBox</strong> и я не знаю проверенной платформы, где бы это было безопасно. 
+              Практические задачи есть на платформе <strong>bWAPP</strong>. Но её нужно устанавливать локально
+              в <strong>VirtualBox</strong> и я не знаю проверенной платформы, где бы это было безопасно.
               Можете выполнить по желанию. Также есть <strong>room</strong> на <strong>TryHackMe</strong>, но там одно задание.
             </P>
-            
+
             <P>Но прочесть немного статей вам придется :)</P>
-            
+
             <ol className="list-decimal pl-6 space-y-2">
               <li>
-                <a 
-                  href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/03-Testing_for_HTML_Injection" 
-                  target="_blank" 
+                <a
+                  href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/03-Testing_for_HTML_Injection"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline inline-flex items-center"
                 >
@@ -255,9 +204,9 @@ export default function Lesson3Page() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://infosecwriteups.com/html-injection-to-mass-phishing-5701d495cdc2" 
-                  target="_blank" 
+                <a
+                  href="https://infosecwriteups.com/html-injection-to-mass-phishing-5701d495cdc2"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline inline-flex items-center"
                 >
@@ -265,9 +214,9 @@ export default function Lesson3Page() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://www.youtube.com/watch?v=VLk5QGZUUs0" 
-                  target="_blank" 
+                <a
+                  href="https://www.youtube.com/watch?v=VLk5QGZUUs0"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline inline-flex items-center"
                 >
@@ -275,9 +224,9 @@ export default function Lesson3Page() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://discover.hubpages.com/technology/HTML-Injection-TryHackMe-OWASPBWA" 
-                  target="_blank" 
+                <a
+                  href="https://discover.hubpages.com/technology/HTML-Injection-TryHackMe-OWASPBWA"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline inline-flex items-center"
                 >
@@ -285,9 +234,9 @@ export default function Lesson3Page() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://www.invicti.com/learn/html-injection/" 
-                  target="_blank" 
+                <a
+                  href="https://www.invicti.com/learn/html-injection/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline inline-flex items-center"
                 >

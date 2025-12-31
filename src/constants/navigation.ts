@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle, Fingerprint, Video, GraduationCap } from 'lucide-react';
+import { Home, Info, Users, ListChecks, BookOpen, Shield, Microscope, KeyRound, ServerIcon, FileText, PlayCircle, Package, BookMarked, ShoppingBasket, DatabaseZap, ShieldAlert, LibraryBig, Wrench, Zap, Smartphone, AlertTriangle, Fingerprint, Video, GraduationCap, Settings, Globe, Server, FileUp } from 'lucide-react';
 
 export interface NavLink {
   href: string;
@@ -56,6 +56,41 @@ export const navigationLinks: NavLink[] = [
             icon: FileText
           }
         ]
+      },
+      {
+        href: '/school/broken-access-control',
+        label: 'Broken Access Control',
+        icon: ShieldAlert
+      },
+      {
+        href: '/school/broken-authentication',
+        label: 'Broken Authentication',
+        icon: KeyRound
+      },
+      {
+        href: '/school/sensitive-data-exposure',
+        label: 'Sensitive Data Exposure',
+        icon: AlertTriangle
+      },
+      {
+        href: '/school/security-misconfiguration',
+        label: 'Security Misconfiguration',
+        icon: Settings
+      },
+      {
+        href: '/school/cors-csrf',
+        label: 'CORS & CSRF',
+        icon: Globe
+      },
+      {
+        href: '/school/ssrf',
+        label: 'SSRF',
+        icon: Server
+      },
+      {
+        href: '/school/file-upload',
+        label: 'File Upload',
+        icon: FileUp
       }
     ]
   },
@@ -91,48 +126,48 @@ export const navigationLinks: NavLink[] = [
           }
         ]
       },
-      { 
-        href: '/guidelines/module-2', 
-        label: 'Модуль II: Разведка', 
+      {
+        href: '/guidelines/module-2',
+        label: 'Модуль II: Разведка',
         icon: Microscope,
         children: [
           {
             href: '/guidelines/module-2/lesson-1',
             label: 'Урок 1: Механизмы Защиты',
-            icon: ShieldAlert 
+            icon: ShieldAlert
           }
         ]
       },
-      { 
-        href: '/guidelines/module-3', 
-        label: 'Модуль III: Аутентификация и сессии', 
+      {
+        href: '/guidelines/module-3',
+        label: 'Модуль III: Аутентификация и сессии',
         icon: KeyRound,
         children: [
-            {
-                href: '/guidelines/module-3/lesson-1',
-                label: 'Урок 1: Атака на Аутентификацию',
-                icon: ShieldAlert
-            },
-            {
-                href: '/guidelines/module-3/lesson-2',
-                label: 'Урок 2: Атака на Сессии',
-                icon: Fingerprint
-            },
-            {
-                href: '/guidelines/module-3/lesson-3',
-                label: 'Урок 3: Атаки на Контроль Доступа',
-                icon: Fingerprint 
-            },
-            {
-                href: '/guidelines/module-3/lesson-4',
-                label: 'Урок 4: Broken access control',
-                icon: Shield
-            }
+          {
+            href: '/guidelines/module-3/lesson-1',
+            label: 'Урок 1: Атака на Аутентификацию',
+            icon: ShieldAlert
+          },
+          {
+            href: '/guidelines/module-3/lesson-2',
+            label: 'Урок 2: Атака на Сессии',
+            icon: Fingerprint
+          },
+          {
+            href: '/guidelines/module-3/lesson-3',
+            label: 'Урок 3: Атаки на Контроль Доступа',
+            icon: Fingerprint
+          },
+          {
+            href: '/guidelines/module-3/lesson-4',
+            label: 'Урок 4: Broken access control',
+            icon: Shield
+          }
         ]
       },
-      { 
-        href: '/guidelines/module-4', 
-        label: 'Модуль IV: Серверные Уязвимости', 
+      {
+        href: '/guidelines/module-4',
+        label: 'Модуль IV: Серверные Уязвимости',
         icon: ServerIcon,
         children: [
           {

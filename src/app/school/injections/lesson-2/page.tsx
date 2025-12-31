@@ -8,20 +8,23 @@ import { AlertTriangle, Code, ExternalLink, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import { getImagePath } from '@/utils/paths';
 
+import { QuizItem } from '@/components/content/QuizItem';
+import { quizQuestions } from './quizQuestions';
+
 export default function XSSLesson() {
   return (
     <ContentPageLayout title="Урок 2: Cross-Site Scripting (XSS)">
       <div className="space-y-8">
         <section>
           <P>
-            Данный тип уязвимости один из наиболее часто встречающихся, поэтому мы выделили ему первое место в нашем списке. 
+            Данный тип уязвимости один из наиболее часто встречающихся, поэтому мы выделили ему первое место в нашем списке.
             Также, это уязвимость с <strong>клиентской стороны</strong>, то есть она может выполниться <strong>только в браузере</strong>.
           </P>
           <Card className="my-4 border-blue-200 bg-blue-50 dark:bg-blue-950/20">
             <CardContent className="pt-6">
               <P>
-                <strong>Важный момент:</strong> при тестировании <strong>API</strong>, которое не имеет <strong>UI</strong> оболочки 
-                и движка браузера для рендеринга страницы, это не имеет смысла. Но если <strong>API</strong> передает данные на <strong>UI</strong>, 
+                <strong>Важный момент:</strong> при тестировании <strong>API</strong>, которое не имеет <strong>UI</strong> оболочки
+                и движка браузера для рендеринга страницы, это не имеет смысла. Но если <strong>API</strong> передает данные на <strong>UI</strong>,
                 то это отличный вектор для атаки, т.к. <strong>API</strong> зачастую защищено не хуже, но немного по другому.
               </P>
             </CardContent>
@@ -31,18 +34,18 @@ export default function XSSLesson() {
         <section>
           <H2>Как это работает?</H2>
           <P>
-            Допустим, мы имеем параметр ввода <strong>"User Name"</strong>. При мануальном или автоматизированном тестировании 
+            Допустим, мы имеем параметр ввода <strong>"User Name"</strong>. При мануальном или автоматизированном тестировании
             мы проведем свои кейсы, проверим сколько символов оно может принять, как на числа ответит и узнаем кто такой John Doe и т.д.
           </P>
           <P>
-            Но, как пентестеры мы подумаем: "А что если вставить сюда скрипт <code>&lt;script&gt;alert(you_have_been_hacked)&lt;/script&gt;</code>? 
+            Но, как пентестеры мы подумаем: "А что если вставить сюда скрипт <code>&lt;script&gt;alert(you_have_been_hacked)&lt;/script&gt;</code>?
             Как отреагирует приложение? Выполнится ли наш скрипт и получим ли мы наш Alert?"
           </P>
         </section>
 
         <section>
           <H2>Существует несколько типов XSS</H2>
-          
+
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -53,16 +56,16 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <P>
-                  Приложение или API включает непроверенные и непреобразованные данные в состав HTML. Успешная атака может привести 
+                  Приложение или API включает непроверенные и непреобразованные данные в состав HTML. Успешная атака может привести
                   к выполнению произвольного HTML- и JavaScript-кода в браузере жертвы.
                 </P>
                 <P>
-                  Обычно злоумышленнику необходимо убедить пользователя перейти по ссылке (т.к. полезная нагрузка (<strong>Payload</strong>) 
+                  Обычно злоумышленнику необходимо убедить пользователя перейти по ссылке (т.к. полезная нагрузка (<strong>Payload</strong>)
                   обычно сохранена в параметре, например <code>/users?userId=тут наш скрипт</code>), ведущей на вредоносную страницу.
                 </P>
                 <P>
-                  Например, пользователь <strong>А</strong> знает, что у пользователя <strong>Б</strong> есть также аккаунт в веб-приложении. 
-                  Он может придумать: "Эй, там новые скидки на сайте / ты видел эту новость?" и т.д. и отправить это для пользователя Б. 
+                  Например, пользователь <strong>А</strong> знает, что у пользователя <strong>Б</strong> есть также аккаунт в веб-приложении.
+                  Он может придумать: "Эй, там новые скидки на сайте / ты видел эту новость?" и т.д. и отправить это для пользователя Б.
                   <strong>Пользователь Б переходит по ссылке, выполняется скрипт</strong> и у него что-то исчезло с его аккаунта или его сессия и т.д.
                 </P>
               </CardContent>
@@ -78,12 +81,12 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <P>
-                  Приложение или API сохраняет необработанные входные данные, с которыми затем взаимодействуют пользователи или администраторы. 
+                  Приложение или API сохраняет необработанные входные данные, с которыми затем взаимодействуют пользователи или администраторы.
                   Межсайтовое выполнение хранимых сценариев обычно считается <strong className="text-red-600">очень опасной уязвимостью</strong>.
                 </P>
                 <P>
-                  <strong>Пример:</strong> функция комментариев на блоге или раздел "о себе". Если в случае <strong>Reflected</strong> мы отправляли 
-                  ссылку с нашей полезной нагрузкой, то тут приложение сохраняет данный скрипт и каждый раз, кто посетит данную страницу или 
+                  <strong>Пример:</strong> функция комментариев на блоге или раздел "о себе". Если в случае <strong>Reflected</strong> мы отправляли
+                  ссылку с нашей полезной нагрузкой, то тут приложение сохраняет данный скрипт и каждый раз, кто посетит данную страницу или
                   откроет комментарии, то скрипт будет выполняться. Критичность от этого выше, т.к. не нужно никуда ничего доставлять.
                 </P>
               </CardContent>
@@ -98,18 +101,18 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <P>
-                  <strong>JavaScript-фреймворки</strong>, одностраничные приложения и <strong>API</strong>, динамически добавляющие 
+                  <strong>JavaScript-фреймворки</strong>, одностраничные приложения и <strong>API</strong>, динамически добавляющие
                   вредоносные данные на страницы, подвержены <strong>XSS на основе DOM</strong>.
                 </P>
                 <P>
-                  В идеале, приложение не должно отправлять вредоносные данные небезопасным <strong>JavaScript API</strong>. 
+                  В идеале, приложение не должно отправлять вредоносные данные небезопасным <strong>JavaScript API</strong>.
                   XSS в DOM-модели - это прежде всего проблема клиентской стороны веб-приложения.
                 </P>
                 <Card className="mt-3 bg-muted">
                   <CardContent className="pt-4">
                     <p className="text-sm">
-                      <strong>Уточнение:</strong> это не проблема клиента, а проблема клиентской части приложения. Это некорректная 
-                      фильтрация/использование данных, полученных из недоверенных источников, в клиентской части веб-приложения, 
+                      <strong>Уточнение:</strong> это не проблема клиента, а проблема клиентской части приложения. Это некорректная
+                      фильтрация/использование данных, полученных из недоверенных источников, в клиентской части веб-приложения,
                       то есть в основном в JavaScript. DOM XSS может быть на "любой" странице, даже на обычной HTML, если там используется JavaScript.
                     </p>
                   </CardContent>
@@ -129,11 +132,11 @@ export default function XSSLesson() {
                   Понять просто – Payload отправили, а результат не видим. Допустим форма обратной связи или должно прийти письмо на почту.
                 </P>
                 <P>
-                  Например, мы отправляем такой скрипт <code>&lt;img src="google.com/favicon.ico"/&gt;</code> в поле имя и вместо имени 
+                  Например, мы отправляем такой скрипт <code>&lt;img src="google.com/favicon.ico"/&gt;</code> в поле имя и вместо имени
                   тут будет <strong>картинка Google</strong> или <strong>ошибка</strong> (например "поломанная картинка").
                 </P>
                 <P>
-                  Но что, если мы не можем это проверить и нужно, чтобы админ открыл уведомление, запрос и т.д.? В этом случае используем 
+                  Но что, если мы не можем это проверить и нужно, чтобы админ открыл уведомление, запрос и т.д.? В этом случае используем
                   например такой скрипт:
                 </P>
                 <pre className="bg-muted p-4 rounded-lg overflow-x-auto">
@@ -155,7 +158,7 @@ export default function XSSLesson() {
                       className="rounded-lg border shadow-md"
                     />
                     <p className="text-sm text-muted-foreground mt-2 text-center">
-                      <strong>Первый</strong> (мы) отправил Payload, <strong>второй</strong> (уязвимое приложение) выполнило его, 
+                      <strong>Первый</strong> (мы) отправил Payload, <strong>второй</strong> (уязвимое приложение) выполнило его,
                       а <strong>третий</strong> (наш сервер Burp Collaborator) получает ответ.
                     </p>
                   </div>
@@ -239,7 +242,7 @@ export default function XSSLesson() {
 
         <section>
           <H2>Как найти XSS уязвимость в приложении?</H2>
-          
+
           <div className="space-y-4">
             <Card>
               <CardHeader>
@@ -247,7 +250,7 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent>
                 <P>
-                  Первым делом производим отбор страниц с формами ввода - составляем список, который в дальнейшем будем проверять. 
+                  Первым делом производим отбор страниц с формами ввода - составляем список, который в дальнейшем будем проверять.
                   Собираем руками, просто изучая логику работы проекта и проходя по всем страницам сайта.
                 </P>
               </CardContent>
@@ -259,12 +262,12 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent>
                 <P>
-                  Вторая наша задача это найти страницы обрабатывающие <strong>GET</strong> и <strong>POST</strong> параметры. 
+                  Вторая наша задача это найти страницы обрабатывающие <strong>GET</strong> и <strong>POST</strong> параметры.
                   Все страницы которые получают или шлют данные, потенциально уязвимы.
                 </P>
                 <P>
-                  <strong>Как собирать?</strong> BURP используем как прокси, который собирает трафик во время нашей навигации по сайту 
-                  и формирует карту сайта. Не факт что этого достаточно, поэтому идем к ребятам из проекта и просим документацию по API. 
+                  <strong>Как собирать?</strong> BURP используем как прокси, который собирает трафик во время нашей навигации по сайту
+                  и формирует карту сайта. Не факт что этого достаточно, поэтому идем к ребятам из проекта и просим документацию по API.
                   Или фаззим и ищем скрытые API-calls.
                 </P>
               </CardContent>
@@ -274,15 +277,15 @@ export default function XSSLesson() {
 
         <section>
           <H2>Подробнее: пример поиска уязвимости</H2>
-          
+
           <H3>1. Отбираем страницы с формами ввода</H3>
-          
+
           <H3>2. Для найденных полей ввода пробуем выявить XSS уязвимости</H3>
           <P>
             После того как мы нашли все страницы, с которых можно отправлять информацию на сервер, можно начинать выявление.
           </P>
           <P>
-            Допустим, найденная форма ввода является поиском по сайту. Определить, является ли эта форма XSS уязвимой, можно несколькими способами, 
+            Допустим, найденная форма ввода является поиском по сайту. Определить, является ли эта форма XSS уязвимой, можно несколькими способами,
             подставив в поле одну из следующих инъекций:
           </P>
           <div className="bg-muted p-4 rounded-lg space-y-2">
@@ -317,17 +320,17 @@ export default function XSSLesson() {
             И проверяем после отправки, открываем просмотр кода страницы и ищем слово alert, т.е. ищем ответ сайта и что с запросом сделал фильтр.
           </P>
           <P>
-            К примеру мы отправили: <code>&lt;script&gt;alert();&lt;/script&gt;</code>, а ничего не выполнилось. Залазим в <strong>html</strong> и видим: 
+            К примеру мы отправили: <code>&lt;script&gt;alert();&lt;/script&gt;</code>, а ничего не выполнилось. Залазим в <strong>html</strong> и видим:
             <code>&lt;script&gt;alert();&lt;/script&gt;&gt;</code>
           </P>
           <P>
-            Свой целый запрос + фильтр добавил <code>"&gt;</code>. Остается только правильно составить запрос, чтобы он выполнился. 
+            Свой целый запрос + фильтр добавил <code>"&gt;</code>. Остается только правильно составить запрос, чтобы он выполнился.
             Нам следует послать <code>&lt;script&gt;alert();&lt;/script</code>. Фильтр дополнит запрос, и он выполнится.
           </P>
 
           <H3>3. Страницы обрабатывающие GET и POST параметры</H3>
           <P>
-            Например, страница такого типа <code>http://testsite.com/catalog?p=1</code> может оказаться уязвима. Подобно действиям, 
+            Например, страница такого типа <code>http://testsite.com/catalog?p=1</code> может оказаться уязвима. Подобно действиям,
             проделанным ранее в поле ввода и адресную строку, попробуем подставить в параметр вышеперечисленные строки кода.
           </P>
           <P>
@@ -338,14 +341,14 @@ export default function XSSLesson() {
             <code className="block">http://testsite.ru/catalog?p=&lt;img src="javascript:alert('xss');&gt;</code>
           </div>
           <P>
-            Фильтр смотрит, что ничего опасного в <code>&lt;IMG%20SRC="javascript:alert('xss');&gt;</code> нет и выполняет скрипт. 
+            Фильтр смотрит, что ничего опасного в <code>&lt;IMG%20SRC="javascript:alert('xss');&gt;</code> нет и выполняет скрипт.
             Еще, конечно, если фильтр не фильтрует различные кодировки, то можно попытаться закодировать скрипт и вставить код.
           </P>
         </section>
 
         <section>
           <H2>Еще один разбор как тестируют поля ввода</H2>
-          
+
           <div className="space-y-4">
             <Card>
               <CardHeader>
@@ -376,7 +379,7 @@ export default function XSSLesson() {
                   Возможно еще ввести в поле для проверки фильтрации вот так: <code>"&gt;&lt;&gt;'"`,/\\?@%</code>
                 </P>
                 <P>
-                  Рассмотрим случай если фильтр съедает <code>&lt;&gt;</code>. В этом случае существует вероятность дырки. 
+                  Рассмотрим случай если фильтр съедает <code>&lt;&gt;</code>. В этом случае существует вероятность дырки.
                   К примеру, у фильтра условие съедать <code>&lt;script&gt;,&lt;&gt;</code> и <code>.</code>
                 </P>
                 <P>
@@ -409,7 +412,7 @@ export default function XSSLesson() {
                   Еще конечно если фильтр не фильтрует различные кодировки то можно попытаться закодировать скрипт и вставить код.
                 </P>
                 <P>
-                  <code>&gt;&gt;&gt;&gt;&lt;&lt;script</code> бывает, что фильтр подсчитывает открытые и закрытые скобки и закрывает сам. 
+                  <code>&gt;&gt;&gt;&gt;&lt;&lt;script</code> бывает, что фильтр подсчитывает открытые и закрытые скобки и закрывает сам.
                   Сначала фильтрует, а потом закрывает, что дает нам возможность к инъекции скрипта.
                 </P>
               </CardContent>
@@ -419,7 +422,7 @@ export default function XSSLesson() {
           <Card className="mt-6 border-yellow-200 bg-yellow-50 dark:bg-yellow-950/20">
             <CardContent className="pt-6">
               <P>
-                <strong>Важно помнить:</strong> это примеры, в жизни все может быть иначе. Некоторые теги блокируются самим приложением, 
+                <strong>Важно помнить:</strong> это примеры, в жизни все может быть иначе. Некоторые теги блокируются самим приложением,
                 некоторые полезные нагрузки не сработают из-за <strong>WAF</strong> или наконец <strong>CSP (Content Security Policy)</strong>.
               </P>
             </CardContent>
@@ -442,7 +445,7 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent>
                 <P>
-                  Как в последних версиях Ruby on Rails и React JS. Необходимо также проанализировать ограничения XSS-защиты каждого фреймворка 
+                  Как в последних версиях Ruby on Rails и React JS. Необходимо также проанализировать ограничения XSS-защиты каждого фреймворка
                   и обеспечить соответствующую обработку этих исключений.
                 </P>
               </CardContent>
@@ -457,8 +460,8 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent>
                 <P>
-                  Основываясь на контексте, в HTML-коде (теле, атрибутах, JavaScript, CSS или URL) для предотвращения отраженного XSS 
-                  и межсайтового выполнения хранимых сценариев. 
+                  Основываясь на контексте, в HTML-коде (теле, атрибутах, JavaScript, CSS или URL) для предотвращения отраженного XSS
+                  и межсайтового выполнения хранимых сценариев.
                   "Памятка OWASP: XSS (Cross Site Scripting) Prevention Cheat Sheet" содержит подробные инструкции по преобразованию данных.
                 </P>
               </CardContent>
@@ -473,7 +476,7 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent>
                 <P>
-                  При изменении документа в браузере пользователя для предотвращения XSS на основе DOM. Если это невозможно, то применять 
+                  При изменении документа в браузере пользователя для предотвращения XSS на основе DOM. Если это невозможно, то применять
                   контекстное кодирование к API браузера.
                 </P>
               </CardContent>
@@ -488,7 +491,7 @@ export default function XSSLesson() {
               </CardHeader>
               <CardContent>
                 <P>
-                  Для предотвращения XSS. Эта мера эффективна, если отсутствуют уязвимости, позволяющие внедрить код через локальные файлы 
+                  Для предотвращения XSS. Эта мера эффективна, если отсутствуют уязвимости, позволяющие внедрить код через локальные файлы
                   (напр., используя подмену путей или уязвимые библиотеки из разрешенных сетей доставки контента).
                 </P>
               </CardContent>
@@ -529,55 +532,55 @@ export default function XSSLesson() {
           </ul>
 
           <H3>Проходим лабораторные работы по разным типам XSS</H3>
-          
+
           <div className="space-y-3">
             <p className="font-semibold">Основные задачи:</p>
             <ol className="list-decimal list-inside space-y-2 ml-4">
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/reflected/lab-html-context-nothing-encoded" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/reflected/lab-html-context-nothing-encoded"
+                  className="text-primary hover:underline" target="_blank">
                   Reflected XSS into HTML context with nothing encoded
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-attribute-angle-brackets-html-encoded" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-attribute-angle-brackets-html-encoded"
+                  className="text-primary hover:underline" target="_blank">
                   Reflected XSS into attribute with angle brackets HTML-encoded
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-href-attribute-double-quotes-html-encoded" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-href-attribute-double-quotes-html-encoded"
+                  className="text-primary hover:underline" target="_blank">
                   Stored XSS into anchor href attribute with double quotes HTML-encoded
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/stored/lab-html-context-nothing-encoded" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/stored/lab-html-context-nothing-encoded"
+                  className="text-primary hover:underline" target="_blank">
                   Stored XSS into HTML context with nothing encoded
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink"
+                  className="text-primary hover:underline" target="_blank">
                   DOM XSS in document.write sink using source location.search
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink-inside-select-element" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink-inside-select-element"
+                  className="text-primary hover:underline" target="_blank">
                   DOM XSS in document.write sink using source location.search inside a select element
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-innerhtml-sink" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-innerhtml-sink"
+                  className="text-primary hover:underline" target="_blank">
                   DOM XSS in innerHTML sink using source location.search
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-jquery-href-attribute-sink" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-jquery-href-attribute-sink"
+                  className="text-primary hover:underline" target="_blank">
                   DOM XSS in jQuery anchor href attribute sink using location.search source
                 </Link>
               </li>
@@ -586,21 +589,21 @@ export default function XSSLesson() {
             <p className="font-semibold mt-6">Задачи со звездочкой (делаем только если есть время и желание):</p>
             <p className="text-sm text-muted-foreground">
               Для прохождения нужно использовать{' '}
-              <Link href="https://portswigger.net/web-security/cross-site-scripting/cheat-sheet" 
-                    className="text-primary hover:underline" target="_blank">
+              <Link href="https://portswigger.net/web-security/cross-site-scripting/cheat-sheet"
+                className="text-primary hover:underline" target="_blank">
                 cheat sheet
               </Link>
             </p>
             <ol className="list-decimal list-inside space-y-2 ml-4" start={9}>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-html-context-with-most-tags-and-attributes-blocked" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-html-context-with-most-tags-and-attributes-blocked"
+                  className="text-primary hover:underline" target="_blank">
                   Reflected XSS into HTML context with most tags and attributes blocked
                 </Link>
               </li>
               <li>
-                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-some-svg-markup-allowed" 
-                      className="text-primary hover:underline" target="_blank">
+                <Link href="https://portswigger.net/web-security/cross-site-scripting/contexts/lab-some-svg-markup-allowed"
+                  className="text-primary hover:underline" target="_blank">
                   Reflected XSS with some SVG markup allowed
                 </Link>
               </li>
@@ -610,7 +613,7 @@ export default function XSSLesson() {
           <Card className="mt-6">
             <CardContent className="pt-6">
               <P>
-                По последней задаче, это не ее решение, просто добавлю пример с реального проекта. 
+                По последней задаче, это не ее решение, просто добавлю пример с реального проекта.
                 XSS может быть в самом необычном месте, как <strong>загрузка SVG файла</strong>:
               </P>
               <div className="my-4 flex justify-center">
@@ -627,6 +630,21 @@ export default function XSSLesson() {
               </P>
             </CardContent>
           </Card>
+        </section>
+        <section>
+          <H2>Проверка знаний</H2>
+          <P>Пройдите тест, чтобы проверить понимание материала:</P>
+
+          <div className="space-y-6">
+            {quizQuestions.map((q, index) => (
+              <QuizItem
+                key={index}
+                question={q.question}
+                answers={q.answers}
+                correctAnswerIndex={q.correctAnswerIndex}
+              />
+            ))}
+          </div>
         </section>
       </div>
     </ContentPageLayout>
