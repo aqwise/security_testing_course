@@ -1,6 +1,8 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -17,10 +19,51 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Home, BookOpen, FileText, Users, ShieldCheck, AlertTriangle, Server, Info, ListChecks, PanelLeft } from 'lucide-react';
 import { ClientOnly } from '@/components/common/ClientOnly';
+import { useAuth } from '@/components/auth/AuthContext';
 
+// Public routes that don't require authentication
+const PUBLIC_ROUTES = ['/', '/login'];
+
+function isPublicRoute(pathname: string): boolean {
+  // Check exact matches
+  if (PUBLIC_ROUTES.includes(pathname)) return true;
+  // Handle trailing slashes
+  if (PUBLIC_ROUTES.includes(pathname.replace(/\/$/, ''))) return true;
+  return false;
+}
 
 function AppLayoutClient({ children }: { children: ReactNode }) {
   const { toggleSidebar } = useSidebar();
+  const { isAuthenticated, isLoading } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Global auth check for non-public routes
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated && !isPublicRoute(pathname)) {
+      sessionStorage.setItem('redirectAfterLogin', pathname);
+      router.push('/login');
+    }
+  }, [isAuthenticated, isLoading, pathname, router]);
+
+  // Show loading for protected routes while checking auth
+  if (isLoading && !isPublicRoute(pathname)) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Block rendering of protected content if not authenticated
+  if (!isAuthenticated && !isPublicRoute(pathname)) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Sidebar className="border-r" collapsible="icon">
@@ -29,7 +72,7 @@ function AppLayoutClient({ children }: { children: ReactNode }) {
             <ShieldCheck className="h-7 w-7" />
             <span >Security Testing Course</span>
           </Link>
-           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={toggleSidebar}>
+          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={toggleSidebar}>
             <PanelLeft />
             <span className="sr-only">Toggle Sidebar</span>
           </Button>
@@ -70,3 +113,4 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </ClientOnly>
   );
 }
+
