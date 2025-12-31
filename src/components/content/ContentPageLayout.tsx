@@ -30,7 +30,7 @@ export function ContentPageLayout({
               {subtitle && <CardDescription className="text-lg text-muted-foreground">{subtitle}</CardDescription>}
             </CardHeader>
             <hr className="my-6 border-accent" />
-            <CardContent className="px-0 text-base md:text-lg space-y-6 text-foreground/90">
+            <CardContent className="px-0 text-[1.0625rem] md:text-lg space-y-6 text-foreground/90 leading-7">
               {children}
             </CardContent>
           </div>
@@ -54,7 +54,7 @@ export function ContentPageLayout({
 
 // Helper component for rendering paragraphs with improved spacing
 export function P({ children, className }: { children: ReactNode; className?: string }) {
-  return <p className={`mb-4 leading-relaxed ${className || ''}`}>{children}</p>;
+  return <p className={`mb-5 leading-7 text-foreground/90 ${className || ''}`}>{children}</p>;
 }
 
 // Helper component for rendering lists
