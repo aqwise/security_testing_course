@@ -3,6 +3,7 @@ import { Roboto } from 'next/font/google';
 import './globals.css';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from '@/components/auth/AuthContext';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -23,8 +24,10 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${roboto.variable} font-sans antialiased`}>
-        <AppLayout>{children}</AppLayout>
-        <Toaster />
+        <AuthProvider>
+          <AppLayout>{children}</AppLayout>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

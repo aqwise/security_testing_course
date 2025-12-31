@@ -5,6 +5,7 @@ import { ContentPageLayout } from '@/components/content/ContentPageLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExternalLink } from 'lucide-react';
 import { QuizItem } from '@/components/content/QuizItem';
+import { quizQuestions } from './quizQuestions';
 
 const P: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ children, ...props }) => (
   <p className="mb-3 leading-relaxed" {...props}>{children}</p>
@@ -19,58 +20,6 @@ const H3: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...p
 );
 
 export default function Lesson5Page() {
-  const quizQuestions = [
-    {
-      question: "Что такое Command Injection?",
-      answers: [
-        "Внедрение SQL-кода в запросы",
-        "Внедрение команд операционной системы через уязвимое приложение",
-        "Внедрение JavaScript-кода",
-        "Внедрение HTML-кода"
-      ],
-      correctAnswerIndex: 1
-    },
-    {
-      question: "Какой символ часто используется для разделения команд в Unix/Linux?",
-      answers: [
-        "&",
-        ";",
-        "|",
-        "Все перечисленные"
-      ],
-      correctAnswerIndex: 3
-    },
-    {
-      question: "Что такое Blind Command Injection?",
-      answers: [
-        "Атака, где злоумышленник не видит прямого вывода команды",
-        "Атака только на Windows системы",
-        "Атака через SQL запросы",
-        "Атака через XSS"
-      ],
-      correctAnswerIndex: 0
-    },
-    {
-      question: "Какой метод НЕ является защитой от Command Injection?",
-      answers: [
-        "Валидация входных данных",
-        "Использование функций оболочки вместо system()",
-        "Использование eval() для выполнения кода",
-        "Принцип наименьших привилегий"
-      ],
-      correctAnswerIndex: 2
-    },
-    {
-      question: "Какая команда может быть использована для определения времени выполнения в Blind Command Injection?",
-      answers: [
-        "sleep",
-        "ping -c 10 127.0.0.1",
-        "timeout",
-        "Все перечисленные"
-      ],
-      correctAnswerIndex: 3
-    }
-  ];
 
   return (
     <ContentPageLayout
@@ -82,7 +31,7 @@ export default function Lesson5Page() {
           <CardContent className="pt-4">
             <P className="text-sm text-muted-foreground">
               Источник:{' '}
-              <a 
+              <a
                 href="https://innowise-group.atlassian.net/wiki/spaces/QD/pages/4040982567/Command+Injection"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -100,28 +49,28 @@ export default function Lesson5Page() {
           </CardHeader>
           <CardContent className="space-y-4">
             <P>
-              <strong>Command Injection</strong> - это атака, где целью является выполнение произвольных команд 
-              в операционной системе сервера через уязвимое приложение. Уязвимости внедрения команд обычно 
+              <strong>Command Injection</strong> - это атака, где целью является выполнение произвольных команд
+              в операционной системе сервера через уязвимое приложение. Уязвимости внедрения команд обычно
               подразделяются на следующие виды:
             </P>
             <ol className="list-decimal pl-6 space-y-3">
               <li>
-                <strong>Одноканальное(Inbound)</strong> – уязвимое приложение выводит результаты внедрённой команды, 
+                <strong>Одноканальное(Inbound)</strong> – уязвимое приложение выводит результаты внедрённой команды,
                 как например XSS или HTML, SQL.
               </li>
               <li>
-                <strong>Слепое внедрение команд(Blind)</strong> – yязвимое приложение не выводит результаты 
-                внедрённой команды. Сама команда выполняется, но атакующий не имеет возможности увидеть, что 
-                конкретно происходит в системе. Но, может понять это по косвенным признакам. Например, отправляя 
-                команду на перезагрузку сервака он не увидит, что сервер принял его команду, но по факту он увидит 
-                что сервак перегрузился(отключился и потом появился онлайн). Чем-то похоже на внедрение <code>Sleep</code> оператора 
+                <strong>Слепое внедрение команд(Blind)</strong> – yязвимое приложение не выводит результаты
+                внедрённой команды. Сама команда выполняется, но атакующий не имеет возможности увидеть, что
+                конкретно происходит в системе. Но, может понять это по косвенным признакам. Например, отправляя
+                команду на перезагрузку сервака он не увидит, что сервер принял его команду, но по факту он увидит
+                что сервак перегрузился(отключился и потом появился онлайн). Чем-то похоже на внедрение <code>Sleep</code> оператора
                 в <strong>SQL</strong>.
               </li>
             </ol>
             <P>
-              Атаки с помощью командной инъекции возможны, когда веб-приложение принимает небезопасные пользовательские 
-              данные (формы, куки, заголовки HTTP и т. д.) в системную оболочку. В этой атаке, команды операционной 
-              системы предоставляемые атакующим, обычно выполняются с привилегиями уязвимого приложения. Атаки 
+              Атаки с помощью командной инъекции возможны, когда веб-приложение принимает небезопасные пользовательские
+              данные (формы, куки, заголовки HTTP и т. д.) в системную оболочку. В этой атаке, команды операционной
+              системы предоставляемые атакующим, обычно выполняются с привилегиями уязвимого приложения. Атаки
               командного внедрения возможны во многом из-за недостаточной проверки входных данных.
             </P>
           </CardContent>
@@ -133,8 +82,8 @@ export default function Lesson5Page() {
           </CardHeader>
           <CardContent className="space-y-4">
             <P>
-              Например, при просмотре файла в веб-приложении имя файла часто отображается в URL-адресе. 
-              <strong>Perl</strong> позволяет передавать данные из процесса в открытый оператор. Пользователь 
+              Например, при просмотре файла в веб-приложении имя файла часто отображается в URL-адресе.
+              <strong>Perl</strong> позволяет передавать данные из процесса в открытый оператор. Пользователь
               может просто добавить символ <code>|</code> в конец имени файла.
             </P>
             <P>Пример URL до внесения изменений:</P>
@@ -147,22 +96,22 @@ export default function Lesson5Page() {
             </div>
             <P>Это изменение выполнит команду <code>/bin/ls</code>.</P>
             <P>
-              Для <strong>.PHP</strong> страницы, при добавлении точки с запятой в конец URL-адреса страницы, 
-              за которой следует команда операционной системы, будет выполнена команда. При этом, точка с запятой 
+              Для <strong>.PHP</strong> страницы, при добавлении точки с запятой в конец URL-адреса страницы,
+              за которой следует команда операционной системы, будет выполнена команда. При этом, точка с запятой
               декодируется в <code>%3B</code>. Например:
             </P>
             <div className="bg-muted p-3 rounded-md mb-3">
               <code className="text-sm">http://sensitive/something.php?dir=%3Bcat /etc/passwd</code>
             </div>
             <P>
-              Влияние зависит от контекста. Если это контейнер докера, то урон будет меньшим(хотя как всегда есть 
-              исключения). Но если на главный сервер, на котором <em>"стоит"</em> веб-приложение, то полный захват 
-              сервера. Случай из реальной жизни – сайт WordPress имел библиоткеку, которая имела уязвимость к 
+              Влияние зависит от контекста. Если это контейнер докера, то урон будет меньшим(хотя как всегда есть
+              исключения). Но если на главный сервер, на котором <em>"стоит"</em> веб-приложение, то полный захват
+              сервера. Случай из реальной жизни – сайт WordPress имел библиоткеку, которая имела уязвимость к
               выполнению команд. Как результат – зашифрованный сервер и майнер на нем.
             </P>
             <P>
               Техники, которые применяются предлагаю прочитать тут{' '}
-              <a 
+              <a
                 href="https://hackware.ru/?p=1133"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -203,13 +152,13 @@ export default function Lesson5Page() {
               </li>
               <li>Параметризация в сочетании с проверкой входных данных.</li>
               <li>
-                Средствами дополнительной защиты принято считать переназначение прав, непосредственно для 
-                выполнения конкретных задач (создать изолированные учетные записи с ограниченными правами, 
+                Средствами дополнительной защиты принято считать переназначение прав, непосредственно для
+                выполнения конкретных задач (создать изолированные учетные записи с ограниченными правами,
                 которые используюстя только для одной задачи). То есть админу можно, пользователю нет.
               </li>
             </ol>
             <P className="mt-4">
-              В современных приложениях и фрейворках, языках программирования и конфигруаций серверов – многое 
+              В современных приложениях и фрейворках, языках программирования и конфигруаций серверов – многое
               из этого уже запрещенно по дефолту. Но всегда есть человеческий фактор и он решает.
             </P>
           </CardContent>
@@ -222,7 +171,7 @@ export default function Lesson5Page() {
           <CardContent>
             <P>
               Прочитайте{' '}
-              <a 
+              <a
                 href="https://portswigger.net/web-security/os-command-injection"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -234,7 +183,7 @@ export default function Lesson5Page() {
             </P>
             <ol className="list-decimal pl-6 mt-4 space-y-2">
               <li>
-                <a 
+                <a
                   href="https://portswigger.net/web-security/os-command-injection/lab-simple"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -244,7 +193,7 @@ export default function Lesson5Page() {
                 </a>
               </li>
               <li>
-                <a 
+                <a
                   href="https://portswigger.net/web-security/os-command-injection/lab-blind-time-delays"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -254,7 +203,7 @@ export default function Lesson5Page() {
                 </a>
               </li>
               <li>
-                <a 
+                <a
                   href="https://portswigger.net/web-security/os-command-injection/lab-blind-output-redirection"
                   target="_blank"
                   rel="noopener noreferrer"
