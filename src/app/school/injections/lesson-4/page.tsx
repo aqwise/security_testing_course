@@ -593,6 +593,8 @@ sqlmap -u "https://target/page.php?id=1" --batch
                   question={q.question}
                   answers={q.answers}
                   correctAnswerIndex={q.correctAnswerIndex}
+                  explanation={q.explanation}
+                  link={q.link}
                 />
               ))}
             </div>

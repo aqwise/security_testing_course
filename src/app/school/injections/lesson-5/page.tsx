@@ -228,6 +228,8 @@ export default function Lesson5Page() {
                   question={q.question}
                   answers={q.answers}
                   correctAnswerIndex={q.correctAnswerIndex}
+                  explanation={q.explanation}
+                  link={q.link}
                 />
               ))}
             </div>

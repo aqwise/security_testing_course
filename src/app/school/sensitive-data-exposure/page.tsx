@@ -241,12 +241,14 @@ export default function SensitiveDataExposurePage() {
                                 question={q.question}
                                 answers={q.answers}
                                 correctAnswerIndex={q.correctAnswerIndex}
+                                explanation={q.explanation}
+                                link={q.link}
                             />
                         ))}
                     </div>
                 </section>
             </div>
-        </ContentPageLayout>
+        </ContentPageLayout >
     );
 }
 
