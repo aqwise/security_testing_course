@@ -1,0 +1,746 @@
+[Skip to main content](https://www.figma.com/color-palettes/#main)
+Skip to main content
+- Products
+- Solutions
+- Community
+- Resources
+- [Pricing](https://www.figma.com/pricing/)
+[Pricing](https://www.figma.com/pricing/)
+- [Log in](https://www.figma.com/login/?locale=en-us)
+- [Contact sales](https://www.figma.com/contact/)
+- [Get started](https://www.figma.com/signup)[Get started for free](https://www.figma.com/signup)
+[Log in](https://www.figma.com/login/?locale=en-us)
+[Contact sales](https://www.figma.com/contact/)
+[Get started](https://www.figma.com/signup)
+[Get started for free](https://www.figma.com/signup)
+- [Figma DesignDesign and prototype in one place](https://www.figma.com/design/)
+- [Dev ModeTranslate designs into code](https://www.figma.com/dev-mode/)
+- [FigJamCollaborate with a digital whiteboard](https://www.figma.com/figjam/)
+- [Figma SlidesCo-create presentations](https://www.figma.com/slides/)
+- [Figma DrawNewIllustrate with advanced vector tools](https://www.figma.com/draw/)
+- [Figma BuzzBetaProduce on-brand assets at scale](https://www.figma.com/buzz/)
+- [Figma SitesBetaPublish fully responsive websites](https://www.figma.com/sites/)
+- [Figma MakeNewPrompt to code anything you can imagine](https://www.figma.com/make/)
+- 
+- [AIExplore all Figma AI features](https://www.figma.com/ai/)
+- [MCPConnect Figma to AI coding tools](https://www.figma.com/mcp-catalog/)
+- [DownloadsGet the desktop, mobile, and font installer apps](https://www.figma.com/downloads/)
+- [Release NotesSee the latest features and releases](https://www.figma.com/release-notes/)
+[Figma DesignDesign and prototype in one place](https://www.figma.com/design/)
+Figma Design
+Design and prototype in one place
+[Dev ModeTranslate designs into code](https://www.figma.com/dev-mode/)
+Dev Mode
+Translate designs into code
+[FigJamCollaborate with a digital whiteboard](https://www.figma.com/figjam/)
+FigJam
+Collaborate with a digital whiteboard
+[Figma SlidesCo-create presentations](https://www.figma.com/slides/)
+Figma Slides
+Co-create presentations
+[Figma DrawNewIllustrate with advanced vector tools](https://www.figma.com/draw/)
+Figma Draw
+Illustrate with advanced vector tools
+[Figma BuzzBetaProduce on-brand assets at scale](https://www.figma.com/buzz/)
+Figma Buzz
+Produce on-brand assets at scale
+[Figma SitesBetaPublish fully responsive websites](https://www.figma.com/sites/)
+Figma Sites
+Publish fully responsive websites
+[Figma MakeNewPrompt to code anything you can imagine](https://www.figma.com/make/)
+Figma Make
+Prompt to code anything you can imagine
+[AIExplore all Figma AI features](https://www.figma.com/ai/)
+AI
+Explore all Figma AI features
+[MCPConnect Figma to AI coding tools](https://www.figma.com/mcp-catalog/)
+MCP
+Connect Figma to AI coding tools
+[DownloadsGet the desktop, mobile, and font installer apps](https://www.figma.com/downloads/)
+Downloads
+Get the desktop, mobile, and font installer apps
+[Release NotesSee the latest features and releases](https://www.figma.com/release-notes/)
+Release Notes
+See the latest features and releases
+Use cases
+- [Design systems](https://www.figma.com/design-systems/)
+- [Prototyping](https://www.figma.com/prototyping/)
+- [UX design](https://www.figma.com/ux-design-tool/)
+- [Web design](https://www.figma.com/web-design/)
+- [Wireframing](https://www.figma.com/wireframe-tool/)
+- [Online whiteboard](https://www.figma.com/figjam/online-whiteboard/)
+- [Agile](https://www.figma.com/figjam/agile-workflows/)
+- [Strategic planning](https://www.figma.com/figjam/strategic-planning/)
+- [Brainstorming](https://www.figma.com/figjam/brainstorming-tool/)
+- [Diagramming](https://www.figma.com/figjam/diagramming-tool/)
+- [Product development](https://www.figma.com/product-development/)
+- [Web development](https://www.figma.com/web-development/)
+- [Design handoff](https://www.figma.com/design-handoff/)
+- [See all solutions](https://www.figma.com/solutions/)
+[Design systems](https://www.figma.com/design-systems/)
+[Prototyping](https://www.figma.com/prototyping/)
+[UX design](https://www.figma.com/ux-design-tool/)
+[Web design](https://www.figma.com/web-design/)
+[Wireframing](https://www.figma.com/wireframe-tool/)
+[Online whiteboard](https://www.figma.com/figjam/online-whiteboard/)
+[Agile](https://www.figma.com/figjam/agile-workflows/)
+[Strategic planning](https://www.figma.com/figjam/strategic-planning/)
+[Brainstorming](https://www.figma.com/figjam/brainstorming-tool/)
+
+[Diagramming](https://www.figma.com/figjam/diagramming-tool/)
+[Product development](https://www.figma.com/product-development/)
+[Web development](https://www.figma.com/web-development/)
+[Design handoff](https://www.figma.com/design-handoff/)
+[See all solutions](https://www.figma.com/solutions/)
+Roles
+- [Design](https://www.figma.com/designers/)
+- [Engineering](https://www.figma.com/engineers/)
+- [Product managers](https://www.figma.com/product-managers/)
+[Design](https://www.figma.com/designers/)
+[Engineering](https://www.figma.com/engineers/)
+[Product managers](https://www.figma.com/product-managers/)
+Organizations
+- [Enterprise](https://www.figma.com/enterprise/)
+- [Education](https://www.figma.com/education/)
+- [Government](https://www.figma.com/government/)
+[Enterprise](https://www.figma.com/enterprise/)
+[Education](https://www.figma.com/education/)
+[Government](https://www.figma.com/government/)
+- [EventsLearn best practices at virtual events](https://www.figma.com/events-and-webinars/#upcoming-events)
+- [User groupsJoin a local Friends of Figma group](https://friends.figma.com/)
+- [Customer storiesRead about leading product teams](https://www.figma.com/customers/)
+- [Figma GalleryExplore Figma Make and Figma Sites projects made by our users](https://www.figma.com/gallery/)
+[EventsLearn best practices at virtual events](https://www.figma.com/events-and-webinars/#upcoming-events)
+Events
+Learn best practices at virtual events
+[User groupsJoin a local Friends of Figma group](https://friends.figma.com/)
+User groups
+Join a local Friends of Figma group
+[Customer storiesRead about leading product teams](https://www.figma.com/customers/)
+Customer stories
+Read about leading product teams
+[Figma GalleryExplore Figma Make and Figma Sites projects made by our users](https://www.figma.com/gallery/)
+Figma Gallery
+Explore Figma Make and Figma Sites projects made by our users
+- [Shortcut: The Figma blogStories about how products take shape—and shape our world](https://www.figma.com/blog/)
+[Shortcut: The Figma blogStories about how products take shape—and shape our world](https://www.figma.com/blog/)
+Shortcut: The Figma blog
+Stories about how products take shape—and shape our world
+Get started
+- [Plugins](https://www.figma.com/community/plugins)
+- [UI kits](https://www.figma.com/community/category/ui-kits)
+- [Icons](https://www.figma.com/community/category/icons)
+- [Widgets](https://www.figma.com/community/widgets)
+- [Templates](https://www.figma.com/templates/)
+- [Tools](https://www.figma.com/tools/)
+- [Partners](https://www.figma.com/partners/)
+- [See all](https://www.figma.com/community)
+[Plugins](https://www.figma.com/community/plugins)
+[UI kits](https://www.figma.com/community/category/ui-kits)
+[Icons](https://www.figma.com/community/category/icons)
+[Widgets](https://www.figma.com/community/widgets)
+[Templates](https://www.figma.com/templates/)
+[Tools](https://www.figma.com/tools/)
+[Partners](https://www.figma.com/partners/)
+[See all](https://www.figma.com/community)
+Learn
+- [Best practices](https://www.figma.com/best-practices/)
+- [Reports & insights](https://www.figma.com/reports/)
+- [Resource library](https://www.figma.com/resource-library/)
+- [Demos](https://www.figma.com/demo/)
+- [Webinars](https://www.figma.com/events-and-webinars/#on-demand)
+- [Help center](https://help.figma.com/hc/en-us)
+- [Figma Support](https://help.figma.com/hc/en-us/requests/new)
+[Best practices](https://www.figma.com/best-practices/)
+[Reports & insights](https://www.figma.com/reports/)
+[Resource library](https://www.figma.com/resource-library/)
+[Demos](https://www.figma.com/demo/)
+[Webinars](https://www.figma.com/events-and-webinars/#on-demand)
+[Help center](https://help.figma.com/hc/en-us)
+[Figma Support](https://help.figma.com/hc/en-us/requests/new)
+- [Log in](https://www.figma.com/login/?locale=en-us)
+- [Contact sales](https://www.figma.com/contact/)
+- [Get started](https://www.figma.com/signup)[Get started for free](https://www.figma.com/signup)
+[Log in](https://www.figma.com/login/?locale=en-us)
+[Contact sales](https://www.figma.com/contact/)
+[Get started](https://www.figma.com/signup)
+[Get started for free](https://www.figma.com/signup)
+1. [Home](https://www.figma.com/)
+2. Color Palettes
+[Home](https://www.figma.com/)
+
+# Color Palettes
+
+Browse an expansive list of color palettes and find inspiration for your next project
+1. Copy Hex:#D3045D
+2. Copy Hex:#E484AC
+3. Copy Hex:#740C08
+4. Copy Hex:#B3CED6
+5. Copy Hex:#927B67
+6. Copy Hex:#523F2B
+[Garnet Sunrise](https://www.figma.com/color-palettes/garnet-sunrise/)
+Garnet Sunrise
+1. Copy Hex:#D3045D
+2. Copy Hex:#0C8EF4
+3. Copy Hex:#D1BBAD
+4. Copy Hex:#2B384C
+5. Copy Hex:#A162A1
+6. Copy Hex:#0C287B
+[Royal Gemstone Dusk](https://www.figma.com/color-palettes/royal-gemstone-dusk/)
+Royal Gemstone Dusk
+1. Copy Hex:#D91B24
+2. Copy Hex:#761F21
+3. Copy Hex:#C4C4C4
+4. Copy Hex:#504141
+[Ruby Charcoal Twilight](https://www.figma.com/color-palettes/ruby-charcoal-twilight/)
+Ruby Charcoal Twilight
+1. Copy Hex:#C4214A
+2. Copy Hex:#34542C
+3. Copy Hex:#AE5264
+4. Copy Hex:#EC849A
+5. Copy Hex:#67CA16
+[Emerald Ruby Dawn](https://www.figma.com/color-palettes/emerald-ruby-dawn/)
+Emerald Ruby Dawn
+1. Copy Hex:#D41414
+2. Copy Hex:#E19B8B
+3. Copy Hex:#0E0E0E
+4. Copy Hex:#403963
+5. Copy Hex:#310A69
+[Crimson Amethyst Nightfall](https://www.figma.com/color-palettes/crimson-amethyst-nightfall/)
+Crimson Amethyst Nightfall
+1. Copy Hex:#F3000E
+2. Copy Hex:#F25016
+3. Copy Hex:#6596F3
+4. Copy Hex:#83B366
+5. Copy Hex:#D3A4EA
+6. Copy Hex:#EAD094
+7. Copy Hex:#B2DCE2
+8. Copy Hex:#D7EAAC
+[Emerald Sapphire Daybreak](https://www.figma.com/color-palettes/emerald-sapphire-daybreak/)
+Emerald Sapphire Daybreak
+1. Copy Hex:#64242F
+2. Copy Hex:#B44446
+3. Copy Hex:#FC8F8F
+4. Copy Hex:#DFD9D8
+[Rose Quartz Evening](https://www.figma.com/color-palettes/rose-quartz-evening/)
+Rose Quartz Evening
+1. Copy Hex:#DC3C0C
+2. Copy Hex:#691F0C
+3. Copy Hex:#D3C0B2
+4. Copy Hex:#7A7A78
+5. Copy Hex:#E1E1E1
+6. Copy Hex:#1D1816
+[Amber Obsidian Autumn](https://www.figma.com/color-palettes/amber-obsidian-autumn/)
+Amber Obsidian Autumn
+1. Copy Hex:#FC0C04
+2. Copy Hex:#F5BF0F
+3. Copy Hex:#F2720C
+4. Copy Hex:#DAD5D0
+5. Copy Hex:#10EDF5
+6. Copy Hex:#9AC6C6
+7. Copy Hex:#2D11E9
+8. Copy Hex:#150D0D
+[Sunset Topaz Skies](https://www.figma.com/color-palettes/sunset-topaz-skies/)
+Sunset Topaz Skies
+1. Copy Hex:#CC2454
+2. Copy Hex:#EC646C
+3. Copy Hex:#131213
+4. Copy Hex:#BDB7B9
+5. Copy Hex:#81142C
+6. Copy Hex:#4C2C34
+7. Copy Hex:#B0D19A
+[Rose Garnet Meadow](https://www.figma.com/color-palettes/rose-garnet-meadow/)
+Rose Garnet Meadow
+1. Copy Hex:#541414
+2. Copy Hex:#F36363
+3. Copy Hex:#EF8182
+4. Copy Hex:#D0D0C8
+[Cherry Onyx Sundown](https://www.figma.com/color-palettes/cherry-onyx-sundown/)
+Cherry Onyx Sundown
+1. Copy Hex:#600D07
+2. Copy Hex:#B8230D
+3. Copy Hex:#D0716D
+4. Copy Hex:#F6ADDA
+5. Copy Hex:#F4942F
+6. Copy Hex:#B65B11
+7. Copy Hex:#5F4549
+[Autumn Ruby Harmony](https://www.figma.com/color-palettes/autumn-ruby-harmony/)
+Autumn Ruby Harmony
+1. Copy Hex:#C33F45
+2. Copy Hex:#95292D
+3. Copy Hex:#A3D9D9
+4. Copy Hex:#E2B0A5
+5. Copy Hex:#D89F58
+6. Copy Hex:#6D3871
+7. Copy Hex:#1A3567
+8. Copy Hex:#176571
+[Mermaid Garnet Symphony](https://www.figma.com/color-palettes/mermaid-garnet-symphony/)
+Mermaid Garnet Symphony
+1. Copy Hex:#C90184
+2. Copy Hex:#B8062A
+3. Copy Hex:#CDBAB0
+4. Copy Hex:#D39539
+[Mulberry Topaz Harvest](https://www.figma.com/color-palettes/mulberry-topaz-harvest/)
+Mulberry Topaz Harvest
+1. Copy Hex:#FE3B15
+2. Copy Hex:#545245
+3. Copy Hex:#9DA1AA
+4. Copy Hex:#3C3C4C
+5. Copy Hex:#B7B6AC
+[Magma Obsidian Spectrum](https://www.figma.com/color-palettes/magma-obsidian-spectrum/)
+Magma Obsidian Spectrum
+1. Copy Hex:#E01305
+2. Copy Hex:#EDB55E
+3. Copy Hex:#7D58D9
+4. Copy Hex:#D6C3DF
+5. Copy Hex:#E1E1E1
+6. Copy Hex:#5CB855
+[Jeweled Autumn Shades](https://www.figma.com/color-palettes/jeweled-autumn-shades/)
+Jeweled Autumn Shades
+1. Copy Hex:#EE2835
+2. Copy Hex:#ED8171
+3. Copy Hex:#04529D
+4. Copy Hex:#3A6963
+[Sapphire Coral Breeze](https://www.figma.com/color-palettes/sapphire-coral-breeze/)
+Sapphire Coral Breeze
+1. Copy Hex:#F61C24
+2. Copy Hex:#41D2EF
+3. Copy Hex:#03020C
+4. Copy Hex:#1D2180
+[Aqua Ruby Nightfall](https://www.figma.com/color-palettes/aqua-ruby-nightfall/)
+Aqua Ruby Nightfall
+1. Copy Hex:#D8226C
+2. Copy Hex:#F86A38
+3. Copy Hex:#B2DAE4
+4. Copy Hex:#029456
+5. Copy Hex:#005BB3
+[Ocean Ruby Radiance](https://www.figma.com/color-palettes/ocean-ruby-radiance/)
+Ocean Ruby Radiance
+1. Copy Hex:#DBEE82
+2. Copy Hex:#2C543C
+3. Copy Hex:#224074
+4. Copy Hex:#5D3067
+5. Copy Hex:#00C588
+6. Copy Hex:#678AF4
+7. Copy Hex:#BF6CE9
+[Emerald Lapis Twilight](https://www.figma.com/color-palettes/emerald-lapis-twilight/)
+Emerald Lapis Twilight
+1. Copy Hex:#0CDC2A
+2. Copy Hex:#384166
+
+# Color Palettes
+
+3. Copy Hex:#0B735F
+4. Copy Hex:#639D75
+5. Copy Hex:#E3DBA9
+[Emerald Pond Reflections](https://www.figma.com/color-palettes/emerald-pond-reflections/)
+Emerald Pond Reflections
+1. Copy Hex:#429155
+2. Copy Hex:#B69AD2
+3. Copy Hex:#1B1B1B
+4. Copy Hex:#1C4C2D
+5. Copy Hex:#3E2C5C
+6. Copy Hex:#585858
+[Jade Amethyst Forest](https://www.figma.com/color-palettes/jade-amethyst-forest/)
+Jade Amethyst Forest
+1. Copy Hex:#126842
+2. Copy Hex:#F48B9A
+3. Copy Hex:#5CA484
+4. Copy Hex:#CFB177
+5. Copy Hex:#C9C3BD
+[Opal Forest Morning](https://www.figma.com/color-palettes/opal-forest-morning/)
+Opal Forest Morning
+1. Copy Hex:#135E4B
+2. Copy Hex:#4CB572
+3. Copy Hex:#A1D8B5
+4. Copy Hex:#CCDCDB
+[Emerald Spring Whisper](https://www.figma.com/color-palettes/emerald-spring-whisper/)
+Emerald Spring Whisper
+1. Copy Hex:#397234
+2. Copy Hex:#283F23
+3. Copy Hex:#3F2617
+4. Copy Hex:#0B0F08
+5. Copy Hex:#ACBD5E
+6. Copy Hex:#B78449
+[Emerald Harvest Twilight](https://www.figma.com/color-palettes/emerald-harvest-twilight/)
+Emerald Harvest Twilight
+1. Copy Hex:#3C9245
+2. Copy Hex:#FCB404
+3. Copy Hex:#F783A3
+4. Copy Hex:#F94315
+5. Copy Hex:#E4E3DB
+[Jungle Opal Morning](https://www.figma.com/color-palettes/jungle-opal-morning/)
+Jungle Opal Morning
+1. Copy Hex:#95E913
+2. Copy Hex:#549E06
+3. Copy Hex:#C6F486
+4. Copy Hex:#542C3C
+5. Copy Hex:#9D6777
+6. Copy Hex:#ADB5D6
+[Emerald Moss Serenity](https://www.figma.com/color-palettes/emerald-moss-serenity/)
+Emerald Moss Serenity
+1. Copy Hex:#41B97D
+2. Copy Hex:#E7F8BE
+3. Copy Hex:#454545
+4. Copy Hex:#B3F7FE
+5. Copy Hex:#FCC5F8
+[Jade Blossom Daylight](https://www.figma.com/color-palettes/jade-blossom-daylight/)
+Jade Blossom Daylight
+1. Copy Hex:#459245
+2. Copy Hex:#BE8B71
+3. Copy Hex:#3D582F
+4. Copy Hex:#2A2A2A
+[Emerald Bark Dusk](https://www.figma.com/color-palettes/emerald-bark-dusk/)
+Emerald Bark Dusk
+1. Copy Hex:#05B084
+2. Copy Hex:#F1EDEA
+3. Copy Hex:#015A84
+4. Copy Hex:#BADFCD
+[Emerald Seashell Noon](https://www.figma.com/color-palettes/emerald-seashell-noon/)
+Emerald Seashell Noon
+1. Copy Hex:#248C54
+2. Copy Hex:#89618E
+3. Copy Hex:#95DCE4
+[Emerald Lavender Lake](https://www.figma.com/color-palettes/emerald-lavender-lake/)
+Emerald Lavender Lake
+1. Copy Hex:#EBEBDC
+2. Copy Hex:#28694B
+3. Copy Hex:#6E6E73
+4. Copy Hex:#FF5F2D
+[Emerald Tangerine Morning](https://www.figma.com/color-palettes/emerald-tangerine-morning/)
+Emerald Tangerine Morning
+1. Copy Hex:#1E6D31
+2. Copy Hex:#EB9EF6
+3. Copy Hex:#606060
+4. Copy Hex:#DCDCDC
+[Emerald Lilac Midday](https://www.figma.com/color-palettes/emerald-lilac-midday/)
+Emerald Lilac Midday
+1. Copy Hex:#24D29B
+2. Copy Hex:#F4A3F3
+3. Copy Hex:#E6E6E6
+4. Copy Hex:#997F53
+5. Copy Hex:#344B73
+6. Copy Hex:#041C4D
+[Turquoise Amethyst Frost](https://www.figma.com/color-palettes/turquoise-amethyst-frost/)
+Turquoise Amethyst Frost
+1. Copy Hex:#345C32
+2. Copy Hex:#9CAC54
+3. Copy Hex:#A7F0DD
+4. Copy Hex:#97CD97
+[Sage Peridot Morning](https://www.figma.com/color-palettes/sage-peridot-morning/)
+Sage Peridot Morning
+1. Copy Hex:#2A3F38
+2. Copy Hex:#562F54
+3. Copy Hex:#8DF688
+4. Copy Hex:#57585D
+5. Copy Hex:#F650BD
+[Amethyst Mint Harmony](https://www.figma.com/color-palettes/amethyst-mint-harmony/)
+Amethyst Mint Harmony
+1. Copy Hex:#BCFB89
+2. Copy Hex:#05C274
+3. Copy Hex:#094542
+4. Copy Hex:#85D5F6
+5. Copy Hex:#4750DD
+6. Copy Hex:#212161
+[Turquoise Sapphire Serenade](https://www.figma.com/color-palettes/turquoise-sapphire-serenade/)
+Turquoise Sapphire Serenade
+1. Copy Hex:#5D9F96
+2. Copy Hex:#ABE2F4
+3. Copy Hex:#FA7305
+4. Copy Hex:#072684
+5. Copy Hex:#A7CFC3
+[Aquamarine Citrine Daylight](https://www.figma.com/color-palettes/aquamarine-citrine-daylight/)
+Aquamarine Citrine Daylight
+1. Copy Hex:#BC7B6F
+2. Copy Hex:#E4A499
+3. Copy Hex:#5A322A
+4. Copy Hex:#718A9E
+5. Copy Hex:#CCCDC7
+[Driftwood Pearl Morning](https://www.figma.com/color-palettes/driftwood-pearl-morning/)
+Driftwood Pearl Morning
+1. Copy Hex:#DCAA89
+2. Copy Hex:#D6794D
+3. Copy Hex:#30525C
+4. Copy Hex:#4C848D
+5. Copy Hex:#C35627
+6. Copy Hex:#BFB9B5
+[Copper Aquamarine Dream](https://www.figma.com/color-palettes/copper-aquamarine-dream/)
+Copper Aquamarine Dream
+1. Copy Hex:#D9A69F
+2. Copy Hex:#6C739C
+3. Copy Hex:#F0DAD5
+4. Copy Hex:#BABBB1
+5. Copy Hex:#C56B62
+6. Copy Hex:#424658
+7. Copy Hex:#DEA785
+[Lavender Sapphire Mist](https://www.figma.com/color-palettes/lavender-sapphire-mist/)
+Lavender Sapphire Mist
+1. Copy Hex:#D4A49C
+2. Copy Hex:#8F6779
+3. Copy Hex:#585552
+4. Copy Hex:#ADCBBA
+5. Copy Hex:#5C3028
+
+# Color Palettes
+
+[Jade Mahogany Muse](https://www.figma.com/color-palettes/jade-mahogany-muse/)
+Jade Mahogany Muse
+1. Copy Hex:#C592A8
+2. Copy Hex:#F4CC9C
+3. Copy Hex:#3EBCB3
+4. Copy Hex:#DBDBDB
+[Opal Seashell Cascade](https://www.figma.com/color-palettes/opal-seashell-cascade/)
+Opal Seashell Cascade
+1. Copy Hex:#40C4D0
+2. Copy Hex:#B87981
+3. Copy Hex:#DDDAD5
+4. Copy Hex:#CEAB8F
+[Turquoise Peach Afternoon](https://www.figma.com/color-palettes/turquoise-peach-afternoon/)
+Turquoise Peach Afternoon
+1. Copy Hex:#744B93
+2. Copy Hex:#C889B5
+3. Copy Hex:#F0F0F0
+4. Copy Hex:#FCE5CC
+5. Copy Hex:#D0ADC4
+6. Copy Hex:#736EAE
+[Amethyst Wisteria Twilight](https://www.figma.com/color-palettes/amethyst-wisteria-twilight/)
+Amethyst Wisteria Twilight
+1. Copy Hex:#EC9CCC
+2. Copy Hex:#6F2451
+3. Copy Hex:#CCD0DC
+4. Copy Hex:#D0AFCD
+5. Copy Hex:#683759
+6. Copy Hex:#D45C1C
+[Heirloom Plum Brunch](https://www.figma.com/color-palettes/heirloom-plum-brunch/)
+Heirloom Plum Brunch
+1. Copy Hex:#A4D4D4
+2. Copy Hex:#847E7C
+3. Copy Hex:#ECA0B0
+4. Copy Hex:#E0CDB2
+[Minted Citrine Dusk](https://www.figma.com/color-palettes/minted-citrine-dusk/)
+Minted Citrine Dusk
+1. Copy Hex:#BB6C43
+2. Copy Hex:#4A413C
+3. Copy Hex:#EBEFEE
+4. Copy Hex:#C8906D
+5. Copy Hex:#CCB499
+[Amber Walnut Morning](https://www.figma.com/color-palettes/amber-walnut-morning/)
+Amber Walnut Morning
+
+## Explore all palette categories
+
+Colors
+- [Red](https://www.figma.com/color-palettes/red/)
+- [Orange](https://www.figma.com/color-palettes/orange/)
+- [Yellow](https://www.figma.com/color-palettes/yellow/)
+- [Green](https://www.figma.com/color-palettes/green/)
+- [Blue](https://www.figma.com/color-palettes/blue/)
+- [Purple](https://www.figma.com/color-palettes/purple/)
+- [Black](https://www.figma.com/color-palettes/black/)
+- [White](https://www.figma.com/color-palettes/white/)
+- [Grey](https://www.figma.com/color-palettes/grey/)
+- [Teal](https://www.figma.com/color-palettes/teal/)
+- [Gold](https://www.figma.com/color-palettes/gold/)
+- [Turquoise](https://www.figma.com/color-palettes/turquoise/)
+- [Pink](https://www.figma.com/color-palettes/pink/)
+- [Dark Green](https://www.figma.com/color-palettes/dark-green/)
+- [Peach](https://www.figma.com/color-palettes/peach/)
+- [Brown](https://www.figma.com/color-palettes/brown/)
+- [Navy Blue](https://www.figma.com/color-palettes/navy-blue/)
+- [Maroon](https://www.figma.com/color-palettes/maroon/)
+- [Burgundy](https://www.figma.com/color-palettes/burgundy/)
+- [Beige](https://www.figma.com/color-palettes/beige/)
+- 
+[Red](https://www.figma.com/color-palettes/red/)
+[Orange](https://www.figma.com/color-palettes/orange/)
+[Yellow](https://www.figma.com/color-palettes/yellow/)
+[Green](https://www.figma.com/color-palettes/green/)
+[Blue](https://www.figma.com/color-palettes/blue/)
+[Purple](https://www.figma.com/color-palettes/purple/)
+[Black](https://www.figma.com/color-palettes/black/)
+[White](https://www.figma.com/color-palettes/white/)
+[Grey](https://www.figma.com/color-palettes/grey/)
+[Teal](https://www.figma.com/color-palettes/teal/)
+[Gold](https://www.figma.com/color-palettes/gold/)
+[Turquoise](https://www.figma.com/color-palettes/turquoise/)
+[Pink](https://www.figma.com/color-palettes/pink/)
+[Dark Green](https://www.figma.com/color-palettes/dark-green/)
+[Peach](https://www.figma.com/color-palettes/peach/)
+[Brown](https://www.figma.com/color-palettes/brown/)
+[Navy Blue](https://www.figma.com/color-palettes/navy-blue/)
+[Maroon](https://www.figma.com/color-palettes/maroon/)
+[Burgundy](https://www.figma.com/color-palettes/burgundy/)
+[Beige](https://www.figma.com/color-palettes/beige/)
+Styles
+- [Neutral](https://www.figma.com/color-palettes/neutral/)
+- [Pastel](https://www.figma.com/color-palettes/pastel/)
+- [Monochromatic](https://www.figma.com/color-palettes/monochromatic/)
+- [Retro](https://www.figma.com/color-palettes/retro/)
+- [Earthy](https://www.figma.com/color-palettes/earthy/)
+- [Cool](https://www.figma.com/color-palettes/cool/)
+- [Bright](https://www.figma.com/color-palettes/bright/)
+- [Dark](https://www.figma.com/color-palettes/dark/)
+- [Warm](https://www.figma.com/color-palettes/warm/)
+- [Complementary](https://www.figma.com/color-palettes/complementary/)
+[Neutral](https://www.figma.com/color-palettes/neutral/)
+[Pastel](https://www.figma.com/color-palettes/pastel/)
+[Monochromatic](https://www.figma.com/color-palettes/monochromatic/)
+[Retro](https://www.figma.com/color-palettes/retro/)
+[Earthy](https://www.figma.com/color-palettes/earthy/)
+[Cool](https://www.figma.com/color-palettes/cool/)
+[Bright](https://www.figma.com/color-palettes/bright/)
+[Dark](https://www.figma.com/color-palettes/dark/)
+[Warm](https://www.figma.com/color-palettes/warm/)
+[Complementary](https://www.figma.com/color-palettes/complementary/)
+Inspiration
+- [Sunset](https://www.figma.com/color-palettes/sunset/)
+- [Spring](https://www.figma.com/color-palettes/spring/)
+- [Winter](https://www.figma.com/color-palettes/winter/)
+- [Ocean](https://www.figma.com/color-palettes/ocean/)
+- [Tropical](https://www.figma.com/color-palettes/tropical/)
+- [Autumn](https://www.figma.com/color-palettes/autumn/)
+- [Summer](https://www.figma.com/color-palettes/summer/)
+- [Rainbow](https://www.figma.com/color-palettes/rainbow/)
+- [Desert](https://www.figma.com/color-palettes/desert/)
+- [Christmas](https://www.figma.com/color-palettes/christmas/)
+- [Beach](https://www.figma.com/color-palettes/beach/)
+- 
+[Sunset](https://www.figma.com/color-palettes/sunset/)
+[Spring](https://www.figma.com/color-palettes/spring/)
+[Winter](https://www.figma.com/color-palettes/winter/)
+[Ocean](https://www.figma.com/color-palettes/ocean/)
+[Tropical](https://www.figma.com/color-palettes/tropical/)
+[Autumn](https://www.figma.com/color-palettes/autumn/)
+[Summer](https://www.figma.com/color-palettes/summer/)
+[Rainbow](https://www.figma.com/color-palettes/rainbow/)
+
+## Explore all palette categories
+[Desert](https://www.figma.com/color-palettes/desert/)
+[Christmas](https://www.figma.com/color-palettes/christmas/)
+[Beach](https://www.figma.com/color-palettes/beach/)
+
+## Product
+- [Figma Design](https://www.figma.com/design/)
+- [Dev Mode](https://www.figma.com/dev-mode/)
+- [FigJam](https://www.figma.com/figjam/)
+- [Figma Slides](https://www.figma.com/slides/)
+- [Figma DrawNew](https://www.figma.com/draw/)
+- [Figma BuzzBeta](https://www.figma.com/buzz/)
+- [Figma SitesBeta](https://www.figma.com/sites/)
+- [Figma MakeNew](https://www.figma.com/make/)
+- [AI](https://www.figma.com/ai/)
+- [Downloads](https://www.figma.com/downloads/)
+- [Release notes](https://www.figma.com/release-notes/)
+[Figma Design](https://www.figma.com/design/)
+[Dev Mode](https://www.figma.com/dev-mode/)
+[FigJam](https://www.figma.com/figjam/)
+[Figma Slides](https://www.figma.com/slides/)
+[Figma DrawNew](https://www.figma.com/draw/)
+[Figma BuzzBeta](https://www.figma.com/buzz/)
+[Figma SitesBeta](https://www.figma.com/sites/)
+[Figma MakeNew](https://www.figma.com/make/)
+[AI](https://www.figma.com/ai/)
+[Downloads](https://www.figma.com/downloads/)
+[Release notes](https://www.figma.com/release-notes/)
+
+## Plans
+- [Pricing](https://www.figma.com/pricing/)
+- [Enterprise](https://www.figma.com/enterprise/)
+- [Organization](https://www.figma.com/organization/)
+- [Professional](https://www.figma.com/professional/)
+[Pricing](https://www.figma.com/pricing/)
+[Enterprise](https://www.figma.com/enterprise/)
+[Organization](https://www.figma.com/organization/)
+[Professional](https://www.figma.com/professional/)
+
+## Use cases
+- [UI design](https://www.figma.com/ui-design-tool/)
+- [UX design](https://www.figma.com/ux-design-tool/)
+- [Wireframing](https://www.figma.com/wireframe-tool/)
+- [Diagramming](https://www.figma.com/figjam/diagramming-tool/)
+- [Prototyping](https://www.figma.com/prototyping/)
+- [Brainstorming](https://www.figma.com/figjam/brainstorming-tool/)
+- [Presentation Maker](https://www.figma.com/presentation-maker/)
+- [Online whiteboard](https://www.figma.com/figjam/online-whiteboard/)
+- [Strategic planning](https://www.figma.com/figjam/strategic-planning/)
+- [Mind mapping](https://www.figma.com/figjam/mind-map/)
+- [Concept map](https://www.figma.com/figjam/concept-map/)
+- [AI app builder](https://www.figma.com/solutions/ai-app-builder/)
+- [AI prototype generator](https://www.figma.com/solutions/ai-prototype-generator/)
+- [AI website builder](https://www.figma.com/solutions/ai-website-builder/)
+- [AI wireframe generator](https://www.figma.com/solutions/ai-wireframe-generator/)
+[UI design](https://www.figma.com/ui-design-tool/)
+[UX design](https://www.figma.com/ux-design-tool/)
+[Wireframing](https://www.figma.com/wireframe-tool/)
+[Diagramming](https://www.figma.com/figjam/diagramming-tool/)
+[Prototyping](https://www.figma.com/prototyping/)
+[Brainstorming](https://www.figma.com/figjam/brainstorming-tool/)
+[Presentation Maker](https://www.figma.com/presentation-maker/)
+[Online whiteboard](https://www.figma.com/figjam/online-whiteboard/)
+[Strategic planning](https://www.figma.com/figjam/strategic-planning/)
+[Mind mapping](https://www.figma.com/figjam/mind-map/)
+[Concept map](https://www.figma.com/figjam/concept-map/)
+[AI app builder](https://www.figma.com/solutions/ai-app-builder/)
+[AI prototype generator](https://www.figma.com/solutions/ai-prototype-generator/)
+[AI website builder](https://www.figma.com/solutions/ai-website-builder/)
+[AI wireframe generator](https://www.figma.com/solutions/ai-wireframe-generator/)
+
+## Resources
+- [Blog](https://www.figma.com/blog/)
+- [Best practices](https://www.figma.com/best-practices/)
+- [QR code generator](https://www.figma.com/qr-code-generator/)
+- [Color wheel](https://www.figma.com/color-wheel/)
+- [Colors](https://www.figma.com/colors/)
+- [Color picker](https://www.figma.com/color-picker/)
+- [Color palettes](https://www.figma.com/color-palettes/)
+- [Color palette generator](https://www.figma.com/color-palette-generator/)
+- [Color contrast checker](https://www.figma.com/color-contrast-checker/)
+- [Font library](https://www.figma.com/fonts/)
+- [Lorem ipsum generator](https://www.figma.com/lorem-ipsum-generator/)
+- [Templates](https://www.figma.com/templates/)
+- [Developers](https://www.figma.com/developers)
+- [Integrations](https://www.figma.com/product-integrations/)
+- [Affiliate program](https://www.figma.com/affiliate-program/)
+- [Resource library](https://www.figma.com/resource-library/)
+- [Reports and insights](https://www.figma.com/reports/)
+- [Support](https://help.figma.com/hc/en-us)
+- [Status](https://status.figma.com/)
+- [Legal and privacy](https://www.figma.com/legal/)
+- [Modern slavery statement (UK)](https://static.figma.com/uploads/160c9cb21d6020c9eacaff67ac1450eb05d48c3b)
+- [Climate disclosure statement](https://static.figma.com/uploads/3920b4eb845c36faafa7706eba7c338036471161)
+[Blog](https://www.figma.com/blog/)
+[Best practices](https://www.figma.com/best-practices/)
+[QR code generator](https://www.figma.com/qr-code-generator/)
+[Color wheel](https://www.figma.com/color-wheel/)
+[Colors](https://www.figma.com/colors/)
+[Color picker](https://www.figma.com/color-picker/)
+[Color palettes](https://www.figma.com/color-palettes/)
+[Color palette generator](https://www.figma.com/color-palette-generator/)
+[Color contrast checker](https://www.figma.com/color-contrast-checker/)
+[Font library](https://www.figma.com/fonts/)
+[Lorem ipsum generator](https://www.figma.com/lorem-ipsum-generator/)
+[Templates](https://www.figma.com/templates/)
+[Developers](https://www.figma.com/developers)
+[Integrations](https://www.figma.com/product-integrations/)
+[Affiliate program](https://www.figma.com/affiliate-program/)
+[Resource library](https://www.figma.com/resource-library/)
+[Reports and insights](https://www.figma.com/reports/)
+[Support](https://help.figma.com/hc/en-us)
+[Status](https://status.figma.com/)
+[Legal and privacy](https://www.figma.com/legal/)
+[Modern slavery statement (UK)](https://static.figma.com/uploads/160c9cb21d6020c9eacaff67ac1450eb05d48c3b)
+[Climate disclosure statement](https://static.figma.com/uploads/3920b4eb845c36faafa7706eba7c338036471161)
+
+## Company
+- [Events](https://www.figma.com/events-and-webinars/#upcoming-events)
+- [Customers](https://www.figma.com/customers/)
+- [Careers](https://www.figma.com/careers/)
+- [Newsroom](https://www.figma.com/newsroom/)
+- [Investors](https://investor.figma.com/)
+[Events](https://www.figma.com/events-and-webinars/#upcoming-events)
+[Customers](https://www.figma.com/customers/)
+[Careers](https://www.figma.com/careers/)
+[Newsroom](https://www.figma.com/newsroom/)
+[Investors](https://investor.figma.com/)
+- [English](https://www.figma.com/color-palettes/?context=localeChange)
+[English](https://www.figma.com/color-palettes/?context=localeChange)
